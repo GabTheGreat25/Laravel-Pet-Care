@@ -19,6 +19,8 @@ class Service extends Model
 
     use SoftDeletes;
 
+    public $searchableType = 'Service Searched';
+
     protected $dates = ["deleted_at"];
 
     protected $table = "services";
@@ -28,4 +30,15 @@ class Service extends Model
     protected $primaryKey = "id";
 
     protected $guarded = ["id"];
+
+    public function getSearchResult(): SearchResult
+    {
+        $url = url('show-services/' . $this->id);
+
+        return new \Spatie\Searchable\SearchResult(
+            $this,
+            $this->servname,
+            $url
+        );
+    }
 }
