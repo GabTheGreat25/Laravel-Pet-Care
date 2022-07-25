@@ -3,6 +3,7 @@
     Service Index
 @endsection
 @section('contents')
+    @include('partials.search')
     <div>
         <a href="service/create">
             Add a new service
@@ -99,7 +100,7 @@
                 <p>No Service Data in the Database</p>
             @endforelse
         </table>
-        <div>{{ $services->links() }}</div>
+        {{-- <div>{{ $services->links() }}</div> --}}
     </div>
     </div>
 @endsection

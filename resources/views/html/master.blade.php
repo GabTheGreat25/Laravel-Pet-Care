@@ -11,6 +11,7 @@
 </head>
 
 <body>
+    @include('html.header')
     <section>
         @yield('contents')
     </section>
@@ -18,6 +19,9 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
+    <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+
+    @stack('scripts')
 </body>
 
 </html>
