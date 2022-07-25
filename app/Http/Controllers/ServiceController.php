@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ServiceRequest;
 use App\Models\Service;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\View;
+use Yajra\DataTables\Html\Builder;
 
 class ServiceController extends Controller
 {
@@ -17,10 +19,19 @@ class ServiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $services = Service::withTrashed()->paginate(6);
-        return view("services.index", ["services" => $services]);
+        // $services = Service::withTrashed()->paginate(6);
+        if (empty($request->get('search'))) {
+            $services = Service::all();
+        } else {
+            $services = Service::all()
+                ->where("servname", "LIKE", "%" . $request->get('search') . "%")
+                ->get();
+        }
+
+        $url = 'services';
+        return View::make('services.index', compact('services', 'url'));
     }
 
     /**
@@ -150,4 +161,35 @@ class ServiceController extends Controller
             "Service Data Permanently Deleted!"
         );
     }
+
+    public function getService(Builder $builder)
+    {
+        $services = Service::query();
+        if (request()->ajax()) {
+            return DataTables::of($services)
+                ->addColumn('action', function ($row) {
+                    return "<a href=" . route('service.edit', $row->id) . " class=\"btn btn-warning\">Edit</a>
+        <form action=" . route('service.destroy', $row->id) . " method= \"POST\" >" . csrf_field() .
+                        '<input name="_method" type="hidden" value="DELETE">
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                      </form>';
+                })
+                ->toJson();
+        }
+
+        $html = $builder->columns([
+            ['data' => 'id', 'name' => 'id', 'title' => 'Id'],
+            ['data' => 'servname', 'name' => 'servname', 'title' => 'Service Name'],
+            ['data' => 'description', 'name' => 'description', 'title' => 'Description'],
+            ['data' => 'price', 'name' => 'price', 'title' => 'Price'],
+            ['data' => 'img_path', 'name' => 'img_path', 'title' => 'Service Image'],
+            ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created At'],
+            ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Update At', 'searchable' => false, 'orderable' => false],
+            ['data' => 'action', 'name' => 'action', 'title' => 'Action', 'searchable' => false, 'orderable' => false, 'exportable' => false],
+
+        ]);
+
+        return view('services.service', compact('html'));
+    }
+
 }
