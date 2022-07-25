@@ -3,7 +3,7 @@
 
 # SETUP
 
--   `composer install`
+-   `composer install --ignore-platform-req=ext-gd`
 -   `setup env from env example and remove the example from the env example`
 -   `php artisan key:generate`
 -   `php artisan serve`
