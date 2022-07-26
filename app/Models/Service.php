@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Service extends Model
 {
-    public const VALIDATION_RULES = [
+    public static $valRules = [
         "servname" => ["required", "min:3"],
         "description" => ["required"],
         "price" => ["required", "numeric", "min:3"],
-        "img_path" => ["required", "image", "mimes:jpg,png,jpeg,gif", "max:5048"],
     ];
 
     use HasFactory;
@@ -30,15 +29,4 @@ class Service extends Model
     protected $primaryKey = "id";
 
     protected $guarded = ["id"];
-
-    public function getSearchResult(): SearchResult
-    {
-        $url = url('show-services/' . $this->id);
-
-        return new \Spatie\Searchable\SearchResult(
-            $this,
-            $this->servname,
-            $url
-        );
-    }
 }

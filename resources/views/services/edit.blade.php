@@ -45,15 +45,10 @@
                         @endif
                     </div>
 
-                    <div>
-                        <label for="img_path">Service Picture</label>
-                        {{ Form::file('img_path', null, ['id' => 'img_path']) }}
-                        <img src="{{ asset('uploads/services/' . $services->img_path) }}" alt="I am A Pic" width="100"
-                            height="100">
-                        @if ($errors->has('img_path'))
-                            <p>{{ $errors->first('img_path') }}</p>
-                        @endif
-                    </div>
+                    <label data-error="wrong" data-success="right" for="image"
+                        style="display: inline-block;
+          width: 150px; ">Service Image</label>
+                    <input type="file" id="image" class="form-control validate" name="image">
 
                     <div>
                         <button type="submit">

@@ -19,24 +19,15 @@ Route::get('/', function () {
 });
 
 Route::resource("/service", ServiceController::class)->except(['index', 'service']);
-Route::get("/service/restore/{id}", [
-    "uses" => "ServiceController@restore",
-    "as" => "service.restore",
-]);
-Route::get("/service/forceDelete/{id}", [
-    "uses" => "ServiceController@forceDelete",
-    "as" => "service.forceDelete",
-]);
+// Route::get("/service/destroy/{id}", [
+//     "uses" => "ServiceController@destroy",
+//     "as" => "service.destroy",
+// ]);
 Route::get('/services', [
     'uses' => 'ServiceController@getService',
     'as' => 'getService',
 ]);
-Route::get('/service/{search?}', [
-    'uses' => 'ServiceController@index',
-    'as' => 'service.index',
-]);
-
-Route::get('/search/{search?}', ['uses' => 'SearchController@search', 'as' => 'search']);
+Route::post('/service/import', 'ServiceController@import')->name('serviceImport');
 
 Auth::routes();
 

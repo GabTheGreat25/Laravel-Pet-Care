@@ -11,11 +11,25 @@
             </div><br />
         @endif
     </div>
+    <div class="col-xs-6">
+        <form method="post" enctype="multipart/form-data" action="{{ url('/service/import') }}">
+            @csrf
+            <input type="file" id="uploadName" name="service_upload" required>
+
+    </div>
+
+    @error('service_upload')
+        <small>{{ $message }}</small>
+    @enderror
+    <button type="submit" class="btn btn-info btn-primary ">Import Excel File</button>
+    </form>
+    </div>
+
     <div><button type="button" class="btn btn-sm" data-toggle="modal" data-target="#serviceModal">
             create new service
         </button></div>
     <div>
-        {{ $html->table(['class' => 'table table-bordered table-striped table-hover '], true) }}
+        {{ $dataTable->table(['class' => 'table table-bordered table-striped table-hover '], true) }}
     </div>
     <div class="modal" id="serviceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document" style="width:75%;">
@@ -45,10 +59,10 @@
                                 style="display: inline-block;
           width: 150px; ">Price</label>
                             <input type="text" id="price" class="form-control validate" name="price">
-                            <label data-error="wrong" data-success="right" for="img_path"
+                            <label data-error="wrong" data-success="right" for="image"
                                 style="display: inline-block;
           width: 150px; ">Service Image</label>
-                            <input type="file" id="img_path" class="form-control validate" name="img_path">
+                            <input type="file" id="image" class="form-control validate" name="image">
                         </div>
 
 
@@ -62,6 +76,6 @@
 
     </div>
     @push('scripts')
-        {{ $html->scripts() }}
+        {{ $dataTable->scripts() }}
     @endpush
 @endsection

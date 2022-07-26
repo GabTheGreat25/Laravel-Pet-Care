@@ -5,6 +5,8 @@ namespace App\DataTables;
 use App\Models\Service;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class ServiceDataTable extends DataTable
@@ -19,12 +21,18 @@ class ServiceDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-
-            ->addColumn('action', function ($row) {
-
-                $btn = '<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#serviceModal"  data-id="' . $row->id . '"  > Edit</button>';
-                return $btn;
-            });
+             ->addColumn('action', function($row) {
+                    return "<a href=". route('service.edit', $row->id). " class=\"btn btn-warning\">Edit</a> 
+                    <form action=". route('service.destroy', $row->id). " method= \"POST\" >". csrf_field().
+                    '<input name="_method" type="hidden" value="DELETE">
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                      </form>';
+            })
+            ->addColumn('images', function ($services) {
+                $url = asset("$services->img_path");
+                return '<img src=' . $url . ' alt = "Picture" height="100" width="100">';
+            })
+            ->rawColumns(['action', 'images']);
     }
 
     /**
@@ -33,7 +41,7 @@ class ServiceDataTable extends DataTable
      * @param \App\Models\ServiceDataTable $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(ServiceDataTable $model)
+    public function query(Service $model)
     {
         return $model->newQuery();
     }
@@ -46,7 +54,7 @@ class ServiceDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('servicedatatable-table')
+            ->setTableId('services-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
@@ -73,6 +81,7 @@ class ServiceDataTable extends DataTable
             Column::make('servname')->title('serviceName'), // ? Title is yung header
             Column::make('description'),
             Column::make('price'),
+            Column::make('images'),
             Column::make('created_at'),
             Column::make('updated_at'),
             Column::make('action')
@@ -86,8 +95,9 @@ class ServiceDataTable extends DataTable
      *
      * @return string
      */
+
     protected function filename()
     {
-        return 'Service_' . date('YmdHis');
+        return 'Services_' . date('YmdHis');
     }
 }
