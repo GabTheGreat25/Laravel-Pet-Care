@@ -25,13 +25,11 @@ class AdminController extends Controller
             'job'=>'required|regex:/^[a-zA-Z\s]*$/',
             'address'=>'required|regex:/^[a-zA-Z\s]*$/',
             'phonenumber'=>'required|numeric',
-            'img_path' => 'mimes:jpeg,png,jpg,gif,svg,JPEG,PNG,JPG,GIF,SVG',
-
         ]);
 
         $user = new user();
         $admin = new admins();
-            $admin->user_id = $user->id;
+            $admin->user_id = $user->id;    
             $admin->name = $request->input("name");
             $admin->job = $request->input("job");
             $admin->address = $request->input("address");
@@ -46,10 +44,9 @@ class AdminController extends Controller
         
         $admin->save();
         Auth::login($admin);
-        return redirect()->route('/');
+        return redirect()->route('/home');
     }
     
-
     /**
      * Display a listing of the resource.
      *

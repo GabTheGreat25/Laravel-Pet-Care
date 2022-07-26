@@ -28,10 +28,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/signup', [UserController::class, 'getsignup']);
 Route::post('/signups', [UserController::class, 'postSignup'])->name('user.signup');
 
+Route::get('/adminreg', [AdminController::class, 'getregister'])->name('aregister');;
+Route::post('/adminregs', [AdminController::class, 'postregistered'])->name('admin.register');
+// Route::post('/adminregs', [UserController::class, 'postSignup'])->name('user.signup');
+
 // Route::post('/signup', [App\Http\Controllers\UserController::class, 'postSignup'])->name('user.signup');
 
-
-Route::post('/adminregisters', [AdminController::class, 'postregistered'])->name('admin.register');
-Route::post('/adminregister', [AdminController::class, 'getregister']);
+// Route::get('/adminregister', [AdminController::class, 'getregister']);
+// Route::post('/adminregisters', [AdminController::class, 'postregistered'])->name('admin.register');
 
 // Route::post('/admin', 'adminController@postregistered');

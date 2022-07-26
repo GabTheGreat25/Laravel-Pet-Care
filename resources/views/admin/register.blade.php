@@ -14,9 +14,9 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.register') }}" method="POST" enctype="multipart/form-data">
-            {{-- <form class="" action="{{ route('admin.register') }}" method="POST"> 
-                {{ csrf_field() }} --}}
+        {{-- <form action="{{ route('admin.register') }}" method="POST" enctype="multipart/form-data"> --}}
+            <form class="" action="{{ route('admin.register') }}" method="POST"> 
+                {{ csrf_field() }}
 
                 <div class="form-group">
                     <label for="name">Name: </label><i style="color:red">*</i>
@@ -62,7 +62,6 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                   </div>
-
                     <input type="submit" value="Sign Up" class="btn btn-primary">
              </form>
         </div>

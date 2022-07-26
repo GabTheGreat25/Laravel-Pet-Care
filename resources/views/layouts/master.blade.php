@@ -2,48 +2,6 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <style>
-            main {
-  width: 100%;
-  max-width: 720px;
-  padding: 2rem;
-  margin: 0 auto;
-}
-
-.toggle-el {
-  padding: 2rem;
-  height: 240px;
-  background: white;
-  transition: all 0.2s ease;
-  opacity: 1;
-  margin-top: 1rem;
-  overflow: hidden;
-}
-
-input[type=checkbox].hide-input:checked + .toggle-el {
-  height: 0;
-  opacity: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-input.hide-input {
-  position: absolute;
-  left: -999em;
-}
-
-label.toggle {
-  text-align: center;
-  display: inline-block;
-  cursor: pointer;
-  padding: 0.5em 1em;
-  font-size: 1rem;
-  color: #242424;
-  background: #b5b5b5;
-  border-radius: 3px;
-  user-select: none;
-}
-        </style>
         <title>@yield('title')</title>
         <!-- Latest compiled and minified CSS -->
           <!-- change link nalang -->

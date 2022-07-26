@@ -45,6 +45,7 @@
                      </div>
                  </div>
                         <input type="submit" value="Sign Up" class="btn btn-primary">
+                        {{-- <a href="{{url('/adminreg')}}"><button type="button" class="btn btn-outline-primary float-right">BUTTON_NAME</button></a> --}}
              </form>
         </div>
     </div>
