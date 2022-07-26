@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Auth;
@@ -15,11 +16,22 @@ use App\Http\Controllers\AdminController;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource("/service", ServiceController::class)->except(['index', 'service']);
+// Route::get("/service/destroy/{id}", [
+//     "uses" => "ServiceController@destroy",
+//     "as" => "service.destroy",
+// ]);
+Route::get('/services', [
+    'uses' => 'ServiceController@getService',
+    'as' => 'getService',
+]);
+Route::post('/service/import', 'ServiceController@import')->name('serviceImport');
 
 Auth::routes();
 
@@ -38,3 +50,4 @@ Route::post('/adminregs', [AdminController::class, 'postregistered'])->name('adm
 // Route::post('/adminregisters', [AdminController::class, 'postregistered'])->name('admin.register');
 
 // Route::post('/admin', 'adminController@postregistered');
+
