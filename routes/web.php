@@ -2,9 +2,6 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\CustomerController;
-// use App\Http\Controllers\UserController;
-// use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +18,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
 Route::resource("/service", ServiceController::class)->except(['index', 'service']);
 Route::get('/services', [
     'uses' => 'ServiceController@getService',
@@ -35,9 +36,13 @@ Route::get('/employees', [
 ]);
 Route::post('/employee/import', 'employeeController@import')->name('employeeImport');
 
-Auth::routes();
+Route::resource("/customer", CustomerController::class)->except(['index', 'customer']);
+Route::get('/customers', [
+    'uses' => 'customerController@getCustomer',
+    'as' => 'getCustomer',
+]);
+Route::post('/customer/import', 'CustomerController@import')->name('customerImport');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/signup', [UserController::class, 'getsignup']);
 Route::post('/signups', [UserController::class, 'postSignup'])->name('user.signup');
