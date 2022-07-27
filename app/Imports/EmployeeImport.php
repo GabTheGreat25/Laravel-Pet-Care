@@ -2,11 +2,11 @@
 
 namespace App\Imports;
 
-use App\Models\Service;
+use App\Models\Employee;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class ServiceImport implements ToModel, WithHeadingRow 
+class EmployeeImport implements ToModel, WithHeadingRow 
 {
     /**
     * @param array $row
@@ -15,10 +15,11 @@ class ServiceImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        return new Service([
-            'servname' => $row['service_name'],
-            'description' => $row['description'],
-            'price' => $row['price'],
+        return new Employee([
+            'name' => $row['employee_name'],
+            'position' => $row['position'],
+            'address' => $row['address'],
+            'phonenumber' => $row['phone_number'],
             'img_path' => 'default.jpeg',
         ]);
     }

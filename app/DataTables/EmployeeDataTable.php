@@ -2,14 +2,14 @@
 
 namespace App\DataTables;
 
-use App\Models\Service;
+use App\Models\Employee;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ServiceDataTable extends DataTable
+class EmployeeDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -22,15 +22,15 @@ class ServiceDataTable extends DataTable
         return datatables()
             ->eloquent($query)
              ->addColumn('action', function($row) {
-                    return "<a href=". route('service.edit', $row->id). " class=\"btn btn-warning\">Edit</a> 
-                    <form action=". route('service.destroy', $row->id). " method= \"POST\" >". csrf_field().
+                    return "<a href=". route('employee.edit', $row->id). " class=\"btn btn-warning\">Edit</a> 
+                    <form action=". route('employee.destroy', $row->id). " method= \"POST\" >". csrf_field().
                     '<input name="_method" type="hidden" value="DELETE">
                     <button class="btn btn-danger" type="submit">Delete</button>
                       </form>';
             })
-            ->addColumn('images', function ($services) {
-                $url = asset("$services->img_path");
-                return '<img src=' . $url . ' alt = "I am a Pic" height="100" width="100">';
+            ->addColumn('images', function ($employees) {
+                $url = asset("$employees->img_path");
+                return '<img src=' . $url . ' alt = "I am a pic" height="100" width="100">';
             })
             ->rawColumns(['action', 'images']);
     }
@@ -38,10 +38,10 @@ class ServiceDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\ServiceDataTable $model
+     * @param \App\Models\EmployeeDataTable $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Service $model)
+    public function query(Employee $model)
     {
         return $model->newQuery();
     }
@@ -54,18 +54,18 @@ class ServiceDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('services-table')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Bfrtip')
-            ->orderBy(1)
-            ->buttons(
-                Button::make('create'),
-                Button::make('export'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
-            );
+                    ->setTableId('employees-table')
+                    ->columns($this->getColumns())
+                    ->minifiedAjax()
+                    ->dom('Bfrtip')
+                    ->orderBy(1)
+                    ->buttons(
+                        Button::make('create'),
+                        Button::make('export'),
+                        Button::make('print'),
+                        Button::make('reset'),
+                        Button::make('reload')
+                    );
     }
 
     /**
@@ -76,11 +76,12 @@ class ServiceDataTable extends DataTable
     protected function getColumns()
     {
         return [
-
             Column::make('id'),
-            Column::make('servname')->title('serviceName'), // ? Title is yung header
-            Column::make('description'),
-            Column::make('price'),
+            Column::make('user_id')->title('User'), // ? Title is yung header
+            Column::make('name'),
+            Column::make('position'),
+            Column::make('address'),
+            Column::make('phonenumber'),
             Column::make('images'),
             Column::make('created_at'),
             Column::make('updated_at'),
@@ -95,9 +96,8 @@ class ServiceDataTable extends DataTable
      *
      * @return string
      */
-
     protected function filename()
     {
-        return 'Services_' . date('YmdHis');
+        return 'Employees_' . date('YmdHis');
     }
 }

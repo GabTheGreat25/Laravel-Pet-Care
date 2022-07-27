@@ -45,7 +45,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        // return view("services.create");
+        return view("services.create");
     }
 
     /**
@@ -61,14 +61,14 @@ class ServiceController extends Controller
         "servname" => ["required", "min:3"],
         "description" => ["required"],
         "price" => ["required", "numeric", "min:3"],
-        'image' => 'mimes:jpeg,png,jpg,gif,svg',
+        'image' => ['mimes:jpeg,png,jpg,gif,svg'],
         ]);
         if ($file = $request->hasFile('image')) {
 
             $file = $request->file('image');
             $fileName = $file->getClientOriginalName();
-            $destinationPath = public_path() . '/images';
-            $input['img_path'] = 'images/' . $fileName;
+            $destinationPath = public_path() . '/folder/images';
+            $input['img_path'] = '/folder/images/' . $fileName;
             $file->move($destinationPath, $fileName);
         }
         Service::create($input);
@@ -121,7 +121,7 @@ class ServiceController extends Controller
         }
 
         if ($validator->passes()) {
-            $path = Storage::putFileAs('images/', $request->file('image'), $request->file('image')->getClientOriginalName());
+            $path = Storage::putFileAs('/folder/images/', $request->file('image'), $request->file('image')->getClientOriginalName());
 
             $request->merge(["img_path" => $request->file('image')->getClientOriginalName()]);
 
@@ -130,12 +130,12 @@ class ServiceController extends Controller
             if ($file = $request->hasFile('image')) {
                 $file = $request->file('image');
                 $fileName = $file->getClientOriginalName();
-                $destinationPath = public_path() . '/images';
-                $input['img_path'] = 'images/' . $fileName;
+                $destinationPath = public_path() . '/folder/images';
+                $input['img_path'] = 'folder/images/' . $fileName;
                 $services->update($input);
                 $file->move($destinationPath, $fileName);
                 return Redirect::route("getService")->with(
-                    "New Service Updated!"
+                    "Service Updated!"
                 );
             }
         }

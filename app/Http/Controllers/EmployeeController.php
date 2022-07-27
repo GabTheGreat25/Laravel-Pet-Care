@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\EmployeeDataTable;
-use App\Models\Service;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -24,7 +24,7 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
     }
@@ -36,7 +36,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        return view("employees.create");
     }
 
     /**
@@ -47,7 +47,26 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        $request->validate([
+        "name" => ["required", "min:3"],
+        "position" => ["required"],
+        "address" => ["required", "min:3"],
+        "phonenumber" => ["required", "numeric"],
+        'image' => ['mimes:jpeg,png,jpg,gif,svg'],
+        ]);
+        if ($file = $request->hasFile('image')) {
+
+            $file = $request->file('image');
+            $fileName = $file->getClientOriginalName();
+            $destinationPath = public_path() . '/folder/images';
+            $input['img_path'] = '/folder/images/' . $fileName;
+            $file->move($destinationPath, $fileName);
+        }
+        Employee::create($input);
+        return Redirect::route("getEmployee")->with(
+            "New Employee Added!"
+        );
     }
 
     /**
@@ -58,7 +77,11 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        $employees = DB::table('employees')
+            ->select('employees.id', 'employees.user_id','employees.name', 'employees.position', 'employees.address', 'employees.phonenumber', 'employees.img_path')
+            ->where('employees.id', $id)
+            ->get();
+        return View::make('employees.show', compact('employees'));
     }
 
     /**
@@ -69,7 +92,8 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $employees = Employee::find($id);
+        return view("employees.edit")->with("employees", $employees);
     }
 
     /**
@@ -81,7 +105,32 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $employees = Employee::find($id);
+        $validator = Validator::make($request->all(), Employee::$valRules);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
+
+        if ($validator->passes()) {
+            $path = Storage::putFileAs('/folder/images/', $request->file('image'), $request->file('image')->getClientOriginalName());
+
+            $request->merge(["img_path" => $request->file('image')->getClientOriginalName()]);
+
+            $input = $request->all();
+
+            if ($file = $request->hasFile('image')) {
+                $file = $request->file('image');
+                $fileName = $file->getClientOriginalName();
+                $destinationPath = public_path() . '/folder/images';
+                $input['img_path'] = 'folder/images/' . $fileName;
+                $employees->update($input);
+                $file->move($destinationPath, $fileName);
+                return Redirect::route("getEmployee")->with(
+                    "Employee Updated!"
+                );
+            }
+        }
     }
 
     /**
@@ -92,6 +141,24 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $employees= Employee::find($id);
+        $employees->delete();
+        return Redirect::route("getEmployee")->with(
+                    "Employee Deleted!"
+                );
+    }
+
+    public function getEmployee(EmployeeDataTable $dataTable)
+    {
+        $employees = Employee::with([])->get();
+        return $dataTable->render('employees.employee');
+    }
+
+    public function import(Request $request){
+         $request->validate([
+            'employee_upload' => ['required', new ExcelRule($request->file('employee_upload'))],
+        ]);
+        Excel::import(new EmployeeImport, request()->file('employee_upload'));
+        return redirect()->back()->with('success', 'Excel file Imported Successfully');
     }
 }

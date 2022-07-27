@@ -12,7 +12,7 @@
         @forelse ($services as $service)
             <section>
                 <div>
-                    <img src="{{ asset('uploads/services/' . $service->img_path) }}" alt="I am A Pic" width="100"
+                    <img src="{{ asset('service/images/' . $service->img_path) }}" alt="I am A Pic" width="100"
                         height="100">
                     <div>
                         <h5>{{ $service->servname }}

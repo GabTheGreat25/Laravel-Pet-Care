@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\AdminController;
+// use App\Http\Controllers\CustomerController;
+// use App\Http\Controllers\UserController;
+// use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,15 +22,18 @@ Route::get('/', function () {
 });
 
 Route::resource("/service", ServiceController::class)->except(['index', 'service']);
-// Route::get("/service/destroy/{id}", [
-//     "uses" => "ServiceController@destroy",
-//     "as" => "service.destroy",
-// ]);
 Route::get('/services', [
     'uses' => 'ServiceController@getService',
     'as' => 'getService',
 ]);
 Route::post('/service/import', 'ServiceController@import')->name('serviceImport');
+
+Route::resource("/employee", EmployeeController::class)->except(['index', 'employee']);
+Route::get('/employees', [
+    'uses' => 'employeeController@getEmployee',
+    'as' => 'getEmployee',
+]);
+Route::post('/employee/import', 'employeeController@import')->name('employeeImport');
 
 Auth::routes();
 

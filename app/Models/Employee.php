@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Service extends Model
+class Employee extends Model
 {
     public static $valRules = [
-        "servname" => ["required", "min:3"],
-        "description" => ["required"],
-        "price" => ["required", "numeric", "min:3"],
+        "name" => ["required", "min:3"],
+        "position" => ["required"],
+        "address" => ["required", "min:3"],
+        "phonenumber" => ["required", "numeric"],
     ];
 
     use HasFactory;
@@ -20,9 +21,9 @@ class Service extends Model
 
     protected $dates = ["deleted_at"];
 
-    protected $table = "services";
+    protected $table = "employees";
 
-    protected $fillable = ["servname", "description", "price", "img_path"];
+    protected $fillable = ["name", "position", "address", "phonenumber", "img_path"];
 
     protected $primaryKey = "id";
 
