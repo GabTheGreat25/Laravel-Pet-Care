@@ -33,11 +33,8 @@ class UserController extends Controller
             $user->password = bcrypt($request->input('password'));
             // $lastinsertedid=$user->id;
             $user->save();
-
-            // dd($lastinsertedid);
-            // return view('admin.register');
             return redirect()->route('aregister');
-            // ->with($lastinsertedid);
+
             }
 
         else{

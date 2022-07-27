@@ -9,8 +9,7 @@
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url('src/css/app.css') }}">
 </head>
-
-<body>
+<body style="background-image: url(bg.png); background-size:cover;">
     @include('html.header')
     <section>
         @yield('contents')
