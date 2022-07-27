@@ -16,9 +16,9 @@ class CustomerImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         return new Customer([
-            'title' => $row['Title'],
-            'firstName' => $row['First_Name'],
-            'lastName' => $row['Last_Name'],
+            'title' => $row['title'],
+            'firstName' => $row['first_name'],
+            'lastName' => $row['last_name'],
             'age' => $row['age'],
             'address' => $row['address'],
             'sex' => $row['sex'],
