@@ -31,10 +31,13 @@ class UserController extends Controller
             $user->role = $request->input("role");
             $user->email = $request->input("email");
             $user->password = bcrypt($request->input('password'));
+            // $lastinsertedid=$user->id;
             $user->save();
-            $lastinsertedid=$user->id;
+
+            // dd($lastinsertedid);
             // return view('admin.register');
-            return redirect()->route('aregister')->with($lastinsertedid);
+            return redirect()->route('aregister');
+            // ->with($lastinsertedid);
             }
 
         else{

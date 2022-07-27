@@ -2,54 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\EmployeeDataTable;
+use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; 
-use App\Models\User;
-use App\Models\admins;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
+use Yajra\DataTables\Html\Builder;
+use Yajra\DataTables\Facades\DataTables;
+use App\Imports\EmployeeImport;
+use Excel;
+use App\Rules\ExcelRule;
 
-class AdminController extends Controller
+class EmployeeController extends Controller
 {
-    public function __construct(){
-        $this->total = 0;
-    }
-    
-    public function getregister(){
-        return view('admin.register');
-    }
-
-    public function postregistered(Request $request)
-    {
-        //
-        $this->validate($request, [
-            'name' =>'required|regex:/^[a-zA-Z\s]*$/', 
-            'job'=>'required|regex:/^[a-zA-Z\s]*$/',
-            'address'=>'required|regex:/^[a-zA-Z\s]*$/',
-            'phonenumber'=>'required|numeric',
-        ]);
-
-        $user = new user();
-        $admin = new admins();
-      
-            $admin->user_id = User::pluck('id')->last(); 
-            // dd(User::pluck('id')->last());
-            $admin->name = $request->input("name");
-            $admin->job = $request->input("job");
-            $admin->address = $request->input("address");
-            $admin->phonenumber = $request->input("phonenumber");
-
-            if ($request->hasfile("img_path")) {
-                $file = $request->file("img_path");
-                $filename = $file->getClientOriginalName();
-                $file->move('images/admin/', $filename);
-                $admin->img_path = $filename;
-            }
-        
-        $admin->save();
-        Auth::login($admin);
-        return redirect()->route('/home');
-    }
-    
     /**
      * Display a listing of the resource.
      *

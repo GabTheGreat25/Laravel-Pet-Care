@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ServiceDataTable;
-use App\Http\Requests\ServiceRequest;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -46,7 +45,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        return view("services.create");
+        // return view("services.create");
     }
 
     /**
