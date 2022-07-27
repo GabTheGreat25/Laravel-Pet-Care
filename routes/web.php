@@ -43,6 +43,12 @@ Route::get('/customers', [
 ]);
 Route::post('/customer/import', 'CustomerController@import')->name('customerImport');
 
+Route::resource("/animal", AnimalController::class)->except(['index', 'animal']);
+Route::get('/animals', [
+    'uses' => 'AnimalController@getAnimal',
+    'as' => 'getAnimal',
+]);
+Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
 
 Route::get('/signup', [UserController::class, 'getsignup']);
 Route::post('/signups', [UserController::class, 'postSignup'])->name('user.signup');
