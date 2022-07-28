@@ -36,6 +36,7 @@ class UserController extends Controller
             return redirect()->route('aregister');
 
             }
+            
 
         else{
             return view('welcome');

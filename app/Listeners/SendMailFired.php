@@ -5,11 +5,8 @@ namespace App\Listeners;
 use App\Events\SendMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-
 use App\Models\Customer;
 use Mail;
-
-
 class SendMailFired
 {
     /**
@@ -30,16 +27,16 @@ class SendMailFired
      */
     public function handle(SendMail $event)
     {
-       $customer = $event->customer;
-        
+         //dd($event);
+        $customer = $event->customer;
        $customer = Customer::where('id',$event->customer->id)->first();
-        Mail::send( 'email.user_notification', ['firstName' => $customer->firstName, 'lastName' => $customer->lastName], function($message) use ($customer) {
-            $message->from('admin@bands.com','Admin');
-            $message->to($customer->firstName,$customer->lastName);
-
-        $message->subject('Thank you');
+       $email = 'email@address.com';
+        //dd($customer);
+        Mail::send( 'email.user_notification', ['fname' => $customer->firstName, 'lname' => $customer->lastName,], function($message) use ($customer) {
+            $message->from('test10@gmail.com');
+            $message->to('email@address.com');
+            $message->subject('Thank you');
             $message->attach(public_path('/folder/thank_you.jpg'));
         });
     }
-
 }
