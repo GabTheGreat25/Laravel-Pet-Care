@@ -19,6 +19,10 @@ class Customer extends Model
         'image' => ['mimes:jpeg,png,jpg,gif,svg'],
     ];
 
+    public function animals() {
+        return $this->hasMany('App\Models\Animal','customer_id');
+    }
+
     use HasFactory;
     use SoftDeletes;
     

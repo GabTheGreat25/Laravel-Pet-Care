@@ -50,37 +50,11 @@ class AnimalController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        
-        // $input = $request->all();
-        // $request->validate([
-        //     "petName" => ["required", "min:3"],
-        //     "Age" => ["required", "numeric"],
-        //     "Type" => ["required"],
-        //     "Breed" => ["required"],
-        //     "Sex" => ["required"],
-        //     "Color" => ["required"],
-        // ]);
-        // if ($file = $request->hasFile('image')) {
-
-        //     $file = $request->file('image');
-        //     $fileName = $file->getClientOriginalName();
-        //     $destinationPath = public_path() . '/images/animals';
-        //     $input['img_path'] = '/images/animals/' . $fileName;
-        //     $file->move($destinationPath, $fileName);
-        // }
-      
-        // Animal::create($input);
-
         $request->validate([
-            "petName" => ["required", "min:3"],
-            "Age" => ["required", "numeric"],
-            "Type" => ["required"],
-            "Breed" => ["required"],
-            "Sex" => ["required"],
-            "Color" => ["required"],
-]);
+            'image' => ['mimes:jpeg,png,jpg,gif,svg'],
+        ]);
 
+        $customer = Customer::find($request->customer_id);
         $animal = new animal();
         $animal->petName = $request->input("petName");
         $animal->Age = $request->input("Age");
@@ -88,18 +62,17 @@ class AnimalController extends Controller
         $animal->Breed = $request->input("Breed");
         $animal->Sex = $request->input("Sex");
         $animal->Color = $request->input("Color");
+        $animal->customer()->associate($customer);
       
-        if ($request->hasfile("img_path")) {
-            $file = $request->file("img_path");
-                $file = $request->file("img_path");
-                $filename = $file->getClientOriginalName();
-                $file->move('images/animals/', $filename);
-                $animal->img_path = $filename;
+        if ($file = $request->hasFile('image')) {
 
+            $file = $request->file('image');
+            $fileName = $file->getClientOriginalName();
+            $destinationPath = public_path() . '/images/animals';
+            $input['img_path'] = '/images/animals/' . $fileName;
+            $file->move($destinationPath, $fileName);
         }
-
-        $animal->customer_id = $request->input("id");
-
+        // Animal::create($input);
         $animal->save();
         return Redirect::route("getAnimal")->with(
             "New Animal Added!"
@@ -132,13 +105,9 @@ class AnimalController extends Controller
      */
     public function edit($id)
     {
-        //
-        // $animals = Animal::find($id);
-        // $customers = Customer::pluck('firstName', 'id');
-        // return View::make('animals.edit',compact('animals', 'customers'));
-
-        $animals = Animal::find($id);
-        return view("animals.edit")->with("animals", $animals);
+        $animal = Animal::with('customer')->where('id',$id)->first();
+        $customers = Customer::pluck('firstName','id');
+        return View::make('animals.edit',compact('animal', 'customers'));
     }
 
     /**
@@ -150,8 +119,9 @@ class AnimalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $customer = Customer::find($request->customer_id);
         $animals = Animal::find($id);
+        $animals->customer()->associate($customer);
         $validator = Validator::make($request->all(), Animal::$valRules);
 
         if ($validator->fails()) {
@@ -172,7 +142,7 @@ class AnimalController extends Controller
                 $input['img_path'] = '/images/animals/' . $fileName;
                 $animals->update($input);
                 $file->move($destinationPath, $fileName);
-                return Redirect::route("getanimal")->with(
+                return Redirect::route("getAnimal")->with(
                     "animal Updated!"
                 );
             }
@@ -197,7 +167,7 @@ class AnimalController extends Controller
 
     public function getAnimal(AnimalDataTable $dataTable)
     {
-        $animals = Animal::with([])->get();
+        $animals = Animal::with(['customer'])->get();
         return $dataTable->render('animals.animal');
     }
 

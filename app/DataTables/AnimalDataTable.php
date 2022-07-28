@@ -84,6 +84,7 @@ class AnimalDataTable extends DataTable
             Column::make('Breed'),
             Column::make('Sex'),
             Column::make('Color'),
+            Column::make('images'),
             Column::make('created_at'),
             Column::make('updated_at'),
             Column::make('action')

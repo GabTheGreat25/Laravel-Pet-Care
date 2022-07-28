@@ -16,6 +16,8 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Imports\CustomerImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Rules\ExcelRule;
+use App\Events\SendMail;
+use Event;
 
 class CustomerController extends Controller
 {
@@ -60,6 +62,7 @@ class CustomerController extends Controller
         "phonenumber" => ["required", "numeric"],
         'image' => ['mimes:jpeg,png,jpg,gif,svg'],
         ]);
+
         if ($file = $request->hasFile('image')) {
 
             $file = $request->file('image');
@@ -68,7 +71,8 @@ class CustomerController extends Controller
             $input['img_path'] = '/images/customers/' . $fileName;
             $file->move($destinationPath, $fileName);
         }
-        Customer::create($input);
+        $customer = Customer::create($input);
+        Event::dispatch(new SendMail($customer));
         return Redirect::route("getCustomer")->with(
             "New Customer Added!"
         );
@@ -149,9 +153,10 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
         $customers= Customer::find($id);
+        $customers->animals()->delete();
         $customers->delete();
+        $customers = Customer::with('animals')->get();
         return Redirect::route("getCustomer")->with(
                     "Customer Deleted!"
                 );

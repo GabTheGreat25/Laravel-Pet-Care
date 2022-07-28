@@ -18,6 +18,10 @@ class Animal extends Model
 
     ];
 
+    public function customer() {
+        return $this->belongsTo('App\Models\Customer');
+    }
+
     use HasFactory;
 
     use SoftDeletes;

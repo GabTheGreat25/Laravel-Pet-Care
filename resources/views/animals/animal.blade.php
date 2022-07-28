@@ -40,49 +40,47 @@
                     </button>
                 </div>
                 <form method="POST" action="{{ url('animal') }}" enctype="multipart/form-data">
-                    {{ csrf_field() }}  
+                    {{ csrf_field() }}
 
                     <div class="modal-body mx-3" id="inputfacultyModal">
                         <div class="md-form mb-5">
                             <i class="fas fa-user prefix grey-text"></i>
 
-                            {{-- <div class="form-group">
-                                <label for="id" class="control-label">Pet Owner:</label><i style="color:red">*</i>
-                                  <select class="form-control" name="id" id="firstName">
-                                    @foreach($customers as $id => $customer)
-                                      <option value="{{$id}}">{{$customer}}</option>
-                                    @endforeach
-                                  </select>
-                                </div> --}}
+                            <div class="md-form mb-5">
+                                <label for="customer">Customer:</label>
+                                {!! Form::select('customer_id', App\Models\Customer::pluck('firstName', 'id'), null, [
+                                    'class' => 'form-control',
+                                ]) !!}
+                            </div>
 
                             <label data-error="wrong" data-success="right" for="petName"
-                                style="display: inline-block; width: 150px; ">Pet Name</label><i style="color:red">*</i>
+                                style="display: inline-block; width: 150px; ">Pet Name</label><i style="color:red"></i>
                             <input type="text" id="petName" class="form-control validate" name="petName">
 
-                            <label data-error="wrong" data-success="right" for="age"
-                            style="display: inline-block; width: 150px; ">Age</label><i style="color:red">*</i>
-                            <input type="text" id="age" class="form-control validate" name="age">
+                            <label data-error="wrong" data-success="right" for="Age"
+                                style="display: inline-block; width: 150px; ">Age</label><i style="color:red"></i>
+                            <input type="text" id="Age" class="form-control validate" name="Age">
 
-                        <label data-error="wrong" data-success="right" for="Type"
-                        style="display: inline-block; width: 150px; ">Type</label><i style="color:red">*</i>
-                         <input type="text" id="Type" class="form-control validate" name="Type">
+                            <label data-error="wrong" data-success="right" for="Type"
+                                style="display: inline-block; width: 150px; ">Type</label><i style="color:red"></i>
+                            <input type="text" id="Type" class="form-control validate" name="Type">
 
                             <label data-error="wrong" data-success="right" for="Breed"
-                                style="display: inline-block; width: 150px; ">Breed</label><i style="color:red">*</i>
+                                style="display: inline-block; width: 150px; ">Breed</label><i style="color:red"></i>
                             <input type="text" id="Breed" class="form-control validate" name="Breed">
-                            
+
                             <label data-error="wrong" data-success="right" for="Sex"
-                                style="display: inline-block; width: 150px; ">Sex</label><i style="color:red">*</i>
+                                style="display: inline-block; width: 150px; ">Sex</label><i style="color:red"></i>
                             <input type="text" id="Sex" class="form-control validate" name="Sex">
 
                             <label data-error="wrong" data-success="right" for="Color"
-                            style="display: inline-block; width: 150px; ">Color</label><i style="color:red">*</i>
-                        <input type="text" id="Color" class="form-control validate" name="Color">
-                        
+                                style="display: inline-block; width: 150px; ">Color</label><i style="color:red"></i>
+                            <input type="text" id="Color" class="form-control validate" name="Color">
+
                             <label data-error="wrong" data-success="right" for="image"
                                 style="display: inline-block; width: 150px; ">animal Image</label>
                             <input type="file" id="image" class="form-control validate" name="image">
-                       
+
                         </div>
 
                         <div class="modal-footer d-flex justify-content-center">
