@@ -1,6 +1,8 @@
-<body style="background-image: url(register.png); background-size:cover;"></body>
-@extends('layouts.master')
-@section('content')
+@extends('html.master')
+@section('title')
+    Sign Up
+@endsection
+@section('contents')
 <div class="container" style="background-color:rgba(255, 255, 255, 0.701); color:black; position:center;"></div>
 
         <div class="col-md-4 col-md-offset-4">
