@@ -25,25 +25,27 @@ class AdminController extends Controller
             'job'=>'required|regex:/^[a-zA-Z\s]*$/',
             'address'=>'required|regex:/^[a-zA-Z\s]*$/',
             'phonenumber'=>'required|numeric',
+            'image' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
-
-        $user = new user();
         $admin = new admins();
       
-            $admin->user_id = User::pluck('id')->last(); 
-            // dd(User::pluck('id')->last());
+            $admin->user_id = User::latest()->pluck('id')->first();
+            // dd(User::latest()->pluck('id')->first());
             $admin->name = $request->input("name");
             $admin->job = $request->input("job");
             $admin->address = $request->input("address");
             $admin->phonenumber = $request->input("phonenumber");
+            $admin->img_path = $request->input("img_path");
 
-            if ($request->hasfile("img_path")) {
-                $file = $request->file("img_path");
-                $filename = $file->getClientOriginalName();
-                $file->move('images/admin/', $filename);
-                $admin->img_path = $filename;
-            }
-        
+        if ($file = $request->hasFile('image')) {
+
+            $file = $request->file('image');
+            $fileName = $file->getClientOriginalName();
+            $destinationPath = public_path() . '/images/admin';
+            $admin['img_path'] = '/images/admin/' . $fileName;
+            $file->move($destinationPath, $fileName);
+        }
+
         $admin->save();
         return redirect()->route('admin.profile');
     }

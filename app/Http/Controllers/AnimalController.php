@@ -57,12 +57,6 @@ class AnimalController extends Controller
 
         $customer = Customer::find($request->customer_id);
         $animal = new animal();
-        //$animal->petName = $request->input("petName");
-        //$animal->Age = $request->input("Age");
-        //$animal->Type = $request->input("Type");
-        //$animal->Breed = $request->input("Breed");
-        //$animal->Sex = $request->input("Sex");
-        //$animal->Color = $request->input("Color");
         $animal->customer()->associate($customer);
       
         if ($file = $request->hasFile('image')) {

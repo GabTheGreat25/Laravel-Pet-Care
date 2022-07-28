@@ -34,6 +34,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function admin() {
+        return $this->belongsTo('App\Models\admins');
+    }
+
     /**
      * The attributes that should be cast.
      *
