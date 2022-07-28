@@ -10,3 +10,10 @@
 -   `php artisan optimize to restart Laravel`
 -   `always use php artisan optimze and run php artisan serve after to  run the project properly`
 -   `npm install and run npm run watch to use auto reload`
+
+---
+Made by: Gabriel A. Mendoza & Meantonette C. Medalla
+-
+Submitted to: Rommel Dalisay
+-
+#### 2022-2023
