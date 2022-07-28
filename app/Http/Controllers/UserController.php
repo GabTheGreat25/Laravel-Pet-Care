@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\admins;
 
 class UserController extends Controller
 {
@@ -36,7 +37,7 @@ class UserController extends Controller
             // $lastinsertedid=$user->id;
             $user->save();
             Auth::login($user);
-            return redirect()->route('aregister');
+            return redirect()->route('admin.registers');
 
             }
 
@@ -54,12 +55,11 @@ class UserController extends Controller
         return view('user.signin');
     }
 
-     public function getProfile(){
-        $customer = Customer::where('user_id',Auth::id())->first();
-        $orders = Order::with('customer','items')->where('customer_id',$customer->customer_id)->get();
-        return view('user.profile',compact('orders'));
-    }
-
+     public function getadminProfile(){
+            $admin = admins::where('user_id',Auth::id())->first();
+            return view('admin.profile',compact('admin'));
+        }
+    
     public function getLogout(){
         Auth::logout();
         return redirect()->guest('/');
