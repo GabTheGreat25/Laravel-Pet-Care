@@ -1,4 +1,4 @@
-### laravel-pet-clinic 3rd sem
+### Laravel-Pet-Clinic 3rd Sem
 ## Create Database Name (Your Database).
 
 # SETUP
