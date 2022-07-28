@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; 
 use App\Models\User;
+use App\Models\Customer;
+use App\Models\Order;
 
 class UserController extends Controller
 {
@@ -33,6 +35,7 @@ class UserController extends Controller
             $user->password = bcrypt($request->input('password'));
             // $lastinsertedid=$user->id;
             $user->save();
+            Auth::login($user);
             return redirect()->route('aregister');
 
             }
@@ -46,6 +49,21 @@ class UserController extends Controller
         //         // your code
         //     }
 
+    }
+
+    public function getSignin(){
+        return view('user.signin');
+    }
+
+     public function getProfile(){
+        $customer = Customer::where('user_id',Auth::id())->first();
+        $orders = Order::with('customer','items')->where('customer_id',$customer->customer_id)->get();
+        return view('user.profile',compact('orders'));
+    }
+
+    public function getLogout(){
+        Auth::logout();
+        return redirect()->guest('/');
     }
 
     /**

@@ -45,7 +45,6 @@ class AdminController extends Controller
             }
         
         $admin->save();
-        Auth::login($admin);
         return redirect()->route('/home');
     }
     
