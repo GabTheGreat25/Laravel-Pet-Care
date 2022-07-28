@@ -50,11 +50,51 @@ Route::get('/animals', [
 ]);
 Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
 
-Route::get('/signup', [UserController::class, 'getsignup']);
-Route::post('/signups', [UserController::class, 'postSignup'])->name('user.signup');
 
-Route::get('/adminreg', [AdminController::class, 'getregister'])->name('aregister');;
-Route::post('/adminregs', [AdminController::class, 'postregistered'])->name('admin.register');
+
+   Route::group(['middleware' => 'guest'], function() {
+          Route::get('signup', [
+          'uses' => 'userController@getSignup',
+          'as' => 'user.signups',
+              ]);
+          Route::post('signup', [
+                  'uses' => 'userController@postSignup',
+                  'as' => 'user.signup',
+              ]);
+          Route::get('signin', [
+                  'uses' => 'userController@getSignin',
+                  'as' => 'user.signins',
+               ]);
+       Route::post('signin', [
+                  'uses' => 'LoginController@postSignin',
+                  'as' => 'user.signin',
+              ]);
+      });
+      Route::group(['middleware' => 'role:customer'], function() {
+         Route::get('profile', [
+          'uses' => 'UserController@getProfile',
+          'as' => 'user.profile',
+       ]);
+      });
+
+// Route::get('/signup', [UserController::class, 'getsignup']);
+// Route::post('/signups', [UserController::class, 'postSignup'])->name('user.signup');
+
+// Route::get('/adminreg', [AdminController::class, 'getregister'])->name('aregister');;
+// Route::post('/adminregs', [AdminController::class, 'postregistered'])->name('admin.register');
+
+Route::get('logout',[
+    'uses' => 'LoginController@logout',
+    'as' => 'user.logout',
+    'middleware'=>'auth'
+   ]);
+
+  Route::fallback(function () {
+      return redirect()->back();
+  });
+
+
+
 // Route::post('/adminregs', [UserController::class, 'postSignup'])->name('user.signup');
 
 // Route::post('/signup', [App\Http\Controllers\UserController::class, 'postSignup'])->name('user.signup');
