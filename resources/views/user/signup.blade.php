@@ -1,3 +1,4 @@
+<body style="background-image: url(register.png); background-size:cover;"></body>
 @extends('html.master')
 @section('title')
     Sign Up

@@ -45,7 +45,7 @@ class AdminController extends Controller
             }
         
         $admin->save();
-        return redirect()->route('/home');
+        return redirect()->route('admin.profile');
     }
     
     /**

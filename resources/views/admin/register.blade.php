@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="img_path" class="control-label">Employee Profile:</label><i style="color:red">*</i>
+                    <label for="img_path" class="control-label">Admin Profile:</label><i style="color:red">*</i>
                     <input type="file" class="form-control" id="img_path" name="img_path" >
                     @error('img_path')
                     <div class="alert alert-danger">{{ $message }}</div>
