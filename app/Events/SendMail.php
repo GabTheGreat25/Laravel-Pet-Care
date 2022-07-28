@@ -11,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 class SendMail
-{   //php artisan event:generate
+{
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
@@ -19,7 +19,7 @@ class SendMail
      *
      * @return void
      */
-    public function __construct($customer)
+    public function __construct( $customer )
     {
         $this->customer = $customer;
     }

@@ -48,35 +48,58 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // public function store(Request $request)
+    // {
+       
+    //     $input = $request->all();
+    //     $request->validate([
+    //     "title" => ["required", "min:2"],
+    //     "firstName" => ["required", "min:3"],
+    //     "lastName" => ["required", "min:3"],
+    //     "age" => ["required", "numeric"],
+    //     "address" => ["required", "min:3"],
+    //     "sex" => ["required"],
+    //     "phonenumber" => ["required", "numeric"],
+    //     'image' => ['mimes:jpeg,png,jpg,gif,svg'],
+    //     ]);
+
+    //     if ($file = $request->hasFile('image')) {
+
+    //         $file = $request->file('image');
+    //         $fileName = $file->getClientOriginalName();
+    //         $destinationPath = public_path() . '/images/customers';
+    //         $input['img_path'] = '/images/customers/' . $fileName;
+    //         $file->move($destinationPath, $fileName);
+    //     }
+    //     $customer = Customer::create($input);
+    //     Event::dispatch(new SendMail($customer));
+    //     return Redirect::route("getCustomer")->with(
+    //         "New Customer Added!"
+    //     );
+    // }
+
     public function store(Request $request)
     {
-       
         $input = $request->all();
         $request->validate([
-        "title" => ["required", "min:2"],
-        "firstName" => ["required", "min:3"],
-        "lastName" => ["required", "min:3"],
-        "age" => ["required", "numeric"],
-        "address" => ["required", "min:3"],
-        "sex" => ["required"],
-        "phonenumber" => ["required", "numeric"],
-        'image' => ['mimes:jpeg,png,jpg,gif,svg'],
+             'image' => ['mimes:jpeg,png,jpg,gif,svg' ]
         ]);
 
-        if ($file = $request->hasFile('image')) {
-
-            $file = $request->file('image');
+        if($file = $request->hasFile('image')) {
+            $file = $request->file('image') ;
             $fileName = $file->getClientOriginalName();
             $destinationPath = public_path() . '/images/customers';
             $input['img_path'] = '/images/customers/' . $fileName;
-            $file->move($destinationPath, $fileName);
+           
+            $file->move($destinationPath,$fileName); 
         }
+        // $input['password'] = bcrypt($request->password);
         $customer = Customer::create($input);
-        // Event::dispatch(new SendMail($customer));
+        Event::dispatch(new SendMail($customer));   
         return Redirect::route("getCustomer")->with(
             "New Customer Added!"
-        );
-    }
+         );
+   }
 
     /**
      * Display the specified resource.

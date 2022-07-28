@@ -20,7 +20,6 @@ class AdminController extends Controller
 
     public function postregistered(Request $request)
     {
-        //
         $this->validate($request, [
             'name' =>'required|regex:/^[a-zA-Z\s]*$/', 
             'job'=>'required|regex:/^[a-zA-Z\s]*$/',

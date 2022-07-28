@@ -40,6 +40,7 @@ class UserController extends Controller
             return redirect()->route('admin.registers');
 
             }
+            
 
         else{
             return view('welcome');
