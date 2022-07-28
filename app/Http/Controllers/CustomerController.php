@@ -72,7 +72,7 @@ class CustomerController extends Controller
             $file->move($destinationPath, $fileName);
         }
         $customer = Customer::create($input);
-        Event::dispatch(new SendMail($customer));
+        // Event::dispatch(new SendMail($customer));
         return Redirect::route("getCustomer")->with(
             "New Customer Added!"
         );
