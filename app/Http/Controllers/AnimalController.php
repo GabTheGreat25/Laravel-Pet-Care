@@ -50,18 +50,19 @@ class AnimalController extends Controller
      */
     public function store(Request $request)
     {
+        $input = $request->all();
         $request->validate([
             'image' => ['mimes:jpeg,png,jpg,gif,svg'],
         ]);
 
         $customer = Customer::find($request->customer_id);
         $animal = new animal();
-        $animal->petName = $request->input("petName");
-        $animal->Age = $request->input("Age");
-        $animal->Type = $request->input("Type");
-        $animal->Breed = $request->input("Breed");
-        $animal->Sex = $request->input("Sex");
-        $animal->Color = $request->input("Color");
+        //$animal->petName = $request->input("petName");
+        //$animal->Age = $request->input("Age");
+        //$animal->Type = $request->input("Type");
+        //$animal->Breed = $request->input("Breed");
+        //$animal->Sex = $request->input("Sex");
+        //$animal->Color = $request->input("Color");
         $animal->customer()->associate($customer);
       
         if ($file = $request->hasFile('image')) {
@@ -72,7 +73,7 @@ class AnimalController extends Controller
             $input['img_path'] = '/images/animals/' . $fileName;
             $file->move($destinationPath, $fileName);
         }
-        // Animal::create($input);
+        $animal =  Animal::create($input);
         $animal->save();
         return Redirect::route("getAnimal")->with(
             "New Animal Added!"
