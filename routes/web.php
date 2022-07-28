@@ -51,7 +51,6 @@ Route::get('/animals', [
 Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
 
 
-
    Route::group(['middleware' => 'guest'], function() {
           Route::get('signup', [
           'uses' => 'userController@getSignup',
@@ -70,12 +69,27 @@ Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
                   'as' => 'user.signin',
               ]);
       });
-      Route::group(['middleware' => 'role:customer'], function() {
-         Route::get('profile', [
-          'uses' => 'UserController@getProfile',
-          'as' => 'user.profile',
-       ]);
-      });
+
+      Route::group(['middleware' => 'role:admin'], function() {
+        Route::get('profile', [
+         'uses' => 'UserController@getadminProfile',
+         'as' => 'admin.profile',
+        ]);
+
+        Route::get('adminregister', [
+            'uses' => 'AdminController@getregister',
+            'as' => 'admin.registers',
+                ]);
+
+        Route::post('adminregister', [
+                    'uses' => 'AdminController@postregistered',
+                    'as' => 'admin.register',
+                ]);
+    });
+
+    //   Route::group(['middleware' => 'role:admin'], function() {
+   
+    //   });
 
 // Route::get('/signup', [UserController::class, 'getsignup']);
 // Route::post('/signups', [UserController::class, 'postSignup'])->name('user.signup');
@@ -93,7 +107,7 @@ Route::get('logout',[
       return redirect()->back();
   });
 
-
+    
 
 // Route::post('/adminregs', [UserController::class, 'postSignup'])->name('user.signup');
 
