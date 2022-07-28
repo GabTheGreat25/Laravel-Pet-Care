@@ -9,3 +9,10 @@
 -   `php artisan serve`
 -   `php artisan optimize to restart Laravel`
 -   `npm install and run npm run watch to use auto reload`
+
+---
+Made by: Gabriel A. Mendoza & Meantonette C. Medalla
+-
+Submitted to: Rommel Dalisay
+-
+#### 2022-2023
