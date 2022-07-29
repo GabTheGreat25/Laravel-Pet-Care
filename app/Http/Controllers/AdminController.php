@@ -35,15 +35,12 @@ class AdminController extends Controller
             $admin->job = $request->input("job");
             $admin->address = $request->input("address");
             $admin->phonenumber = $request->input("phonenumber");
-            $admin->img_path = $request->input("img_path");
 
-        if ($file = $request->hasFile('image')) {
-
-            $file = $request->file('image');
-            $fileName = $file->getClientOriginalName();
-            $destinationPath = public_path() . '/images/admin';
-            $admin['img_path'] = '/images/admin/' . $fileName;
-            $file->move($destinationPath, $fileName);
+        if ($request->hasfile("img_path")) {
+            $file = $request->file("img_path");
+            $filename =  $file->getClientOriginalName();
+            $file->move("images/admin/", $filename);
+            $admin->img_path = $filename;   
         }
 
         $admin->save();

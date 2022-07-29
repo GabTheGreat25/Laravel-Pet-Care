@@ -11,7 +11,7 @@
                 Address<p>{{ $admin->address }}</p>
                 phonenumber<p>{{ $admin->phonenumber }}</p>
                 Address<p>{{ $admin->address }}</p>
-                Address<p>{{ $admin->img_path }}</p>
+                Img <img src="{{ asset('images/admin/' . $admin->img_path) }}" alt="I am A Pic" width="100" height="100">
             </div>
 
         </div>
