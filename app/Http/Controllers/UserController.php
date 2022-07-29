@@ -30,7 +30,7 @@ class UserController extends Controller
         
         if($request->role == 'admin'){
             $user = new User();
-            $user->name = $request->input("username");
+            $user->userName = $request->input("username");
             $user->role = $request->input("role");
             $user->email = $request->input("email");
             $user->password = bcrypt($request->input('password'));
