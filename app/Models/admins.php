@@ -26,6 +26,10 @@ class admins extends Model
         'address',
         'phonenumber'
     ];
+
+    public function users() {
+        return $this->hasMany('App\Models\User','user_id');
+    }
     
     public static $rules = [  
                  

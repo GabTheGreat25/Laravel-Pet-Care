@@ -33,8 +33,8 @@ class SendMailFired
        $email = 'email@address.com';
         //dd($customer);
         Mail::send( 'email.user_notification', ['fname' => $customer->firstName, 'lname' => $customer->lastName,], function($message) use ($customer) {
-            $message->from('test10@gmail.com');
-            $message->to('email@address.com');
+            $message->from('meantonettemedalla@tup.edu.ph');
+            $message->to('gabrielarafol.mendoza@tup.edu.ph');
             $message->subject('Thank you');
             $message->attach(public_path('/folder/thank_you.jpg'));
         });

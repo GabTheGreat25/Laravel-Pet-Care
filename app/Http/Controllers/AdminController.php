@@ -25,25 +25,24 @@ class AdminController extends Controller
             'job'=>'required|regex:/^[a-zA-Z\s]*$/',
             'address'=>'required|regex:/^[a-zA-Z\s]*$/',
             'phonenumber'=>'required|numeric',
+            'image' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
-
-        $user = new user();
         $admin = new admins();
       
-            $admin->user_id = User::pluck('id')->last(); 
-            // dd(User::pluck('id')->last());
+            $admin->user_id = User::latest()->pluck('id')->first();
+            // dd(User::latest()->pluck('id')->first());
             $admin->name = $request->input("name");
             $admin->job = $request->input("job");
             $admin->address = $request->input("address");
             $admin->phonenumber = $request->input("phonenumber");
 
-            if ($request->hasfile("img_path")) {
-                $file = $request->file("img_path");
-                $filename = $file->getClientOriginalName();
-                $file->move('images/admin/', $filename);
-                $admin->img_path = $filename;
-            }
-        
+        if ($request->hasfile("img_path")) {
+            $file = $request->file("img_path");
+            $filename =  $file->getClientOriginalName();
+            $file->move("images/admin/", $filename);
+            $admin->img_path = $filename;   
+        }
+
         $admin->save();
         return redirect()->route('admin.profile');
     }

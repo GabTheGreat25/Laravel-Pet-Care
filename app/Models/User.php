@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'userName',
         'email',
         'password',
         'role',
@@ -33,6 +33,10 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function admin() {
+        return $this->belongsTo('App\Models\admins');
+    }
 
     /**
      * The attributes that should be cast.
