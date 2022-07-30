@@ -1,11 +1,6 @@
 @extends('layouts.master')
 @section('content')
     <style>
-        body {
-            margin-top: 20px;
-
-        }
-
         .align-center {
             text-align: center;
         }
@@ -14,18 +9,6 @@
             display: block;
             padding: 0;
             margin: 0 auto;
-        }
-
-        @media (min-width: 768px) {
-            .hash-list.cols-3>li:nth-last-child(-n+3) {
-                /* border-bottom: none; */
-            }
-        }
-
-        @media (min-width: 768px) {
-            .hash-list.cols-3>li {
-                /* height: 33.3333%; */
-            }
         }
 
         .hash-list>li {
@@ -40,7 +23,7 @@
             padding: 30px;
         }
 
-        img {
+        .img {
             border: 0;
             border: .1rem solid black;
         }
@@ -110,7 +93,7 @@
             grid-template-columns: 1fr 1fr 1fr;
         }
 
-        span {
+        #spam {
             padding: 0 4rem;
         }
     </style>
@@ -127,17 +110,18 @@
                     <img src="{{ asset('images/customers/' . $customer->img_path) }}" alt="I am A Pic"
                         class="wpx-100 img-round mgb-20">
                     <div class="text">
-                        <span>ID: {{ $customer->id }}</span>
+                        <span id="spam">ID: {{ $customer->id }}</span>
                         {{-- <p class="fs-110 font-cond-l " contenteditable="false">
                             Job: {{ $customer->job }}
                         </p> --}}
                         <br>
-                        <span>User ID: {{ $customer->user_id }}</span>
+                        <span id="spam">User ID: {{ $customer->user_id }}</span>
                     </div>
                     <p class="info font-cond mgb-5 fg-text-d fs-130" contenteditable="false">Age: {{ $customer->age }}
-                        <p class="info font-cond mgb-5 fg-text-d fs-130" contenteditable="false">Sex: {{ $customer->sex }}
+                    <p class="info font-cond mgb-5 fg-text-d fs-130" contenteditable="false">Sex: {{ $customer->sex }}
 
-                    <p class="info font-cond mgb-5 fg-text-d fs-130" contenteditable="false">Address: {{ $customer->address }}
+                    <p class="info font-cond mgb-5 fg-text-d fs-130" contenteditable="false">Address:
+                        {{ $customer->address }}
                     </p>
                     <small class="font-cond case-u lts-sm fs-80 fg-text-l" contenteditable="false">Contact Number:
                         {{ $customer->phonenumber }}</small>
