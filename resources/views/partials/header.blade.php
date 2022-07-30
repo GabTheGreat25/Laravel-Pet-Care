@@ -1,6 +1,7 @@
-<nav class="navbar navbar-default" style="height: 7rem; padding-top: 1rem; font-size: 2rem; background-color:#d1d8e3;">
-    <div style="display: grid; grid-template-columns: 1.25fr 2fr 1fr; padding: 0 2rem;">
-        <div class="navbar-header">
+<nav class="navbar navbar-default" style="height: 7rem; padding-top: 1rem; font-size: 2rem; background-color:#d4e6be;">
+    <div style="display: grid; grid-template-columns: .1fr 1fr auto; padding: 0 2rem; justify-items: center; align-items:center;">
+       
+        <div class="navbar-header" style="display: grid; justify-self: start;">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                 data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
@@ -10,31 +11,16 @@
             </button>
             <img src="navbar-logo.png" alt="lol it work" style="width: 11rem; cursor:pointer;">
         </div>
+
         <div>
             <ul class="nav navbar-nav">
                 <li style="padding: 0 1rem;">
                     <a href="{{ url('/customers') }}">
-                        <i class="fa fa-users" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Customer
+                        <i class="fa fa-cart-plus" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Services
                     </a>
                 </li>
-                <li style="padding: 0 2rem;">
-                    <a href="{{ url('/animals') }}">
-                        <i class="fa fa-paw" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Animals
-                    </a>
-                </li style="padding: 0 2rem;">
-                <li>
-                    <a href="{{ url('/employees') }}">
-                        <i class="fa fa-user-circle" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Employee
-                    </a>
-                </li>
-                <li style="padding: 0 2rem;">
-                    <a href="{{ url('/services') }}">
-                        <i class="fa fa-cog" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Pet
-                        Services
-                    </a>
-                </li>
-            </ul>
-        </div>
+</ul>
+</div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
@@ -44,7 +30,8 @@
                             class="caret"></span></a>
                     <ul class="dropdown-menu" style="font-size: 1.75rem;">
                         @if (Auth::check())
-                            <li style="padding-left: 2rem;">
+                            <li style="padding-left: 2rem; white-space: nowrap; overflow: hidden;
+                            text-overflow: ellipsis;">
                                 <p> Welcome, {{ Auth::user()->userName }}</p>
                             </li>
                             <li role="separator" class="divider"></li>
