@@ -1,13 +1,6 @@
 @extends('layouts.master')
 @section('content')
     <style>
-        body {
-            margin-top: 20px;
-
-        }
-
-
-
         .align-center {
             text-align: center;
         }
@@ -16,18 +9,6 @@
             display: block;
             padding: 0;
             margin: 0 auto;
-        }
-
-        @media (min-width: 768px) {
-            .hash-list.cols-3>li:nth-last-child(-n+3) {
-                /* border-bottom: none; */
-            }
-        }
-
-        @media (min-width: 768px) {
-            .hash-list.cols-3>li {
-                /* height: 33.3333%; */
-            }
         }
 
         .hash-list>li {
@@ -42,7 +23,7 @@
             padding: 30px;
         }
 
-        img {
+        .img {
             border: 0;
             border: .1rem solid black;
         }
@@ -112,7 +93,7 @@
             grid-template-columns: 1fr 1fr 1fr;
         }
 
-        span {
+        #spam {
             padding: 0 4rem;
         }
     </style>
@@ -126,14 +107,14 @@
             <ul class="hash-list cols-3 cols-1-xs pad-30-all align-center text-sm">
                 <li>
                     <p>Admin Image</p>
-                    <img src="{{ asset('images/admin/' . $admin->img_path) }}" alt="I am A Pic"
+                    <img class="img" src="{{ asset('images/admin/' . $admin->img_path) }}" alt="I am A Pic"
                         class="wpx-100 img-round mgb-20">
                     <div class="text">
-                        <span>ID: {{ $admin->id }}</span>
+                        <span id="spam">ID: {{ $admin->id }}</span>
                         <p class="fs-110 font-cond-l " contenteditable="false">
                             Job: {{ $admin->job }}
                         </p>
-                        <span>User ID: {{ $admin->user_id }}</span>
+                        <span id="spam">User ID: {{ $admin->user_id }}</span>
                     </div>
                     <p class="info font-cond mgb-5 fg-text-d fs-130" contenteditable="false">Address: {{ $admin->address }}
                     </p>
