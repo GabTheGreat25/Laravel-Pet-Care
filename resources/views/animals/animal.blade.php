@@ -69,13 +69,18 @@
                                 style="display: inline-block; width: 150px; ">Breed</label>
                             <input type="text" id="Breed" class="form-control validate" name="Breed">
 
-                            <label data-error="wrong" data-success="right" for="sex" style="display: inline-block; width: 150px; ">Sex</label>
                             <div class="form-group">
-                                <select class="form-control validate" name="sex" id="sex">
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option> 
-                                </select>
-                              </div>
+                                <label for="Sex" class="control-label">{{ __('sex') }}</label>
+                                <div class="form-group">
+                                    <select class="form-control" name="Sex" value="{{ old('Sex') }}">
+                                        @if ($errors->has('Sex'))
+                                            <small>{{ $errors->first('Sex') }}</small>>
+                                        @endif
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+                            </div>
 
                             <label data-error="wrong" data-success="right" for="Color"
                                 style="display: inline-block; width: 150px; ">Color</label>
