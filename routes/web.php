@@ -50,7 +50,6 @@ Route::get('/animals', [
 ]);
 Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
 
-
    Route::group(['middleware' => 'guest'], function() {
           Route::get('signup', [
           'uses' => 'userController@getSignup',
@@ -68,13 +67,15 @@ Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
                   'uses' => 'LoginController@postSignin',
                   'as' => 'user.signin',
               ]);
+
       });
 
+     
       Route::group(['middleware' => 'role:admin'], function() {
         Route::get('profile', [
-         'uses' => 'UserController@getadminProfile',
-         'as' => 'admin.profile',
-        ]);
+            'uses' => 'UserController@getadminProfile',
+            'as' => 'admin.profile',
+           ]);
 
         Route::get('adminregister', [
             'uses' => 'AdminController@getregister',
@@ -86,6 +87,41 @@ Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
                     'as' => 'admin.register',
                 ]);
     });
+
+    Route::group(['middleware' => 'role:employee'], function() {
+        Route::get('profile', [
+            'uses' => 'UserController@getemployeeProfile',
+            'as' => 'employee.profile',
+           ]);
+
+        Route::get('employeeregister', [
+            'uses' => 'EmployeeController@getregister',
+            'as' => 'employee.registers',
+                ]);
+
+        Route::post('employeeregister', [
+                    'uses' => 'EmployeeController@postregistered',
+                    'as' => 'employee.register',
+                ]);
+    });
+
+    Route::group(['middleware' => 'role:customer'], function() {
+        Route::get('profile', [
+            'uses' => 'UserController@getcustomerProfile',
+            'as' => 'customer.profile',
+           ]);
+   
+        Route::get('customerregister', [
+            'uses' => 'CustomerController@getregister',
+            'as' => 'customer.registers',
+                ]);
+
+        Route::post('customerregister', [
+                    'uses' => 'CustomerController@postregistered',
+                    'as' => 'customer.register',
+                ]);
+    });
+
 
     //   Route::group(['middleware' => 'role:admin'], function() {
    

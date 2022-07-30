@@ -51,10 +51,23 @@
           width: 150px; ">Employee Name</label>
                             <input type="text" id="name" class="form-control validate" name="name">
 
-                            <label data-error="wrong" data-success="right" for="position"
+                            {{-- <label data-error="wrong" data-success="right" for="position"
                                 style="display: inline-block;
           width: 150px; ">Position</label>
                             <input type="text" id="position" class="form-control validate" name="position">
+                           --}}
+
+                            <div class="form-group">
+                                <label data-error="wrong" data-success="right" for="position" style="display: inline-block; width: 150px; ">Position</label><i style="color:red">*</i>
+                                <div class="form-group">
+                                    <select class="form-control" name="position" id="position">
+                                        <option value="Veterinarian">Veterinarian</option>
+                                        <option value="Groomer">Groomer</option>
+                                        <option value="Assistant">Assistant</option>
+                                    </select>
+                                </div>
+                            </div>
+                          
                             <label data-error="wrong" data-success="right" for="address"
                                 style="display: inline-block;
           width: 150px; ">Address</label>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\CustomerDataTable;
 use App\Models\Customer;
+use App\Models\user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -21,6 +22,51 @@ use Event;
 
 class CustomerController extends Controller
 {
+
+    public function __construct(){
+        $this->total = 0;
+    }
+    
+    public function getregister(){
+        return view('customers.register');
+    }
+
+    public function postregistered(Request $request)
+    {
+        $this->validate($request, [
+            'title' =>'required|regex:/^[a-zA-Z\s]*$/', 
+            'firstName'=>'required|regex:/^[a-zA-Z\s]*$/',
+            'lastName'=>'required|regex:/^[a-zA-Z\s]*$/',
+            'age'=>'required|numeric',
+            'address'=>'required|regex:/^[a-zA-Z\s]*$/',
+            'sex'=>'required|regex:/^[a-zA-Z\s]*$/',
+            'phonenumber'=>'required|numeric',
+            'image' => 'mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        $customer = new customer();
+      
+            $customer->user_id = User::latest()->pluck('id')->first();
+            // dd(User::latest()->pluck('id')->first());
+            $customer->title = $request->input("title");
+            $customer->firstName = $request->input("firstName");
+            $customer->lastName = $request->input("lastName");
+            $customer->age = $request->input("age");
+            $customer->address = $request->input("address");
+            $customer->sex = $request->input("sex");
+            $customer->phonenumber = $request->input("phonenumber");
+
+        if ($request->hasfile("img_path")) {
+            $file = $request->file("img_path");
+            $filename =  $file->getClientOriginalName();
+            $file->move("images/customers/", $filename);
+            $customer->img_path = $filename;   
+        }
+
+        $customer->save();
+        return redirect()->route('customer.profile');
+    }
+
     /**
      * Display a listing of the resource.
      *

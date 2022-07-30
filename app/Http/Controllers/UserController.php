@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; 
 use App\Models\User;
+use App\Models\Employee;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\admins;
@@ -39,9 +40,28 @@ class UserController extends Controller
             Auth::login($user);
             return redirect()->route('admin.registers');
 
-            }
+            } else if($request->role == 'employee'){
+                $user = new User();
+                $user->userName = $request->input("username");
+                $user->role = $request->input("role");
+                $user->email = $request->input("email");
+                $user->password = bcrypt($request->input('password'));
+                // $lastinsertedid=$user->id;
+                $user->save();
+                Auth::login($user);
+                return redirect()->route('employee.registers');
+             } else if($request->role == 'customer'){
+                $user = new User();
+                $user->userName = $request->input("username");
+                $user->role = $request->input("role");
+                $user->email = $request->input("email");
+                $user->password = bcrypt($request->input('password'));
+                // $lastinsertedid=$user->id;
+                $user->save();
+                Auth::login($user);
+                return redirect()->route('customer.registers');
+             } 
             
-
         else{
             return view('welcome');
             }
@@ -60,7 +80,17 @@ class UserController extends Controller
             $admin = admins::where('user_id',Auth::id())->first();
             return view('admin.profile',compact('admin'));
         }
-    
+
+    public function getemployeeProfile(){
+            $employee = employee::where('user_id',Auth::id())->first();
+            return view('employees.profile',compact('employee'));
+        }
+
+    public function getcustomerProfile(){
+            $customer = customer::where('user_id',Auth::id())->first();
+            return view('customers.profile',compact('customer'));
+        }
+
     public function getLogout(){
         Auth::logout();
         return redirect()->guest('/');

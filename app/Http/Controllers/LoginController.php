@@ -16,12 +16,15 @@ class LoginController extends Controller
             if(auth()->attempt(array('email' => $request->email, 'password' => $request->password)))
         {
             if (auth()->user()->role === 'admin') {
-                return redirect()->route('admin.profile');
-            } else if (auth()->user()->role === 'employee'){
-             return redirect()->route('employee');
+             return redirect()->route('admin.profile');
             } 
+
+            else if (auth()->user()->role === 'employee'){
+             return redirect()->route('employee.profile');
+            } 
+
             else {
-                return redirect()->route('customer');
+                return redirect()->route('customer.profile');
             }
         }
         else{
@@ -29,6 +32,7 @@ class LoginController extends Controller
                 ->with('error','Email-Address And Password Are Wrong.');
         }
      }
+    
      public function logout(){
         Auth::logout();
         return redirect()->guest('/');

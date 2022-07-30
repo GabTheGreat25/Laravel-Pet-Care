@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\EmployeeDataTable;
 use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -19,6 +20,45 @@ use App\Rules\ExcelRule;
 
 class EmployeeController extends Controller
 {
+
+    public function __construct(){
+        $this->total = 0;
+    }
+    
+    public function getregister(){
+        return view('employees.register');
+    }
+
+    public function postregistered(Request $request)
+    {
+        $this->validate($request, [
+            'name' =>'required|regex:/^[a-zA-Z\s]*$/', 
+            'position'=>'required|regex:/^[a-zA-Z\s]*$/',
+            'address'=>'required|regex:/^[a-zA-Z\s]*$/',
+            'phonenumber'=>'required|numeric',
+            'image' => 'mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        $employee = new employee();
+      
+            $employee->user_id = User::latest()->pluck('id')->first();
+            // dd(User::latest()->pluck('id')->first());
+            $employee->name = $request->input("name");
+            $employee->position = $request->input("position");
+            $employee->address = $request->input("address");
+            $employee->phonenumber = $request->input("phonenumber");
+
+        if ($request->hasfile("img_path")) {
+            $file = $request->file("img_path");
+            $filename =  $file->getClientOriginalName();
+            $file->move("images/employees/", $filename);
+            $employee->img_path = $filename;   
+        }
+
+        $employee->save();
+        return redirect()->route('employee.profile');
+    }
+
     /**
      * Display a listing of the resource.
      *
