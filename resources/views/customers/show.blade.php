@@ -1,5 +1,5 @@
 <body style="background-image: url(bg.png); background-size:cover;">
-@extends('html.master')
+@extends('html.customermaster')
 @section('title')
     Customer Show
 @endsection

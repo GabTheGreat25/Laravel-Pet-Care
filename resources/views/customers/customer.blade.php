@@ -1,4 +1,4 @@
-@extends('html.master')
+@extends('html.customermaster')
 @section('title')
     Customer Data Table
 @endsection
