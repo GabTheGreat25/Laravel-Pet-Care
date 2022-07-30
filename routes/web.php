@@ -72,7 +72,7 @@ Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
 
      
       Route::group(['middleware' => 'role:admin'], function() {
-        Route::get('profile', [
+        Route::get('adminProfile', [
             'uses' => 'UserController@getadminProfile',
             'as' => 'admin.profile',
            ]);
@@ -89,7 +89,7 @@ Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
     });
 
     Route::group(['middleware' => 'role:employee'], function() {
-        Route::get('profile', [
+        Route::get('employeeProfile', [
             'uses' => 'UserController@getemployeeProfile',
             'as' => 'employee.profile',
            ]);
@@ -106,7 +106,7 @@ Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
     });
 
     Route::group(['middleware' => 'role:customer'], function() {
-        Route::get('profile', [
+        Route::get('customerProfile', [
             'uses' => 'UserController@getcustomerProfile',
             'as' => 'customer.profile',
            ]);
