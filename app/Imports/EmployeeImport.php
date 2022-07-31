@@ -2,26 +2,45 @@
 
 namespace App\Imports;
 
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
+use App\Models\User;
 use App\Models\Employee;
-use Maatwebsite\Excel\Concerns\ToModel;
+use DB;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class EmployeeImport implements ToModel, WithHeadingRow 
+class EmployeeImport implements ToCollection, WithHeadingRow 
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
+  /**
+    * @param Collection $collection
     */
-    public function model(array $row)
+    public function collection(Collection $rows)
     {
-        return new Employee([
-            'name' => $row['employee_name'],
-            'position' => $row['position'],
-            'address' => $row['address'],
-            'phonenumber' => $row['phone_number'],
-            'img_path' => 'default.jpeg',
-        ]);
+        foreach ($rows as $row) 
+        {
+            
+            $user = new User();
+
+            $user->userName = $row['user'];
+            $user->email = $row['email'];
+            $user->password = bcrypt('1234');
+            $user->role = 'employee';
+
+            $employee = new Employee();
+            $user->save();
+
+            $employee->user_id = DB::getPdo()->lastInsertId();
+            $employee->name = $row['employee_name'];
+            $employee->position = $row['position'];
+            $employee->address = $row['address'];
+            $employee->phonenumber = $row['phone_number'];
+            $employee->img_path = 'images/employees/default.jpg';
+
+            $employee->save();
+            $employee->user()->associate($user->id);
+
+        }
     }
 }
 
