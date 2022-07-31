@@ -214,21 +214,23 @@ class CustomerController extends Controller
             return redirect()->back()->withInput()->withErrors($validator);
         }
 
-        if ($validator->passes()) {
-            $path = Storage::putFileAs('/images/customers/', $request->file('image'), $request->file('image')->getClientOriginalName());
+       if ($validator->passes()) {
+            $path = Storage::putFileAs('/images/customers/', $request->file('img_path'), $request->file('img_path')->getClientOriginalName());
 
-            $request->merge(["img_path" => $request->file('image')->getClientOriginalName()]);
+            $request->merge(["img_path" => $request->file('img_path')->getClientOriginalName()]);
 
             $input = $request->all();
 
-            if ($file = $request->hasFile('image')) {
-                $file = $request->file('image');
+            if ($file = $request->hasFile('img_path')) {
+                $file = $request->file('img_path');
                 $fileName = $file->getClientOriginalName();
                 $destinationPath = public_path() . '/images/customers';
                 $input['img_path'] = 'images/customers/' . $fileName;
                 $customers->update($input);
                 $file->move($destinationPath, $fileName);
-                return Redirect::route("customer.profile");
+                return Redirect::route("getCustomer")->with(
+                    "Customer Updated!"
+                );
             }
         }
     }
@@ -262,7 +264,7 @@ class CustomerController extends Controller
                 $input['img_path'] = 'images/customers/' . $fileName;
                 $customers->update($input);
                 $file->move($destinationPath, $fileName);
-                return Redirect::route("getCustomer")->with(
+                return Redirect::route("customer.profile")->with(
                     "Customer Updated!"
                 );
             }
