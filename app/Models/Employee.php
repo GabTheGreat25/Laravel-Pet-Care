@@ -13,7 +13,12 @@ class Employee extends Model
         "position" => ["required"],
         "address" => ["required", "min:3"],
         "phonenumber" => ["required", "numeric"],
+        'img_path' => ['mimes:jpeg,png,jpg,gif,svg'],
     ];
+
+    public function user() {
+        return $this->belongsTO('App\Models\User');
+    }
 
     use HasFactory;
 
