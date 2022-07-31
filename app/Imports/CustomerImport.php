@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use App\Models\User;
 use App\Models\Customer;
 use DB;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -24,7 +25,7 @@ class CustomerImport implements ToCollection, WithHeadingRow
 
             $user->userName = $row['user'];
             $user->email = $row['email'];
-            $user->password = bcrypt('1234');
+            $user->password =  Hash::make($row['password']);
             $user->role = 'customer';
 
             $customer = new Customer();
