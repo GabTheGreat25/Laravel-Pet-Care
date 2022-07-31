@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
@@ -175,7 +176,49 @@ class CustomerController extends Controller
         $customers = Customer::find($id);
         return view("customers.edit")->with("customers", $customers);
     }
+ 
 
+    public function getedit($id)
+    {
+        //
+        // $customers =  Customer::where($id,Auth::id());
+        // $customers = Customer::where('id',Auth::id())->first();
+        // // $customers = Customer::find($id);
+        // return view("customers.edit")->with("customers", $customers);
+
+        $customers = Customer::where('user_id',Auth::id())->first();
+        $user = user::with('customer','users')->where('id',$customers->id)->get();
+        // return view('customers.edit',compact('user'));
+        return view("customers.profileedit")->with("customers", $customers);
+    }
+
+    public function postupdate(Request $request, $id)
+    {
+        $customers = Customer::find($id);
+        $validator = Validator::make($request->all(), Customer::$valRules);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
+
+        if ($validator->passes()) {
+            $path = Storage::putFileAs('/images/customers/', $request->file('image'), $request->file('image')->getClientOriginalName());
+
+            $request->merge(["img_path" => $request->file('image')->getClientOriginalName()]);
+
+            $input = $request->all();
+
+            if ($file = $request->hasFile('image')) {
+                $file = $request->file('image');
+                $fileName = $file->getClientOriginalName();
+                $destinationPath = public_path() . '/images/customers';
+                $input['img_path'] = 'images/customers/' . $fileName;
+                $customers->update($input);
+                $file->move($destinationPath, $fileName);
+                return Redirect::route("customer.profile");
+            }
+        }
+    }
     /**
      * Update the specified resource in storage.
      *
