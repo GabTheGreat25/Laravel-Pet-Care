@@ -28,13 +28,13 @@
                 </li >
 
                 <li style="padding: 0 1rem;">
-                    <a href="{{ url('/services') }}">
+                    <a href="{{ url('customerProfile') }}">
                         <i class="fa fa-id-card" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Profile
                     </a>
                 </li>
 
                 <li style="padding: 0 1rem;">
-                    <a href="{{ url('/customers') }}">
+                    <a href="{{ url('/customer/edit/{id}') }}">
                         <i class="fa fa-info-circle" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Update Profile
                     </a>
                 </li>
