@@ -1,4 +1,4 @@
-@extends('html.master')
+@extends('html.usermaster')
 @section('title')
     animal Edit
 @endsection

@@ -17,7 +17,6 @@
                     'enctype' => 'multipart/form-data',
                 ]) }}
                 <div>
-
                     <div>
                         <label for="title">Title</label>
                         {{ Form::text('title', null, [
@@ -62,50 +61,46 @@
                                     @endif
                                 </div>
 
-                                <div>
-                                    <label for="address">Address</label>
-                                    {{ Form::text('address', null, ['id' => 'address']) }}
-                                    @if ($errors->has('address'))
-                                        <p>{{ $errors->first('address') }}</p>
-                                    @endif
-                                </div>
+                    <div>
+                        <label for="address">Address</label>
+                        {{ Form::text('address', null, ['id' => 'address']) }}
+                        @if ($errors->has('address'))
+                            <p>{{ $errors->first('address') }}</p>
+                        @endif
+                    </div>
 
-                                <div>
-                                    <label for="sex">Sex</label>
-                                    {{ Form::text('sex', null, [
-                                        'id' => 'sex',
-                                    ]) }}
-                                    @if ($errors->has('sex'))
-                                        <p>{{ $errors->first('sex') }}</p>
-                                    @endif
-                                </div>
+                    <div>
+                        <label for="sex">Sex</label>
+                        {{ Form::text('sex', null, [
+                            'id' => 'sex',
+                        ]) }}
+                        @if ($errors->has('sex'))
+                            <p>{{ $errors->first('sex') }}</p>
+                        @endif
+                    </div>
 
-                                <div>
-                                    <label for="phonenumber">Phone Number</label>
-                                    {{ Form::text('phonenumber', null, ['id' => 'phonenumber']) }}
-                                    @if ($errors->has('phonenumber'))
-                                        <p>{{ $errors->first('phonenumber') }}</p>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
+                    <div>
+                        <label for="phonenumber">Phone Number</label>
+                        {{ Form::text('phonenumber', null, ['id' => 'phonenumber']) }}
+                        @if ($errors->has('phonenumber'))
+                            <p>{{ $errors->first('phonenumber') }}</p>
+                        @endif
+                    </div>
+
+                    <label data-error="wrong" data-success="right" for="image"
+                        style="display: inline-block;
+          width: 150px; ">Customer Image</label>
+                    <input type="file" id="image" class="form-control validate" name="image">
+
+                    <div>
+                        <button type="submit">
+                            Submit
+                        </button>
+                        <a href="{{ url()->previous() }}" role="button">Cancel</a>
                     </div>
                 </div>
-            </div>
-            <label data-error="wrong" data-success="right" for="img_path"
-                style="display: inline-block;
-          width: 150px; ">Customer Image</label>
-            <input type="file" id="img_path" class="form-control validate" name="img_path">
-
-            <div>
-                <button type="submit">
-                    Submit
-                </button>
-                <a href="{{ url()->previous() }}" role="button">Cancel</a>
+                </form>
             </div>
         </div>
-        </form>
-    </div>
-    </div>
     </div>
 @endsection

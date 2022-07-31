@@ -9,20 +9,38 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="{{ url('/') }}">
-                <img src="navbar-logo.png" alt="lol it work" style="width: 11rem;">
-            </a>
+            <img src="navbar-logo.png" alt="lol it work" style="width: 11rem; cursor:pointer;">
         </div>
 
         <div>
             <ul class="nav navbar-nav">
-                <li style="padding: 0 1rem;">
-                    <a href="{{ url('/customers') }}">
-                        <i class="fa fa-cart-plus" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Services
+
+                <li style="padding: 0 2rem;">
+                    <a href="{{ url('/employees') }}">
+                        <i class="fa fa-shopping-bag" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Cart
                     </a>
                 </li>
-</ul>
-</div>
+
+                <li style="padding: 0 2rem;">
+                    <a href="{{ url('/animals') }}">
+                        <i class="fa fa-paw" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Pet
+                    </a>
+                </li >
+
+                <li style="padding: 0 1rem;">
+                    <a href="{{ url('customerProfile') }}">
+                        <i class="fa fa-id-card" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Profile
+                    </a>
+                </li>
+
+                <li style="padding: 0 1rem;">
+                    <a href="{{ url('/customer/edit/{id}') }}">
+                        <i class="fa fa-info-circle" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Update Profile
+                    </a>
+                </li>
+             
+            </ul>
+        </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
