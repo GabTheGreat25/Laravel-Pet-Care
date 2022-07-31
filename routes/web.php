@@ -55,7 +55,7 @@ Route::post('/service/import', 'ServiceController@import')->name('serviceImport'
 
       });
 
-      Route::group(['middleware' => 'role:admin, employee'], function() {
+      Route::group(['middleware' => 'role:admin,employee'], function() {
         Route::resource("/service", ServiceController::class)->except(['index', 'service']);
 
         Route::get('/services', [
