@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\CustomerDataTable;
 use App\Models\Customer;
-use App\Models\user;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -41,7 +41,7 @@ class CustomerController extends Controller
             'address'=>'required|regex:/^[a-zA-Z\s]*$/',
             'sex'=>'required|regex:/^[a-zA-Z\s]*$/',
             'phonenumber'=>'required|numeric',
-            'image' => 'mimes:jpeg,png,jpg,gif,svg',
+            'img_path' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         $customer = new customer();
@@ -56,11 +56,12 @@ class CustomerController extends Controller
             $customer->sex = $request->input("sex");
             $customer->phonenumber = $request->input("phonenumber");
 
-        if ($request->hasfile("img_path")) {
+        if ($file = $request->hasfile("img_path")) {
             $file = $request->file("img_path");
             $filename =  $file->getClientOriginalName();
-            $file->move("images/customers/", $filename);
-            $customer->img_path = $filename;   
+            $destinationPath = public_path() . '/images/customers';
+            $customer->img_path = '/images/customers/' . $filename;   
+            $file->move($destinationPath,$filename); 
         }
 
         $customer->save();
@@ -75,7 +76,29 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        $customers = Customer::leftJoin(
+            "animals",
+            "customers.id",
+            "=",
+            "animals.customer_id"
+        )
+            ->select(
+                "customers.id",
+                "customers.title",
+                "customers.firstName",
+                "customers.lastName",
+                "customers.age",
+                "customers.address",
+                "customers.sex",
+                "customers.phonenumber",
+                "customers.img_path",
+                "customers.deleted_at",
+            )
+            ->orderBy("customers.id", "ASC")
+            ->onlyTrashed()
+            ->paginate(6);
+
+            return view("customers.index", ["customers" => $customers]);
     }
 
     /**
@@ -98,21 +121,39 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
-        $input = $request->all();
-        $request->validate([
-             'image' => ['mimes:jpeg,png,jpg,gif,svg' ]
+        $user = new User([
+            'userName' => $request->firstName,
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+            'role' => $request->role,
+        ]);
+         $user->save();
+
+        $this->validate($request, [
+            'img_path' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
 
-        if($file = $request->hasFile('image')) {
-            $file = $request->file('image') ;
-            $fileName = $file->getClientOriginalName();
+        $customer = new customer();
+       
+            $customer->user_id = User::latest()->pluck('id')->first();
+            // dd(User::latest()->pluck('id')->first());
+            $customer->title = $request->input("title");
+            $customer->firstName = $request->input("firstName");
+            $customer->lastName = $request->input("lastName");
+            $customer->age = $request->input("age");
+            $customer->address = $request->input("address");
+            $customer->sex = $request->input("sex");
+            $customer->phonenumber = $request->input("phonenumber");
+
+        if ($file = $request->hasfile("img_path")) {
+            $file = $request->file("img_path");
+            $filename =  $file->getClientOriginalName();
             $destinationPath = public_path() . '/images/customers';
-            $input['img_path'] = '/images/customers/' . $fileName;
-           
-            $file->move($destinationPath,$fileName); 
+            $customer->img_path = '/images/customers/' . $filename;   
+            $file->move($destinationPath,$filename); 
         }
 
-        $customer = Customer::create($input);
+        $customer->save();
         Event::dispatch(new SendMail($customer));   
         return Redirect::route("getCustomer")->with(
             "New Customer Added!"
@@ -165,14 +206,14 @@ class CustomerController extends Controller
         }
 
         if ($validator->passes()) {
-            $path = Storage::putFileAs('/images/customers/', $request->file('image'), $request->file('image')->getClientOriginalName());
+            $path = Storage::putFileAs('/images/customers/', $request->file('img_path'), $request->file('img_path')->getClientOriginalName());
 
-            $request->merge(["img_path" => $request->file('image')->getClientOriginalName()]);
+            $request->merge(["img_path" => $request->file('img_path')->getClientOriginalName()]);
 
             $input = $request->all();
 
-            if ($file = $request->hasFile('image')) {
-                $file = $request->file('image');
+            if ($file = $request->hasFile('img_path')) {
+                $file = $request->file('img_path');
                 $fileName = $file->getClientOriginalName();
                 $destinationPath = public_path() . '/images/customers';
                 $input['img_path'] = 'images/customers/' . $fileName;
