@@ -53,10 +53,10 @@
                         @endif
                     </div>
 
-                    <label data-error="wrong" data-success="right" for="image"
+                    <label data-error="wrong" data-success="right" for="img_path"
                         style="display: inline-block;
           width: 150px; ">Employee Image</label>
-                    <input type="file" id="image" class="form-control validate" name="image">
+                    <input type="file" id="img_path" class="form-control validate" name="img_path">
 
                     <div>
                         <button type="submit">

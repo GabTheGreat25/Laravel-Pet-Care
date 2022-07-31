@@ -17,11 +17,17 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', function () {
-    return view('welcome');
-    });
+    return view('home');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::resource("/service", ServiceController::class)->except(['index', 'service']);
+Route::get('/services', [
+    'uses' => 'ServiceController@getService',
+    'as' => 'getService',
+]);
+Route::post('/service/import', 'ServiceController@import')->name('serviceImport');
 
    Route::group(['middleware' => 'guest'], function() {
 

@@ -119,15 +119,16 @@
         <div class="center">
             <ul class="hash-list cols-3 cols-1-xs pad-30-all align-center text-sm">
                 <li>
+                
                     {{-- <p>Employee Image</p> --}}
-                    <img  class="img" src="{{ asset('images/employees/' . $employee->img_path) }}" alt="I am A Pic"
+                    <img  class="img" src="{{ asset($employee->img_path) }}" alt="I am A Pic"
                      alt="employee Profile" width="200" height="210">
                    
                      <br>
                      <h5>═════════════════════════════════════════</h5>
 
                         <span id="spam">𝐈𝐃:  <i style="color:rgb(151, 81, 66)">{{ $employee->id }}</i></span>
-                     
+                   
                         <p class="fs-110 font-cond-l " contenteditable="false">
                             𝐏𝐨𝐬𝐢𝐭𝐢𝐨𝐧: <i style="color:rgb(151, 81, 66)">{{ $employee->position }}</i>
                         </p>

@@ -16,12 +16,8 @@ class Customer extends Model
         "address" => ["required", "min:3"],
         "sex" => ["required"],
         "phonenumber" => ["required", "numeric"],
-        'image' => ['mimes:jpeg,png,jpg,gif,svg'],
+        'img_path' => ['mimes:jpeg,png,jpg,gif,svg'],
     ];
-
-    public function animals() {
-        return $this->hasMany('App\Models\Animal','customer_id');
-    }
 
     use HasFactory;
     use SoftDeletes;
@@ -35,6 +31,14 @@ class Customer extends Model
     protected $primaryKey = "id";
 
     protected $guarded = ["id"];
+
+    public function animals() {
+        return $this->hasMany('App\Models\Animal','customer_id');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\Models\User');
+    }
 
     public function orders(){
         return $this->hasMany('App\Models\Order','customer_id');

@@ -9,7 +9,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <img src="navbar-logo.png" alt="lol it work" style="width: 11rem; cursor:pointer;">
+            <a href="{{ url('/') }}">
+                <img src="navbar-logo.png" alt="lol it work" style="width: 11rem;">
+            </a>
         </div>
 
         <div>

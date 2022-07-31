@@ -118,7 +118,7 @@
             <ul class="hash-list cols-3 cols-1-xs pad-30-all align-center text-sm">
                 <li>
                     {{-- <p>Customer Image</p> --}}
-                    <img class="img" src="{{ asset('images/customers/' . $customer->img_path) }}" alt="I am A Pic"
+                    <img class="img" src="{{ asset($customer->img_path) }}" alt="I am A Pic"
                           alt="customer Profile" width="200" height="210">
                        
                           <br>
