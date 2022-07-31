@@ -1,5 +1,5 @@
 <body style="background-image: url(infos.png); background-size:cover;"></body>
-@extends('layouts.customermaster')
+@extends('layouts.master')
 @section('content')
     <div class="container">
 

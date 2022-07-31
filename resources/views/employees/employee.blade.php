@@ -1,4 +1,4 @@
-@extends('html.employeemaster')
+@extends('html.usermaster')
 @section('title')
     Employee Data Table
 @endsection

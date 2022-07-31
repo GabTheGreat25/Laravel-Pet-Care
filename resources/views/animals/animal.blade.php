@@ -1,4 +1,4 @@
-@extends('html.employeemaster')
+@extends('html.usermaster')
 @section('title')
     animal Data Table
 @endsection
