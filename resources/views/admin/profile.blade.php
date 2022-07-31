@@ -1,4 +1,4 @@
-@extends('layouts.adminmaster')
+@extends('layouts.usermaster')
 @section('content')
 <style>
     .align-center {
