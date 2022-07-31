@@ -107,8 +107,7 @@
             <ul class="hash-list cols-3 cols-1-xs pad-30-all align-center text-sm">
                 <li>
                     <p>Customer Image</p>
-                    <img src="{{ asset('images/customers/' . $customer->img_path) }}" alt="I am A Pic"
-                        class="wpx-100 img-round mgb-20">
+                    <img src="{{ asset($customer->img_path) }}" alt="I am A Pic" class="wpx-100 img-round mgb-20">
                     <div class="text">
                         <span id="spam">ID: {{ $customer->id }}</span>
                         {{-- <p class="fs-110 font-cond-l " contenteditable="false">

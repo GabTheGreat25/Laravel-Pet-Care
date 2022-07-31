@@ -41,48 +41,62 @@
                     </button>
                 </div>
                 <form method="POST" action="{{ url('customer') }}" enctype="multipart/form-data">
-                    {{ csrf_field() }}  
+                    {{ csrf_field() }}
 
                     <div class="modal-body mx-3" id="inputfacultyModal">
                         <div class="md-form mb-5">
                             <i class="fas fa-user prefix grey-text"></i>
+
+                            <label data-error="wrong" data-success="right" for="role"
+                                style="display: inline-block; width: 150px; ">Role</label>
+                            <input type="text" id="role" class="form-control validate" name="role"
+                                value="customer" readonly>
+
+                            <label data-error="wrong" data-success="right" for="email"
+                                style="display: inline-block; width: 150px; ">Email</label>
+                            <input type="email" id="email" class="form-control validate" name="email">
+
+                            <label data-error="wrong" data-success="right" for="password"
+                                style="display: inline-block; width: 150px; ">Password</label>
+                            <input type="password" id="password" class="form-control validate" name="password">
 
                             <label data-error="wrong" data-success="right" for="title"
                                 style="display: inline-block; width: 150px; ">Title</label>
                             <input type="text" id="title" class="form-control validate" name="title">
 
                             <label data-error="wrong" data-success="right" for="firstName"
-                            style="display: inline-block; width: 150px; ">First Name</label>
+                                style="display: inline-block; width: 150px; ">First Name</label>
                             <input type="text" id="firstName" class="form-control validate" name="firstName">
 
-                        <label data-error="wrong" data-success="right" for="lastName"
-                        style="display: inline-block; width: 150px; ">Last Name</label>
-                         <input type="text" id="lastName" class="form-control validate" name="lastName">
+                            <label data-error="wrong" data-success="right" for="lastName"
+                                style="display: inline-block; width: 150px; ">Last Name</label>
+                            <input type="text" id="lastName" class="form-control validate" name="lastName">
 
                             <label data-error="wrong" data-success="right" for="age"
                                 style="display: inline-block; width: 150px; ">Age</label>
                             <input type="text" id="age" class="form-control validate" name="age">
-                            
+
                             <label data-error="wrong" data-success="right" for="address"
                                 style="display: inline-block; width: 150px; ">Address</label>
                             <input type="text" id="address" class="form-control validate" name="address">
 
                             <label data-error="wrong" data-success="right" for="phonenumber"
-                            style="display: inline-block; width: 150px; ">Phone Number</label>
-                        <input type="text" id="phonenumber" class="form-control validate" name="phonenumber">
-                        
-                            <label data-error="wrong" data-success="right" for="sex" style="display: inline-block; width: 150px; ">Sex</label>
+                                style="display: inline-block; width: 150px; ">Phone Number</label>
+                            <input type="text" id="phonenumber" class="form-control validate" name="phonenumber">
+
+                            <label data-error="wrong" data-success="right" for="sex"
+                                style="display: inline-block; width: 150px; ">Sex</label>
                             <div class="form-group">
                                 <select class="form-control validate" name="sex" id="sex">
                                     <option value="Male">Male</option>
-                                    <option value="Female">Female</option> 
+                                    <option value="Female">Female</option>
                                 </select>
-                              </div>
-                            
-                            <label data-error="wrong" data-success="right" for="image"
+                            </div>
+
+                            <label data-error="wrong" data-success="right" for="img_path"
                                 style="display: inline-block; width: 150px; ">Customer Image</label>
-                            <input type="file" id="image" class="form-control validate" name="image">
-                       
+                            <input type="file" id="img_path" class="form-control validate" name="img_path">
+
                         </div>
 
                         <div class="modal-footer d-flex justify-content-center">

@@ -8,6 +8,7 @@ use App\Models\Animal;
 use App\Models\Customer;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 class AnimalImport implements ToCollection, WithHeadingRow
 {
   /**
@@ -33,6 +34,7 @@ class AnimalImport implements ToCollection, WithHeadingRow
             $animal->Breed = $row['breed'];
             $animal->Sex = $row['sex'];
             $animal->Color = $row['color'];
+            $animal->img_path = 'images/animals/default.jpg';
             $animal->customer()->associate($customer);
             $animal->save();
         }

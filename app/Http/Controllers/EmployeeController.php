@@ -36,7 +36,7 @@ class EmployeeController extends Controller
             'position'=>'required|regex:/^[a-zA-Z\s]*$/',
             'address'=>'required|regex:/^[a-zA-Z\s]*$/',
             'phonenumber'=>'required|numeric',
-            'image' => 'mimes:jpeg,png,jpg,gif,svg',
+            'img_path' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         $employee = new employee();
@@ -87,26 +87,39 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        $request->validate([
-        "name" => ["required", "min:3"],
-        "position" => ["required"],
-        "address" => ["required", "min:3"],
-        "phonenumber" => ["required", "numeric"],
-        'image' => ['mimes:jpeg,png,jpg,gif,svg'],
+        $user = new User([
+            'userName' => $request->name,
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+            'role' => $request->role,
         ]);
-        if ($file = $request->hasFile('image')) {
+         $user->save();
 
-            $file = $request->file('image');
-            $fileName = $file->getClientOriginalName();
+        $this->validate($request, [
+            'img_path' => 'mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        $employee = new Employee();
+       
+            $employee->user_id = User::latest()->pluck('id')->first();
+            // dd(User::latest()->pluck('id')->first());
+            $employee->name = $request->input("name");
+            $employee->position = $request->input("position");
+            $employee->address = $request->input("address");
+            $employee->phonenumber = $request->input("phonenumber");
+
+        if ($file = $request->hasfile("img_path")) {
+            $file = $request->file("img_path");
+            $filename =  $file->getClientOriginalName();
             $destinationPath = public_path() . '/images/employees';
-            $input['img_path'] = '/images/employees/' . $fileName;
-            $file->move($destinationPath, $fileName);
+            $employee->img_path = '/images/employees/' . $filename;   
+            $file->move($destinationPath,$filename); 
         }
-        Employee::create($input);
+
+        $employee->save();
         return Redirect::route("getEmployee")->with(
             "New Employee Added!"
-        );
+         );
     }
 
     /**
@@ -153,17 +166,17 @@ class EmployeeController extends Controller
         }
 
         if ($validator->passes()) {
-            $path = Storage::putFileAs('/folder/images/', $request->file('image'), $request->file('image')->getClientOriginalName());
+            $path = Storage::putFileAs('/images/employees/', $request->file('img_path'), $request->file('img_path')->getClientOriginalName());
 
-            $request->merge(["img_path" => $request->file('image')->getClientOriginalName()]);
+            $request->merge(["img_path" => $request->file('img_path')->getClientOriginalName()]);
 
             $input = $request->all();
 
-            if ($file = $request->hasFile('image')) {
-                $file = $request->file('image');
+            if ($file = $request->hasFile('img_path')) {
+                $file = $request->file('img_path');
                 $fileName = $file->getClientOriginalName();
-                $destinationPath = public_path() . '/folder/images';
-                $input['img_path'] = 'folder/images/' . $fileName;
+                $destinationPath = public_path() . '/images/employees/';
+                $input['img_path'] = 'images/employees/' . $fileName;
                 $employees->update($input);
                 $file->move($destinationPath, $fileName);
                 return Redirect::route("getEmployee")->with(
