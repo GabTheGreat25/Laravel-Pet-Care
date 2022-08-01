@@ -48,9 +48,15 @@
 
                             <div class="md-form mb-5">
                                 <label for="customer">Customer:</label>
-                                {!! Form::select('customer_id', App\Models\Customer::pluck('firstName', 'id'), null, [
-                                    'class' => 'form-control',
-                                ]) !!}
+                                {!! Form::text(
+                                    'customer_id',
+                                    App\Models\Customer::where('user_id', Auth::id())->latest()->pluck('id')->first(),
+                                    ['readonly'],
+                                    null,
+                                    [
+                                        'class' => 'form-control validate',
+                                    ],
+                                ) !!}
                             </div>
 
                             <label data-error="wrong" data-success="right" for="petName"
