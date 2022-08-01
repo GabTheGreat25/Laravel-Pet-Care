@@ -77,6 +77,9 @@ Route::post('/service/import', 'ServiceController@import')->name('serviceImport'
             'uses' => 'customerController@getCustomer',
             'as' => 'getCustomer',
         ]);
+
+        Route::resource("/customer", CustomerController::class)->except(['index', 'customer']);
+        
         Route::post('/customer/import', 'CustomerController@import')->name('customerImport');
 
     });
@@ -145,9 +148,8 @@ Route::post('/service/import', 'ServiceController@import')->name('serviceImport'
                     'as' => 'customer.register',
                 ]);
 
+                Route::resource("/customer", CustomerController::class)->except(['index', 'customer']);
                 
-Route::resource("/customer", CustomerController::class)->except(['index', 'customer']);
-
 Route::get('/customer/edit/{id}', [
     'uses' => 'CustomerController@getedit',
     'as' => 'customer.profileedit',

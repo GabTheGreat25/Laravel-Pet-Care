@@ -120,7 +120,7 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(Request $request)
+    public function store(Request $request) 
     {
         $user = new User([
             'userName' => $request->firstName,
