@@ -1,6 +1,7 @@
 <nav class="navbar navbar-default" style="height: 7rem; padding-top: 1rem; font-size: 2rem; background-color:#d4e6be;">
-    <div style="display: grid; grid-template-columns: .1fr 1fr auto; padding: 0 2rem; justify-items: center; align-items:center;">
-       
+    <div
+        style="display: grid; grid-template-columns: .1fr .9fr auto; padding: 0 2rem; justify-items: center; align-items:center;">
+
         <div class="navbar-header" style="display: grid; justify-self: start;">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                 data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -25,7 +26,7 @@
                     <a href="{{ url('/animals') }}">
                         <i class="fa fa-paw" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Pet
                     </a>
-                </li >
+                </li>
 
                 <li style="padding: 0 1rem;">
                     <a href="{{ url('customerProfile') }}">
@@ -35,10 +36,18 @@
 
                 <li style="padding: 0 1rem;">
                     <a href="{{ url('/customer/edit/{id}') }}">
-                        <i class="fa fa-info-circle" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Update Profile
+                        <i class="fa fa-info-circle" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Update
+                        Profile
                     </a>
                 </li>
-             
+
+                <li style="padding: 0 1rem;">
+                    <a href="{{ url('animals') }}">
+                        <i class="fa fa-plus" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Add Your Own
+                        Pet
+                    </a>
+                </li>
+
             </ul>
         </div>
 
@@ -50,7 +59,8 @@
                             class="caret"></span></a>
                     <ul class="dropdown-menu" style="font-size: 1.75rem;">
                         @if (Auth::check())
-                            <li style="padding-left: 2rem; white-space: nowrap; overflow: hidden;
+                            <li
+                                style="padding-left: 2rem; white-space: nowrap; overflow: hidden;
                             text-overflow: ellipsis;">
                                 <p> Welcome, {{ Auth::user()->userName }}</p>
                             </li>
