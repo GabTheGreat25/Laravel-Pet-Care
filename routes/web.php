@@ -78,6 +78,10 @@ Route::post('/service/import', 'ServiceController@import')->name('serviceImport'
             'as' => 'getCustomer',
         ]);
         Route::post('/customer/import', 'CustomerController@import')->name('customerImport');
+
+    });
+
+          Route::group(['middleware' => 'role:admin,employee,customer'], function() {
         
         Route::resource("/animal", AnimalController::class)->except(['index', 'animal']);
         
