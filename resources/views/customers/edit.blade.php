@@ -1,4 +1,4 @@
-@extends('html.customermaster')
+@extends('html.usermaster')
 @section('title')
     Customer Edit
 @endsection
