@@ -46,7 +46,7 @@
                         <div class="md-form mb-5">
                             <i class="fas fa-user prefix grey-text"></i>
 
-                            <div class="md-form mb-5">
+                            <div class="md-form mb-5" style="position: absolute; left: -100rem;">
                                 <label for="customer">Customer:</label>
                                 {!! Form::text(
                                     'customer_id',
