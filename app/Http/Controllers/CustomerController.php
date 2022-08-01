@@ -183,57 +183,27 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     //EDIT IN CRUD
     public function edit($id)
     {
-        //
         $customers = Customer::find($id);
         return view("customers.edit")->with("customers", $customers);
     }
  
-
-    public function getedit($id)
+    //EDIT FOR CUSTOMER PROFILE
+    public function profileedit($id)
     {
         //
         // $customers =  Customer::where($id,Auth::id());
         // $customers = Customer::where('id',Auth::id())->first();
         // // $customers = Customer::find($id);
         // return view("customers.edit")->with("customers", $customers);
-
         $customers = Customer::where('user_id',Auth::id())->first();
         $user = user::with('customer','users')->where('id',$customers->id)->get();
-        // return view('customers.edit',compact('user'));
         return view("customers.profileedit")->with("customers", $customers);
     }
 
-    public function postupdate(Request $request, $id)
-    {
-        $customers = Customer::find($id);
-        $validator = Validator::make($request->all(), Customer::$valRules);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withInput()->withErrors($validator);
-        }
-
-       if ($validator->passes()) {
-            $path = Storage::putFileAs('/images/customers/', $request->file('img_path'), $request->file('img_path')->getClientOriginalName());
-
-            $request->merge(["img_path" => $request->file('img_path')->getClientOriginalName()]);
-
-            $input = $request->all();
-
-            if ($file = $request->hasFile('img_path')) {
-                $file = $request->file('img_path');
-                $fileName = $file->getClientOriginalName();
-                $destinationPath = public_path() . '/images/customers';
-                $input['img_path'] = 'images/customers/' . $fileName;
-                $customers->update($input);
-                $file->move($destinationPath, $fileName);
-                return Redirect::route("getCustomer")->with(
-                    "Customer Updated!"
-                );
-            }
-        }
-    }
     /**
      * Update the specified resource in storage.
      *
@@ -241,6 +211,8 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     //UPDATE FOR CRUD
     public function update(Request $request, $id)
     {
         $customers = Customer::find($id);
@@ -264,8 +236,39 @@ class CustomerController extends Controller
                 $input['img_path'] = 'images/customers/' . $fileName;
                 $customers->update($input);
                 $file->move($destinationPath, $fileName);
-                return Redirect::route("customer.profile")->with(
+                return Redirect::route("getCustomer")->with(
                     "Customer Updated!"
+                );
+            }
+        }
+    }
+
+    //UPDATE FOR CUSTOMER PROFILE
+    public function profileupdate(Request $request, $id)
+    {
+        $customers = Customer::find($id);
+        $validator = Validator::make($request->all(), Customer::$valRules);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
+
+       if ($validator->passes()) {
+            $path = Storage::putFileAs('/images/customers/', $request->file('img_path'), $request->file('img_path')->getClientOriginalName());
+
+            $request->merge(["img_path" => $request->file('img_path')->getClientOriginalName()]);
+
+            $input = $request->all();
+
+            if ($file = $request->hasFile('img_path')) {
+                $file = $request->file('img_path');
+                $fileName = $file->getClientOriginalName();
+                $destinationPath = public_path() . '/images/customers';
+                $input['img_path'] = 'images/customers/' . $fileName;
+                $customers->update($input);
+                $file->move($destinationPath, $fileName);
+                return Redirect::route("customer.profile")->with(
+                    "Profile Updated!"
                 );
             }
         }
