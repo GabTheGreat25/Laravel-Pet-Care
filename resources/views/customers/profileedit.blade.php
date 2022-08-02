@@ -1,8 +1,8 @@
-@extends('html.customermaster')
+@extends('layouts.customermaster')
 @section('title')
-    Customer Edit
+    Customer Profile Edit
 @endsection
-@section('contents')
+@section('content')
     <div>
         <div>
             <h1>
@@ -12,8 +12,8 @@
         <div>
             <div>
                 {{ Form::model($customers, [
-                    'route' => ['customer.update', $customers->id],
-                    'method' => 'PUT',
+                    'route' => ['customer.postupdate', $customers->id],
+                    'method' => 'POST',
                     'enctype' => 'multipart/form-data',
                 ]) }}
                 <div>
@@ -103,4 +103,5 @@
                         </div>
                     </div>
                 </div>
+       
             @endsection
