@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <img src="navbar-logo.png" alt="lol it work" style="width: 11rem; cursor:pointer;">
+            <img src="navbar-logo.png" alt="pet care" style="width: 11rem; cursor:pointer;">
         </div>
 
         <div>

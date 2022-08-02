@@ -46,17 +46,11 @@
                         <div class="md-form mb-5">
                             <i class="fas fa-user prefix grey-text"></i>
 
-                            <div class="md-form mb-5" style="position: absolute; left: -100rem;">
+                            <div class="md-form mb-5">
                                 <label for="customer">Customer:</label>
-                                {!! Form::text(
-                                    'customer_id',
-                                    App\Models\Customer::where('user_id', Auth::id())->latest()->pluck('id')->first(),
-                                    ['readonly'],
-                                    null,
-                                    [
-                                        'class' => 'form-control validate',
-                                    ],
-                                ) !!}
+                                {!! Form::select('customer_id', App\Models\Customer::pluck('firstName', 'id'), null, [
+                                    'class' => 'form-control',
+                                ]) !!}
                             </div>
 
                             <label data-error="wrong" data-success="right" for="petName"

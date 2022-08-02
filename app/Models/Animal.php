@@ -15,12 +15,8 @@ class Animal extends Model
         "Breed" => ["required"],
         "Sex" => ["required"],
         "Color" => ["required"],
-
+        'img_path' => ['mimes:jpeg,png,jpg,gif,svg'],
     ];
-
-    public function customer() {
-        return $this->belongsTo('App\Models\Customer');
-    }
 
     use HasFactory;
 
@@ -35,4 +31,8 @@ class Animal extends Model
     protected $primaryKey = "id";
 
     protected $guarded = ["id"];
+
+    public function customer() {
+        return $this->belongsTo('App\Models\Customer');
+    }
 }

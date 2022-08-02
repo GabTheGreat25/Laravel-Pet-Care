@@ -28,10 +28,9 @@ Route::get('/services', [
     'as' => 'getService',
 ]);
 
+Route::group(['middleware' => 'guest'], function() {
 
-   Route::group(['middleware' => 'guest'], function() {
-
-    Route::resource("/service", ServiceController::class)->except(['index', 'service']);
+        Route::resource("/service", ServiceController::class)->except(['index', 'service']);
 
           Route::get('signup', [
           'uses' => 'userController@getSignup',
@@ -55,7 +54,7 @@ Route::get('/services', [
 
       });
 
-      Route::group(['middleware' => 'role:admin,employee'], function() {
+    Route::group(['middleware' => 'role:admin,employee'], function() {
 
         Route::get('/services', [
             'uses' => 'ServiceController@getService',
@@ -67,29 +66,37 @@ Route::get('/services', [
             'as' => 'getEmployee',
         ]);
 
-        Route::get('/customers', [
-            'uses' => 'customerController@getCustomer',
-            'as' => 'getCustomer',
+        Route::post('animaldelete', [
+            'uses' => 'AnimalController@destroy',
+            'as' => 'animal.destroy',
         ]);
 
+        // Route::resource("/customer", CustomerController::class)->except(['index','customer']);
+
+        Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
         Route::post('/customer/import', 'CustomerController@import')->name('customerImport');
         Route::post('/service/import', 'ServiceController@import')->name('serviceImport');
         Route::post('/employee/import', 'employeeController@import')->name('employeeImport');
+
         Route::resource("/service", ServiceController::class)->except(['index', 'service']);
         Route::resource("/employee", EmployeeController::class)->except(['index', 'destroy','employee' , 'edit']);
 
     });
 
-        Route::group(['middleware' => 'role:admin,employee,customer'], function() {
+    Route::group(['middleware' => 'role:admin,employee,customer'], function() {
         
         Route::get('/animals', [
             'uses' => 'AnimalController@getAnimal',
             'as' => 'getAnimal',
         ]);
-        
-        Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
+
+        Route::get('/customers', [
+            'uses' => 'customerController@getCustomer',
+            'as' => 'getCustomer',
+        ]);
+
         Route::resource("/animal", AnimalController::class)->except(['index', 'destroy','animal']);
-        Route::resource("/customer", CustomerController::class)->except(['index', 'destroy', 'customer']);
+        Route::resource("/customer", CustomerController::class);
 
     });
 
@@ -111,10 +118,8 @@ Route::get('/services', [
                     'as' => 'admin.register',
                 ]);
 
-        Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
-    
         Route::resource("/employee", EmployeeController::class);
-        Route::resource("/customer", CustomerController::class);
+        // Route::resource("/customer", CustomerController::class)->except(['index','customer']);
 
         Route::get('empoyeeedit', [
             'uses' => 'EmployeeController@edit',
@@ -128,7 +133,10 @@ Route::get('/services', [
 
     });
 
-        Route::group(['middleware' => 'role:employee'], function() {
+    Route::group(['middleware' => 'role:employee'], function() {
+
+
+
         Route::get('employeeProfile', [
             'uses' => 'UserController@getemployeeProfile',
             'as' => 'employee.profile',
@@ -143,7 +151,15 @@ Route::get('/services', [
                     'uses' => 'EmployeeController@postregistered',
                     'as' => 'employee.register',
                 ]);
+
+        // Route::resource("/customer", CustomerController::class)->except(['destroy']);
+        Route::post('customerdelete', [
+            'uses' => 'CustomerController@destroy',
+            'as' => 'customers.destroy',
+        ]);
     });
+
+
 
     Route::group(['middleware' => 'role:customer'], function() {
         Route::get('customerProfile', [
@@ -170,22 +186,8 @@ Route::get('/services', [
             'uses' => 'CustomerController@profileupdate',
             'as' => 'customer.postupdate',
         ]);
-  
-// Route::get('/customer/edit/{id}', 'CustomerController@getedit')->name('customer.profileedit');
-// Route::post('/customer/edit/{id}', 'CustomerController@update')->name('customer.update');
 
     });
-
-
-    //   Route::group(['middleware' => 'role:admin'], function() {
-   
-    //   });
-
-// Route::get('/signup', [UserController::class, 'getsignup']);
-// Route::post('/signups', [UserController::class, 'postSignup'])->name('user.signup');
-
-// Route::get('/adminreg', [AdminController::class, 'getregister'])->name('aregister');;
-// Route::post('/adminregs', [AdminController::class, 'postregistered'])->name('admin.register');
 
 Route::get('logout',[
     'uses' => 'LoginController@logout',
@@ -196,15 +198,4 @@ Route::get('logout',[
   Route::fallback(function () {
       return redirect()->back();
   });
-
-    
-
-// Route::post('/adminregs', [UserController::class, 'postSignup'])->name('user.signup');
-
-// Route::post('/signup', [App\Http\Controllers\UserController::class, 'postSignup'])->name('user.signup');
-
-// Route::get('/adminregister', [AdminController::class, 'getregister']);
-// Route::post('/adminregisters', [AdminController::class, 'postregistered'])->name('admin.register');
-
-// Route::post('/admin', 'adminController@postregistered');
 
