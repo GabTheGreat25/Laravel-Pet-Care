@@ -18,6 +18,7 @@ use App\Imports\animalImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Rules\ExcelRule;
 use View as GlobalView;
+use Auth;
 
 class AnimalController extends Controller
 {
@@ -28,7 +29,9 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        //
+        $customers = Customer::with('animals')->where('user_id', Auth::id())->get();
+        // dd($customers);
+        return View::make('animals.index', ['customers' => $customers]);
     }
 
     /**

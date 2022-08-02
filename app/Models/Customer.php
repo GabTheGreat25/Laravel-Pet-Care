@@ -33,7 +33,7 @@ class Customer extends Model
     protected $guarded = ["id"];
 
     public function animals() {
-        return $this->hasMany('App\Models\Animal','customer_id');
+        return $this->hasMany('App\Models\Animal');
     }
 
     public function user() {
@@ -41,7 +41,7 @@ class Customer extends Model
     }
 
     public function orders(){
-        return $this->hasMany('App\Models\Order','customer_id');
+        return $this->hasMany('App\Models\Order');
     }
     
 }
