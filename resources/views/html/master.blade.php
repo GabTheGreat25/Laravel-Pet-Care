@@ -9,8 +9,10 @@
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url('src/css/app.css') }}">
 </head>
+
 <body style="background-image: url(bg.png); background-size:cover;">
-    @include('html.header')
+    {{-- @include('html.header') --}}
+    @include('partials.header')
     <section>
         @yield('contents')
     </section>
@@ -19,6 +21,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
     <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+
+
 
     @stack('scripts')
 </body>

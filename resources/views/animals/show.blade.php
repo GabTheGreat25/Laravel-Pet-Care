@@ -1,5 +1,5 @@
 
-    @extends('html.master')
+    @extends('html.usermaster')
     @section('title')
         Animal Show
     @endsection

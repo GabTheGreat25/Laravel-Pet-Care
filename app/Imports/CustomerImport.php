@@ -2,28 +2,48 @@
 
 namespace App\Imports;
 
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
+use App\Models\User;
 use App\Models\Customer;
-use Maatwebsite\Excel\Concerns\ToModel;
+use DB;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class CustomerImport implements ToModel, WithHeadingRow 
+class CustomerImport implements ToCollection, WithHeadingRow 
 {
      /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
+    * @param Collection $collection
     */
-    public function model(array $row)
+    public function collection(Collection $rows)
     {
-        return new Customer([
-            'title' => $row['title'],
-            'firstName' => $row['first_name'],
-            'lastName' => $row['last_name'],
-            'age' => $row['age'],
-            'address' => $row['address'],
-            'sex' => $row['sex'],
-            'phonenumber' => $row['phone_number'],
-            'img_path' => 'default.jpeg',
-        ]);
+        foreach ($rows as $row) 
+        {
+            
+            $user = new User();
+
+            $user->userName = $row['user'];
+            $user->email = $row['email'];
+            $user->password =  Hash::make($row['password']);
+            $user->role = 'customer';
+
+            $customer = new Customer();
+            $user->save();
+
+            $customer->user_id = DB::getPdo()->lastInsertId();
+            $customer->title = $row['title'];
+            $customer->firstName = $row['firstname'];
+            $customer->lastName = $row['lastname'];
+            $customer->age = $row['age'];
+            $customer->address = $row['address'];
+            $customer->sex = $row['sex'];
+            $customer->phonenumber = $row['phonenumber'];
+            $customer->img_path = '/images/customers/default.jpg';
+
+            $customer->save();
+            $customer->user()->associate($user->id);
+
+        }
     }
 }

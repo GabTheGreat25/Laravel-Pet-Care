@@ -4,12 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes; 
 
 class admins extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $table = "admins"; 
 
@@ -17,7 +15,6 @@ class admins extends Model
 
     protected $guarded = ["id"]; 
 
-    protected $dates = ["deleted_at"]; 
 
     protected $fillable = [
         'user_id',

@@ -1,4 +1,4 @@
-@extends('html.master')
+@extends('html.usermaster')
 @section('title')
     Employee Data Table
 @endsection
@@ -41,20 +41,41 @@
                     </button>
                 </div>
                 <form method="POST" action="{{ url('employee') }}" enctype="multipart/form-data">
-                    {{ csrf_field() }}  
+                    {{ csrf_field() }}
 
                     <div class="modal-body mx-3" id="inputfacultyModal">
                         <div class="md-form mb-5">
                             <i class="fas fa-user prefix grey-text"></i>
+                            <label data-error="wrong" data-success="right" for="role"
+                                style="display: inline-block; width: 150px; ">Role</label>
+                            <input type="text" id="role" class="form-control validate" name="role"
+                                value="employee" readonly>
+
+                            <label data-error="wrong" data-success="right" for="email"
+                                style="display: inline-block; width: 150px; ">Email</label>
+                            <input type="email" id="email" class="form-control validate" name="email">
+
+                            <label data-error="wrong" data-success="right" for="password"
+                                style="display: inline-block; width: 150px; ">Password</label>
+                            <input type="password" id="password" class="form-control validate" name="password">
+
                             <label data-error="wrong" data-success="right" for="name"
                                 style="display: inline-block;
           width: 150px; ">Employee Name</label>
                             <input type="text" id="name" class="form-control validate" name="name">
 
-                            <label data-error="wrong" data-success="right" for="position"
-                                style="display: inline-block;
-          width: 150px; ">Position</label>
-                            <input type="text" id="position" class="form-control validate" name="position">
+                            <div class="form-group">
+                                <label data-error="wrong" data-success="right" for="position"
+                                    style="display: inline-block; width: 150px; ">Position</label><i style="color:red">*</i>
+                                <div class="form-group">
+                                    <select class="form-control" name="position" id="position">
+                                        <option value="Veterinarian">Veterinarian</option>
+                                        <option value="Groomer">Groomer</option>
+                                        <option value="Assistant">Assistant</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <label data-error="wrong" data-success="right" for="address"
                                 style="display: inline-block;
           width: 150px; ">Address</label>
@@ -63,10 +84,10 @@
                                 style="display: inline-block;
           width: 150px; ">Phone Number</label>
                             <input type="text" id="phonenumber" class="form-control validate" name="phonenumber">
-                            <label data-error="wrong" data-success="right" for="image"
+                            <label data-error="wrong" data-success="right" for="img_path"
                                 style="display: inline-block;
           width: 150px; ">Employee Image</label>
-                            <input type="file" id="image" class="form-control validate" name="image">
+                            <input type="file" id="img_path" class="form-control validate" name="img_path">
                         </div>
 
 

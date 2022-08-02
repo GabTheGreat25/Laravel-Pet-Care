@@ -1,4 +1,4 @@
-@extends('html.master')
+@extends('html.usermaster')
 @section('title')
     animal Data Table
 @endsection
@@ -54,27 +54,36 @@
                             </div>
 
                             <label data-error="wrong" data-success="right" for="petName"
-                                style="display: inline-block; width: 150px; ">Pet Name</label><i style="color:red"></i>
+                                style="display: inline-block; width: 150px; ">Pet Name</label>
                             <input type="text" id="petName" class="form-control validate" name="petName">
 
                             <label data-error="wrong" data-success="right" for="Age"
-                                style="display: inline-block; width: 150px; ">Age</label><i style="color:red"></i>
+                                style="display: inline-block; width: 150px; ">Age</label>
                             <input type="text" id="Age" class="form-control validate" name="Age">
 
                             <label data-error="wrong" data-success="right" for="Type"
-                                style="display: inline-block; width: 150px; ">Type</label><i style="color:red"></i>
+                                style="display: inline-block; width: 150px; ">Type</label>
                             <input type="text" id="Type" class="form-control validate" name="Type">
 
                             <label data-error="wrong" data-success="right" for="Breed"
-                                style="display: inline-block; width: 150px; ">Breed</label><i style="color:red"></i>
+                                style="display: inline-block; width: 150px; ">Breed</label>
                             <input type="text" id="Breed" class="form-control validate" name="Breed">
 
-                            <label data-error="wrong" data-success="right" for="Sex"
-                                style="display: inline-block; width: 150px; ">Sex</label><i style="color:red"></i>
-                            <input type="text" id="Sex" class="form-control validate" name="Sex">
+                            <div class="form-group">
+                                <label for="Sex" class="control-label">{{ __('sex') }}</label>
+                                <div class="form-group">
+                                    <select class="form-control" name="Sex" value="{{ old('Sex') }}">
+                                        @if ($errors->has('Sex'))
+                                            <small>{{ $errors->first('Sex') }}</small>>
+                                        @endif
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+                            </div>
 
                             <label data-error="wrong" data-success="right" for="Color"
-                                style="display: inline-block; width: 150px; ">Color</label><i style="color:red"></i>
+                                style="display: inline-block; width: 150px; ">Color</label>
                             <input type="text" id="Color" class="form-control validate" name="Color">
 
                             <label data-error="wrong" data-success="right" for="image"

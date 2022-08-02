@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Employee extends Model
 {
@@ -13,13 +12,14 @@ class Employee extends Model
         "position" => ["required"],
         "address" => ["required", "min:3"],
         "phonenumber" => ["required", "numeric"],
+        'img_path' => ['mimes:jpeg,png,jpg,gif,svg'],
     ];
 
+    public function user() {
+        return $this->belongsTO('App\Models\User');
+    }
+
     use HasFactory;
-
-    use SoftDeletes;
-
-    protected $dates = ["deleted_at"];
 
     protected $table = "employees";
 

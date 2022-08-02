@@ -67,8 +67,8 @@ class ServiceController extends Controller
 
             $file = $request->file('image');
             $fileName = $file->getClientOriginalName();
-            $destinationPath = public_path() . '/folder/images';
-            $input['img_path'] = '/folder/images/' . $fileName;
+            $destinationPath = public_path() . '/images/services';
+            $input['img_path'] = '/images/services/' . $fileName;
             $file->move($destinationPath, $fileName);
         }
         Service::create($input);
@@ -121,7 +121,7 @@ class ServiceController extends Controller
         }
 
         if ($validator->passes()) {
-            $path = Storage::putFileAs('/folder/images/', $request->file('image'), $request->file('image')->getClientOriginalName());
+            $path = Storage::putFileAs('/images/services/', $request->file('image'), $request->file('image')->getClientOriginalName());
 
             $request->merge(["img_path" => $request->file('image')->getClientOriginalName()]);
 
@@ -130,8 +130,8 @@ class ServiceController extends Controller
             if ($file = $request->hasFile('image')) {
                 $file = $request->file('image');
                 $fileName = $file->getClientOriginalName();
-                $destinationPath = public_path() . '/folder/images';
-                $input['img_path'] = 'folder/images/' . $fileName;
+                $destinationPath = public_path() . '/images/services';
+                $input['img_path'] = 'images/services/' . $fileName;
                 $services->update($input);
                 $file->move($destinationPath, $fileName);
                 return Redirect::route("getService")->with(

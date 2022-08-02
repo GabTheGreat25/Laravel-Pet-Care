@@ -14,8 +14,8 @@
 
 <body style="background-image: url(bg.png); background-size:cover;">
 
-    {{-- @include('partials.header') --}}
-    <div class="container">
+    @include('partials.header')
+    <div>
         @yield('content')
     </div>
 

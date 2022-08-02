@@ -14,67 +14,88 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+Auth::routes();
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
 
 Route::resource("/service", ServiceController::class)->except(['index', 'service']);
 Route::get('/services', [
     'uses' => 'ServiceController@getService',
     'as' => 'getService',
 ]);
-Route::post('/service/import', 'ServiceController@import')->name('serviceImport');
 
-Route::resource("/employee", EmployeeController::class)->except(['index', 'employee']);
-Route::get('/employees', [
-    'uses' => 'employeeController@getEmployee',
-    'as' => 'getEmployee',
-]);
-Route::post('/employee/import', 'employeeController@import')->name('employeeImport');
+Route::group(['middleware' => 'guest'], function() {
 
-Route::resource("/customer", CustomerController::class)->except(['index', 'customer']);
-Route::get('/customers', [
-    'uses' => 'customerController@getCustomer',
-    'as' => 'getCustomer',
-]);
-Route::post('/customer/import', 'CustomerController@import')->name('customerImport');
+        Route::resource("/service", ServiceController::class)->except(['index', 'service']);
 
-Route::resource("/animal", AnimalController::class)->except(['index', 'animal']);
-Route::get('/animals', [
-    'uses' => 'AnimalController@getAnimal',
-    'as' => 'getAnimal',
-]);
-Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
-
-
-   Route::group(['middleware' => 'guest'], function() {
           Route::get('signup', [
           'uses' => 'userController@getSignup',
           'as' => 'user.signups',
               ]);
+
           Route::post('signup', [
                   'uses' => 'userController@postSignup',
                   'as' => 'user.signup',
               ]);
+
           Route::get('signin', [
                   'uses' => 'userController@getSignin',
                   'as' => 'user.signins',
                ]);
-       Route::post('signin', [
+
+          Route::post('signin', [
                   'uses' => 'LoginController@postSignin',
                   'as' => 'user.signin',
               ]);
+
       });
 
-      Route::group(['middleware' => 'role:admin'], function() {
-        Route::get('profile', [
-         'uses' => 'UserController@getadminProfile',
-         'as' => 'admin.profile',
+    Route::group(['middleware' => 'role:admin,employee'], function() {
+
+        Route::get('/services', [
+            'uses' => 'ServiceController@getService',
+            'as' => 'getService',
         ]);
+        
+        Route::get('/employees', [
+            'uses' => 'employeeController@getEmployee',
+            'as' => 'getEmployee',
+        ]);
+
+        Route::get('/animals', [
+            'uses' => 'AnimalController@getAnimal',
+            'as' => 'getAnimal',
+        ]);
+
+        Route::get('/customers', [
+            'uses' => 'customerController@getCustomer',
+            'as' => 'getCustomer',
+        ]);
+
+        Route::resource("/animal", AnimalController::class)->except(['index','animal']);
+        Route::resource("/customer", CustomerController::class);
+
+        Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
+        Route::post('/customer/import', 'CustomerController@import')->name('customerImport');
+        Route::post('/service/import', 'ServiceController@import')->name('serviceImport');
+        Route::post('/employee/import', 'employeeController@import')->name('employeeImport');
+
+        Route::resource("/service", ServiceController::class)->except(['index', 'service']);
+        Route::resource("/employee", EmployeeController::class)->except(['index', 'destroy','employee' , 'edit']);
+
+    });
+
+//  ->middleware('auth');
+
+      Route::group(['middleware' => 'role:admin'], function() {
+        Route::get('adminProfile', [
+            'uses' => 'UserController@getadminProfile',
+            'as' => 'admin.profile',
+           ]);
 
         Route::get('adminregister', [
             'uses' => 'AdminController@getregister',
@@ -85,17 +106,72 @@ Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
                     'uses' => 'AdminController@postregistered',
                     'as' => 'admin.register',
                 ]);
+
+        Route::resource("/employee", EmployeeController::class);
+        // Route::resource("/customer", CustomerController::class)->except(['index','customer']);
+
+        Route::get('empoyeeedit', [
+            'uses' => 'EmployeeController@edit',
+            'as' => 'employees.edit',
+           ]);
+
+        Route::post('customerdelete', [
+            'uses' => 'CustomerController@destroy',
+            'as' => 'customers.destroy',
+        ]);
+
     });
 
-    //   Route::group(['middleware' => 'role:admin'], function() {
+    Route::group(['middleware' => 'role:employee'], function() {
+
+        Route::get('employeeProfile', [
+            'uses' => 'UserController@getemployeeProfile',
+            'as' => 'employee.profile',
+           ]);
+
+        Route::get('employeeregister', [
+            'uses' => 'EmployeeController@getregister',
+            'as' => 'employee.registers',
+                ]);
+
+        Route::post('employeeregister', [
+                    'uses' => 'EmployeeController@postregistered',
+                    'as' => 'employee.register',
+                ]);
+
+                Route::resource("/customer", CustomerController::class, ['except'=>['destroy']]);;
+    });
+
+
+
+    Route::group(['middleware' => 'role:customer'], function() {
+        Route::get('customerProfile', [
+            'uses' => 'UserController@getcustomerProfile',
+            'as' => 'customer.profile',
+           ]);
    
-    //   });
+        Route::get('customerregister', [
+            'uses' => 'CustomerController@getregister',
+            'as' => 'customer.registers',
+                ]);
 
-// Route::get('/signup', [UserController::class, 'getsignup']);
-// Route::post('/signups', [UserController::class, 'postSignup'])->name('user.signup');
+        Route::post('customerregister', [
+                    'uses' => 'CustomerController@postregistered',
+                    'as' => 'customer.register',
+                ]);
+    
+    Route::get('/customer/profile/edit/{id}', [
+            'uses' => 'CustomerController@profileedit',
+            'as' => 'customer.profileedit',
+        ]);
 
-// Route::get('/adminreg', [AdminController::class, 'getregister'])->name('aregister');;
-// Route::post('/adminregs', [AdminController::class, 'postregistered'])->name('admin.register');
+        Route::post('/customer/profile/edit/{id}', [
+            'uses' => 'CustomerController@profileupdate',
+            'as' => 'customer.postupdate',
+        ]); 
+
+        Route::resource("/animal", AnimalController::class)->except(['animals','edit','destroy','animals']);
+    });
 
 Route::get('logout',[
     'uses' => 'LoginController@logout',
@@ -106,15 +182,4 @@ Route::get('logout',[
   Route::fallback(function () {
       return redirect()->back();
   });
-
-    
-
-// Route::post('/adminregs', [UserController::class, 'postSignup'])->name('user.signup');
-
-// Route::post('/signup', [App\Http\Controllers\UserController::class, 'postSignup'])->name('user.signup');
-
-// Route::get('/adminregister', [AdminController::class, 'getregister']);
-// Route::post('/adminregisters', [AdminController::class, 'postregistered'])->name('admin.register');
-
-// Route::post('/admin', 'adminController@postregistered');
 

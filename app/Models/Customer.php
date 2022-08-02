@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Customer extends Model
 {
@@ -16,17 +15,10 @@ class Customer extends Model
         "address" => ["required", "min:3"],
         "sex" => ["required"],
         "phonenumber" => ["required", "numeric"],
-        'image' => ['mimes:jpeg,png,jpg,gif,svg'],
+        'img_path' => ['mimes:jpeg,png,jpg,gif,svg'],
     ];
 
-    public function animals() {
-        return $this->hasMany('App\Models\Animal','customer_id');
-    }
-
     use HasFactory;
-    use SoftDeletes;
-    
-    protected $dates = ["deleted_at"];
 
     protected $table = "customers";
 
@@ -36,8 +28,16 @@ class Customer extends Model
 
     protected $guarded = ["id"];
 
+    public function animals() {
+        return $this->hasMany('App\Models\Animal');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\Models\User');
+    }
+
     public function orders(){
-        return $this->hasMany('App\Models\Order','customer_id');
+        return $this->hasMany('App\Models\Order');
     }
     
 }

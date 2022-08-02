@@ -18,6 +18,7 @@ use App\Imports\animalImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Rules\ExcelRule;
 use View as GlobalView;
+use Auth;
 
 class AnimalController extends Controller
 {
@@ -28,9 +29,11 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        //
+        $customers = Customer::with('animals')->where('user_id', Auth::id())->get();
+        // dd($customers);
+        return View::make('animals.index', ['customers' => $customers]);
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -73,6 +76,7 @@ class AnimalController extends Controller
             "New Animal Added!"
         );
     }
+
 
     /**
      * Display the specified resource.
@@ -124,21 +128,21 @@ class AnimalController extends Controller
         }
 
         if ($validator->passes()) {
-            $path = Storage::putFileAs('/images/animals/', $request->file('image'), $request->file('image')->getClientOriginalName());
+            $path = Storage::putFileAs('/images/animals/', $request->file('img_path'), $request->file('img_path')->getClientOriginalName());
 
-            $request->merge(["img_path" => $request->file('image')->getClientOriginalName()]);
+            $request->merge(["img_path" => $request->file('img_path')->getClientOriginalName()]);
 
             $input = $request->all();
 
-            if ($file = $request->hasFile('image')) {
-                $file = $request->file('image');
+            if ($file = $request->hasFile('img_path')) {
+                $file = $request->file('img_path');
                 $fileName = $file->getClientOriginalName();
                 $destinationPath = public_path() . '/images/animals/';
                 $input['img_path'] = '/images/animals/' . $fileName;
                 $animals->update($input);
                 $file->move($destinationPath, $fileName);
                 return Redirect::route("getAnimal")->with(
-                    "animal Updated!"
+                    "Animal Updated!"
                 );
             }
         }

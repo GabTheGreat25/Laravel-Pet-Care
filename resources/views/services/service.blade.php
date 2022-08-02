@@ -1,4 +1,4 @@
-@extends('html.master')
+@extends('html.usermaster')
 @section('title')
     Service Data Table
 @endsection
