@@ -27,7 +27,7 @@ Route::get('/services', [
     'uses' => 'ServiceController@getService',
     'as' => 'getService',
 ]);
-Route::post('/service/import', 'ServiceController@import')->name('serviceImport');
+
 
    Route::group(['middleware' => 'guest'], function() {
 
@@ -56,37 +56,31 @@ Route::post('/service/import', 'ServiceController@import')->name('serviceImport'
       });
 
       Route::group(['middleware' => 'role:admin,employee'], function() {
-        Route::resource("/service", ServiceController::class)->except(['index', 'service']);
 
         Route::get('/services', [
             'uses' => 'ServiceController@getService',
             'as' => 'getService',
         ]);
         
-        Route::post('/service/import', 'ServiceController@import')->name('serviceImport');
-        
-        Route::resource("/employee", EmployeeController::class)->except(['index', 'employee']);
         Route::get('/employees', [
             'uses' => 'employeeController@getEmployee',
             'as' => 'getEmployee',
         ]);
-        Route::post('/employee/import', 'employeeController@import')->name('employeeImport');
-        
-        // Route::resource("/customer", CustomerController::class)->except(['index', 'customer']);
+
         Route::get('/customers', [
             'uses' => 'customerController@getCustomer',
             'as' => 'getCustomer',
         ]);
 
-        Route::resource("/customer", CustomerController::class)->except(['index', 'customer']);
-        
         Route::post('/customer/import', 'CustomerController@import')->name('customerImport');
+        Route::post('/service/import', 'ServiceController@import')->name('serviceImport');
+        Route::post('/employee/import', 'employeeController@import')->name('employeeImport');
+        Route::resource("/service", ServiceController::class)->except(['index', 'service']);
+        Route::resource("/employee", EmployeeController::class)->except(['index', 'destroy','employee' , 'edit']);
 
     });
 
-          Route::group(['middleware' => 'role:admin,employee,customer'], function() {
-        
-        Route::resource("/animal", AnimalController::class)->except(['index', 'animal']);
+        Route::group(['middleware' => 'role:admin,employee,customer'], function() {
         
         Route::get('/animals', [
             'uses' => 'AnimalController@getAnimal',
@@ -94,9 +88,12 @@ Route::post('/service/import', 'ServiceController@import')->name('serviceImport'
         ]);
         
         Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
+        Route::resource("/animal", AnimalController::class)->except(['index', 'destroy','animal']);
+        Route::resource("/customer", CustomerController::class)->except(['index', 'destroy', 'customer']);
 
     });
 
+//  ->middleware('auth');
 
       Route::group(['middleware' => 'role:admin'], function() {
         Route::get('adminProfile', [
@@ -113,6 +110,22 @@ Route::post('/service/import', 'ServiceController@import')->name('serviceImport'
                     'uses' => 'AdminController@postregistered',
                     'as' => 'admin.register',
                 ]);
+
+        Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
+    
+        Route::resource("/employee", EmployeeController::class);
+        Route::resource("/customer", CustomerController::class);
+
+        Route::get('empoyeeedit', [
+            'uses' => 'EmployeeController@edit',
+            'as' => 'employees.edit',
+           ]);
+
+        Route::post('customerdelete', [
+            'uses' => 'CustomerController@destroy',
+            'as' => 'customers.destroy',
+        ]);
+
     });
 
         Route::group(['middleware' => 'role:employee'], function() {
@@ -147,21 +160,17 @@ Route::post('/service/import', 'ServiceController@import')->name('serviceImport'
                     'uses' => 'CustomerController@postregistered',
                     'as' => 'customer.register',
                 ]);
-
-                Route::resource("/customer", CustomerController::class)->except(['index', 'customer']);
-                
-Route::get('/customer/edit/{id}', [
-    'uses' => 'CustomerController@getedit',
-    'as' => 'customer.profileedit',
+    
+    Route::get('/customer/profile/edit/{id}', [
+            'uses' => 'CustomerController@profileedit',
+            'as' => 'customer.profileedit',
         ]);
 
-Route::post('/customer/edit/{id}', [
-            'uses' => 'CustomerController@postupdate',
+        Route::post('/customer/profile/edit/{id}', [
+            'uses' => 'CustomerController@profileupdate',
             'as' => 'customer.postupdate',
         ]);
-
-
-
+  
 // Route::get('/customer/edit/{id}', 'CustomerController@getedit')->name('customer.profileedit');
 // Route::post('/customer/edit/{id}', 'CustomerController@update')->name('customer.update');
 
