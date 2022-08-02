@@ -139,7 +139,7 @@ Route::group(['middleware' => 'guest'], function() {
                     'as' => 'employee.register',
                 ]);
 
-                Route::resource("/customer", CustomerController::class, ['except'=>['destroy']]);;
+        Route::resource("/customer", CustomerController::class, ['except'=>['destroy']]);;
     });
 
 
@@ -170,7 +170,7 @@ Route::group(['middleware' => 'guest'], function() {
             'as' => 'customer.postupdate',
         ]); 
 
-        Route::resource("/animal", AnimalController::class)->except(['animals','edit','destroy','animals']);
+        Route::resource("/animal", AnimalController::class)->except(['edit','destroy','animals']);
     });
 
 Route::get('logout',[
