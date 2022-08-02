@@ -29,13 +29,16 @@
 
                     <div>
                         <label for="position">Position</label>
-                        {{ Form::text('position', null, [
+                        {{-- {{ Form::text('position', null, [
                             'id' => 'position',
-                        ]) }}
+                        ]) }} --}}
+
+                            {{-- {{ Form::select('position', ['Veterinarian', 'Groomer','Assistant'], null, ['id' => 'position']) }} --}}
+                            {!! Form::select('position', array('Veterinarian' => 'Veterinarian', 'Groomer' => 'Groomer', 'Assistant' => 'Assistant'), null); !!}
                         @if ($errors->has('position'))
                             <p>{{ $errors->first('position') }}</p>
                         @endif
-                    </div>
+                    </div> 
 
                     <div>
                         <label for="address">Address</label>

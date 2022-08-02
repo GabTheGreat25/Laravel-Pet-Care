@@ -48,12 +48,13 @@ class EmployeeController extends Controller
             $employee->address = $request->input("address");
             $employee->phonenumber = $request->input("phonenumber");
 
-        if ($request->hasfile("img_path")) {
-            $file = $request->file("img_path");
-            $filename =  $file->getClientOriginalName();
-            $file->move("images/employees/", $filename);
-            $employee->img_path = $filename;   
-        }
+            if ($file = $request->hasfile("img_path")) {
+                $file = $request->file("img_path");
+                $filename =  $file->getClientOriginalName();
+                $destinationPath = public_path() . '/images/employees';
+                $employee->img_path = '/images/employees/' . $filename;   
+                $file->move($destinationPath,$filename); 
+            }
 
         $employee->save();
         return redirect()->route('employee.profile');
@@ -195,7 +196,9 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         $employees= Employee::find($id);
+        $employees->user()->delete();
         $employees->delete();
+        $employees = Employee::with('user')->get();
         return Redirect::route("getEmployee")->with(
                     "Employee Deleted!"
                 );

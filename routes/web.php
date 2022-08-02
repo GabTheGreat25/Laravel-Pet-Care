@@ -66,25 +66,6 @@ Route::group(['middleware' => 'guest'], function() {
             'as' => 'getEmployee',
         ]);
 
-        Route::post('animaldelete', [
-            'uses' => 'AnimalController@destroy',
-            'as' => 'animal.destroy',
-        ]);
-
-        // Route::resource("/customer", CustomerController::class)->except(['index','customer']);
-
-        Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
-        Route::post('/customer/import', 'CustomerController@import')->name('customerImport');
-        Route::post('/service/import', 'ServiceController@import')->name('serviceImport');
-        Route::post('/employee/import', 'employeeController@import')->name('employeeImport');
-
-        Route::resource("/service", ServiceController::class)->except(['index', 'service']);
-        Route::resource("/employee", EmployeeController::class)->except(['index', 'destroy','employee' , 'edit']);
-
-    });
-
-    Route::group(['middleware' => 'role:admin,employee,customer'], function() {
-        
         Route::get('/animals', [
             'uses' => 'AnimalController@getAnimal',
             'as' => 'getAnimal',
@@ -95,8 +76,16 @@ Route::group(['middleware' => 'guest'], function() {
             'as' => 'getCustomer',
         ]);
 
-        Route::resource("/animal", AnimalController::class)->except(['index', 'destroy','animal']);
+        Route::resource("/animal", AnimalController::class)->except(['index','animal']);
         Route::resource("/customer", CustomerController::class);
+
+        Route::post('/animal/import', 'AnimalController@import')->name('animalImport');
+        Route::post('/customer/import', 'CustomerController@import')->name('customerImport');
+        Route::post('/service/import', 'ServiceController@import')->name('serviceImport');
+        Route::post('/employee/import', 'employeeController@import')->name('employeeImport');
+
+        Route::resource("/service", ServiceController::class)->except(['index', 'service']);
+        Route::resource("/employee", EmployeeController::class)->except(['index', 'destroy','employee' , 'edit']);
 
     });
 
@@ -135,8 +124,6 @@ Route::group(['middleware' => 'guest'], function() {
 
     Route::group(['middleware' => 'role:employee'], function() {
 
-
-
         Route::get('employeeProfile', [
             'uses' => 'UserController@getemployeeProfile',
             'as' => 'employee.profile',
@@ -152,11 +139,7 @@ Route::group(['middleware' => 'guest'], function() {
                     'as' => 'employee.register',
                 ]);
 
-        // Route::resource("/customer", CustomerController::class)->except(['destroy']);
-        Route::post('customerdelete', [
-            'uses' => 'CustomerController@destroy',
-            'as' => 'customers.destroy',
-        ]);
+                Route::resource("/customer", CustomerController::class, ['except'=>['destroy']]);;
     });
 
 
@@ -185,8 +168,9 @@ Route::group(['middleware' => 'guest'], function() {
         Route::post('/customer/profile/edit/{id}', [
             'uses' => 'CustomerController@profileupdate',
             'as' => 'customer.postupdate',
-        ]);
+        ]); 
 
+        Route::resource("/animal", AnimalController::class)->except(['animals','edit','destroy','animals']);
     });
 
 Route::get('logout',[

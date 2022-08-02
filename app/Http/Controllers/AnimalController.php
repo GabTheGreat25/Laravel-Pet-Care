@@ -33,7 +33,7 @@ class AnimalController extends Controller
         // dd($customers);
         return View::make('animals.index', ['customers' => $customers]);
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -76,6 +76,7 @@ class AnimalController extends Controller
             "New Animal Added!"
         );
     }
+
 
     /**
      * Display the specified resource.

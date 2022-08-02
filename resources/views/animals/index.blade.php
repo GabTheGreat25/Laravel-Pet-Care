@@ -1,4 +1,4 @@
-@extends('html.usermaster')
+@extends('html.customermaster')
 @section('title')
     Show Each Pet Of The Customer That Is Log In
 @endsection

@@ -200,7 +200,7 @@ class CustomerController extends Controller
         // // $customers = Customer::find($id);
         // return view("customers.edit")->with("customers", $customers);
         $customers = Customer::where('user_id',Auth::id())->first();
-        $user = user::with('customer','users')->where('id',$customers->id)->get();
+        $user = user::with('customer')->where('id',$customers->id)->get();
         return view("customers.profileedit")->with("customers", $customers);
     }
 
@@ -284,8 +284,9 @@ class CustomerController extends Controller
     {
         $customers= Customer::find($id);
         $customers->animals()->delete();
+        $customers->user()->delete();
         $customers->delete();
-        $customers = Customer::with('animals')->get();
+        $customers = Customer::with('animals','user')->get();
         return Redirect::route("getCustomer")->with(
                     "Customer Deleted!"
                 );
