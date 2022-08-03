@@ -54,16 +54,18 @@ Service Edit
         <label data-error="wrong" data-success="right" for="img_path" style="display: inline-block;
           width: 150px; ">Service Image</label>
         <input type="file" id="img_path" class="form-control validate" name="img_path">
-
-        <div>
-            <button type="submit">
+        <br>
+        <div style="display: grid; grid-template-columns: .5fr .5fr; gap: 2rem; ">
+            <button type="submit" class="btn btn-success">
                 Submit
             </button>
-            <a href="{{ url()->previous() }}" role="button">Cancel</a>
-
+            <div style="display: grid; justify-content: center;" class="btn btn-danger">
+                <a href="{{ url()->previous() }}" role="button">Cancel</a>
+            </div>
         </div>
-        </form>
     </div>
+    </form>
+</div>
 </div>
 </div>
 @endsection
