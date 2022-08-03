@@ -22,11 +22,11 @@
                     </a>
                 </li>
 
-                <li style="padding: 0 2rem;">
+                {{-- <li style="padding: 0 2rem;">
                     <a href="{{ url('/animals') }}">
                         <i class="fa fa-paw" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Pet
                     </a>
-                </li>
+                </li> --}}
 
                 <li style="padding: 0 1rem;">
                     <a href="{{ url('customerProfile') }}">
@@ -43,8 +43,7 @@
 
                 <li style="padding: 0 1rem;">
                     <a href="{{ url('/mypets') }}">
-                        <i class="fa fa-plus" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Add Your Own
-                        Pet
+                        <i class="fa fa-paw" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Pet
                     </a>
                 </li>
 
