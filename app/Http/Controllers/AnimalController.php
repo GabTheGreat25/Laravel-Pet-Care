@@ -67,21 +67,21 @@ class AnimalController extends Controller
     {
         $input = $request->all();
         $request->validate([
-            'image' => ['mimes:jpeg,png,jpg,gif,svg'],
+            'img_path' => ['mimes:jpeg,png,jpg,gif,svg'],
         ]);
 
         $customer = Customer::find($request->customer_id);
         $animal = new animal();
         $animal->customer()->associate($customer);
       
-        if ($file = $request->hasFile('image')) {
-
-            $file = $request->file('image');
-            $fileName = $file->getClientOriginalName();
+        if ($file = $request->hasfile("img_path")) {
+            $file = $request->file("img_path");
+            $filename =  $file->getClientOriginalName();
             $destinationPath = public_path() . '/images/animals';
-            $input['img_path'] = '/images/animals/' . $fileName;
-            $file->move($destinationPath, $fileName);
+            $customer->img_path = '/images/animals/' . $filename;   
+            $file->move($destinationPath,$filename); 
         }
+
         $animal =  Animal::create($input);
         $animal->save();
         return Redirect::route("getAnimal")->with(
@@ -93,21 +93,21 @@ class AnimalController extends Controller
     {
         $input = $request->all();
         $request->validate([
-            'image' => ['mimes:jpeg,png,jpg,gif,svg'],
+            'img_path' => ['mimes:jpeg,png,jpg,gif,svg'],
         ]);
 
         $customer = Customer::find($request->customer_id);
         $animal = new animal();
         $animal->customer()->associate($customer);
       
-        if ($file = $request->hasFile('image')) {
-
-            $file = $request->file('image');
-            $fileName = $file->getClientOriginalName();
+        if ($file = $request->hasfile("img_path")) {
+            $file = $request->file("img_path");
+            $filename =  $file->getClientOriginalName();
             $destinationPath = public_path() . '/images/animals';
-            $input['img_path'] = '/images/animals/' . $fileName;
-            $file->move($destinationPath, $fileName);
+            $customer->img_path = '/images/animals/' . $filename;   
+            $file->move($destinationPath,$filename); 
         }
+
         $animal =  Animal::create($input);
         $animal->save();
         return Redirect::route("animal.getpet")->with(

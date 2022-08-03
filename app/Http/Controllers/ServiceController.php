@@ -61,15 +61,14 @@ class ServiceController extends Controller
         "servname" => ["required", "min:3"],
         "description" => ["required"],
         "price" => ["required", "numeric", "min:3"],
-        'image' => ['mimes:jpeg,png,jpg,gif,svg'],
+        'img_path' => ['mimes:jpeg,png,jpg,gif,svg'],
         ]);
-        if ($file = $request->hasFile('image')) {
-
-            $file = $request->file('image');
-            $fileName = $file->getClientOriginalName();
+        if ($file = $request->hasfile("img_path")) {
+            $file = $request->file("img_path");
+            $filename =  $file->getClientOriginalName();
             $destinationPath = public_path() . '/images/services';
-            $input['img_path'] = '/images/services/' . $fileName;
-            $file->move($destinationPath, $fileName);
+            $customer->img_path = '/images/services/' . $filename;   
+            $file->move($destinationPath,$filename); 
         }
         Service::create($input);
         return Redirect::route("getService")->with(
@@ -121,14 +120,14 @@ class ServiceController extends Controller
         }
 
         if ($validator->passes()) {
-            $path = Storage::putFileAs('/images/services/', $request->file('image'), $request->file('image')->getClientOriginalName());
+            $path = Storage::putFileAs('/images/services/', $request->file('img_path'), $request->file('img_path')->getClientOriginalName());
 
-            $request->merge(["img_path" => $request->file('image')->getClientOriginalName()]);
+            $request->merge(["img_path" => $request->file('img_path')->getClientOriginalName()]);
 
             $input = $request->all();
 
-            if ($file = $request->hasFile('image')) {
-                $file = $request->file('image');
+            if ($file = $request->hasFile('img_path')) {
+                $file = $request->file('img_path');
                 $fileName = $file->getClientOriginalName();
                 $destinationPath = public_path() . '/images/services';
                 $input['img_path'] = 'images/services/' . $fileName;

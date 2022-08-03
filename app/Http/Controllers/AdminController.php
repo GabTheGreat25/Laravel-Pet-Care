@@ -25,7 +25,7 @@ class AdminController extends Controller
             'job'=>'required|regex:/^[a-zA-Z\s]*$/',
             'address'=>'required|regex:/^[a-zA-Z\s]*$/',
             'phonenumber'=>'required|numeric',
-            'image' => 'mimes:jpeg,png,jpg,gif,svg',
+            'img_path' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
         $admin = new admins();
       
