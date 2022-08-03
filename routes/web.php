@@ -87,6 +87,20 @@ Route::group(['middleware' => 'guest'], function() {
         Route::resource("/service", ServiceController::class)->except(['index', 'service']);
         Route::resource("/employee", EmployeeController::class)->except(['index', 'destroy','employee' , 'edit']);
 
+
+Route::resource('/consultations','ConsultationController');
+
+Route::get('/consultations/restore/{id}','ConsultationController@restore')->name('consultations.restore');
+
+Route::get('/consultations/forceDelete/{id}', 'ConsultationController@forceDelete')->name('consultations.forceDelete');
+
+// Route::get('update/{id}',[
+//     'uses'=>'App\Http\Controllers\ConsultationController@update',
+//     'as' => 'consultations.update'
+// ]);
+
+Route::get('/search', 'ConsultationController@search');
+
     });
 
 //  ->middleware('auth');
