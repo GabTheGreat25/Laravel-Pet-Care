@@ -42,7 +42,7 @@
                 </li>
 
                 <li style="padding: 0 1rem;">
-                    <a href="{{ url('animal') }}">
+                    <a href="{{ url('/mypets') }}">
                         <i class="fa fa-plus" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Add Your Own
                         Pet
                     </a>

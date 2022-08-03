@@ -66,9 +66,9 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form method="POST" action="{{ url('animal') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ url('mypetstore') }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
-
+{{-- di ko sure HAHAHHAA HSHAH --}}
                             <div class="modal-body mx-3" id="inputfacultyModal">
                                 <div class="md-form mb-5">
                                     <i class="fas fa-user prefix grey-text"></i>

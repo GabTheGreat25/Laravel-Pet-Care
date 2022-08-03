@@ -172,7 +172,22 @@ Route::group(['middleware' => 'guest'], function() {
             'as' => 'customer.postupdate',
         ]); 
 
-        Route::resource("/animal", AnimalController::class)->except(['edit','destroy','animals']);
+        Route::get('/mypets', [
+            'uses' => 'AnimalController@getpet',
+            'as' => 'animal.getpet',
+        ]);
+
+        Route::get('/mypetcreate', [
+            'uses' => 'AnimalController@petcreate',
+            'as' => 'animal.petcreate',
+        ]);
+
+        Route::post('/mypetstore', [
+            'uses' => 'AnimalController@petstore',
+            'as' => 'customer.petstore',
+        ]); 
+        
+        // Route::resource("/animal", AnimalController::class)->only(['edit','destroy','create','index','animal']);
     });
 
 Route::get('logout',[

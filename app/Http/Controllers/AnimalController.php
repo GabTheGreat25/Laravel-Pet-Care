@@ -29,11 +29,18 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with('animals')->where('user_id', Auth::id())->get();
-        // dd($customers);
-        return View::make('animals.index', ['customers' => $customers]);
+        // $customers = Customer::with('animals')->where('user_id', Auth::id())->get();
+        // // dd($customers);
+        // return View::make('animals.index', ['customers' => $customers]);
     }
     
+    public function getpet()
+    {
+        $customers = Customer::with('animals')->where('user_id', Auth::id())->get();
+        // dd($customers);c
+        return View::make('animals.index', ['customers' => $customers]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -45,6 +52,11 @@ class AnimalController extends Controller
         return view('animals.create',['customers' => $customers]);
     }
 
+    public function petcreate()
+    {
+        $customers = customer::pluck('firstName', 'id');
+        return view('animals.create',['customers' => $customers]);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -77,7 +89,31 @@ class AnimalController extends Controller
         );
     }
 
+    public function petstore(Request $request)
+    {
+        $input = $request->all();
+        $request->validate([
+            'image' => ['mimes:jpeg,png,jpg,gif,svg'],
+        ]);
 
+        $customer = Customer::find($request->customer_id);
+        $animal = new animal();
+        $animal->customer()->associate($customer);
+      
+        if ($file = $request->hasFile('image')) {
+
+            $file = $request->file('image');
+            $fileName = $file->getClientOriginalName();
+            $destinationPath = public_path() . '/images/animals';
+            $input['img_path'] = '/images/animals/' . $fileName;
+            $file->move($destinationPath, $fileName);
+        }
+        $animal =  Animal::create($input);
+        $animal->save();
+        return Redirect::route("animal.getpet")->with(
+            "New Animal Added!"
+        );
+    }
     /**
      * Display the specified resource.
      *
