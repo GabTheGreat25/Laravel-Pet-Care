@@ -67,7 +67,7 @@ class ServiceController extends Controller
             $file = $request->file("img_path");
             $filename =  $file->getClientOriginalName();
             $destinationPath = public_path() . '/images/services';
-            $customer->img_path = '/images/services/' . $filename;   
+            $input->img_path = '/images/services/' . $filename;   
             $file->move($destinationPath,$filename); 
         }
         Service::create($input);
