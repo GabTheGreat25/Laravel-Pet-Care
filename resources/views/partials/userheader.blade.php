@@ -15,7 +15,7 @@
         <div>
             <ul class="nav navbar-nav">
                 <li style="padding: 0 1rem;">
-                    <a href="{{ url('/customers') }}">
+                    <a href="{{ url('/consultations') }}">
                         <i class="fa fa-user-md" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Consultations
                     </a>
                 </li>
