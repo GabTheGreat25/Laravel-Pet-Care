@@ -65,24 +65,29 @@ class AnimalController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
         $request->validate([
             'img_path' => ['mimes:jpeg,png,jpg,gif,svg'],
         ]);
 
         $customer = Customer::find($request->customer_id);
         $animal = new animal();
-        $animal->customer()->associate($customer);
-      
+        $animal->customer()->associate($customer); 
+       
+            $animal->petName = $request->input("petName");
+            $animal->Age = $request->input("Age");
+            $animal->Type = $request->input("Type");
+            $animal->Breed = $request->input("Breed");
+            $animal->Sex = $request->input("Sex");
+            $animal->Color = $request->input("Color");
+
         if ($file = $request->hasfile("img_path")) {
             $file = $request->file("img_path");
             $filename =  $file->getClientOriginalName();
             $destinationPath = public_path() . '/images/animals';
-            $customer->img_path = '/images/animals/' . $filename;   
+            $animal->img_path = '/images/animals/' . $filename;   
             $file->move($destinationPath,$filename); 
         }
 
-        $animal =  Animal::create($input);
         $animal->save();
         return Redirect::route("getAnimal")->with(
             "New Animal Added!"
@@ -91,24 +96,29 @@ class AnimalController extends Controller
 
     public function petstore(Request $request)
     {
-        $input = $request->all();
         $request->validate([
             'img_path' => ['mimes:jpeg,png,jpg,gif,svg'],
         ]);
 
         $customer = Customer::find($request->customer_id);
         $animal = new animal();
-        $animal->customer()->associate($customer);
-      
+        $animal->customer()->associate($customer); 
+       
+            $animal->petName = $request->input("petName");
+            $animal->Age = $request->input("Age");
+            $animal->Type = $request->input("Type");
+            $animal->Breed = $request->input("Breed");
+            $animal->Sex = $request->input("Sex");
+            $animal->Color = $request->input("Color");
+
         if ($file = $request->hasfile("img_path")) {
             $file = $request->file("img_path");
             $filename =  $file->getClientOriginalName();
             $destinationPath = public_path() . '/images/animals';
-            $customer->img_path = '/images/animals/' . $filename;   
+            $animal->img_path = '/images/animals/' . $filename;   
             $file->move($destinationPath,$filename); 
         }
 
-        $animal =  Animal::create($input);
         $animal->save();
         return Redirect::route("animal.getpet")->with(
             "New Animal Added!"

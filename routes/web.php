@@ -149,6 +149,7 @@ Route::group(['middleware' => 'guest'], function() {
             'as' => 'getconsultation',
         ]);
 
+        // Route::resource("/employee", EmployeeController::class)->except(['index', 'destroy','employee' , 'edit']);
   
     });
 
