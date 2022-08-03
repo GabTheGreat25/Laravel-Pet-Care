@@ -1,53 +1,104 @@
-@extends('layouts.usermaster')
-@section('content')
-{{-- <div class="container" style="background-color:rgba(206, 175, 152, 0.701); color:black; padding: 75px 1em 50px 1em;"> --}}
-  <h2>Edit Consultation Form &#128203;</h2>
-
-  {{ Form::model($consultations,['route' => ['consultations.update',$consultations->id],'method'=>'PUT',
-  'enctype'=>'multipart/form-data']) }} 
-
-    <div class="col-md-4"></div>
-    <div class="form-group col-md-4">
-      <label for="id">Employee Name Incharged:</label><i style="color:red">*</i>
-      {!! Form::select('id',$employees, $consultations->id,['class' => 'form-control']) !!}
-    </div>
-
-
-    <div class="col-md-4"></div>
-    <div class="form-group col-md-4">
-    <label for="dateConsult" class="control-label">Date of Consultation: </label><i style="color:red">*</i>
-    {{ Form::text('dateConsult',null,array('class'=>'form-control','id'=>'dateConsult')) }} 
-    @if($errors->has('dateConsult'))
-    <small>{{ $errors->first('dateConsult') }}</small>
-    @endif
-    </div>
-
-    <div class="col-md-4"></div>
-    <div class="form-group col-md-4">
-    <label for="fees" class="control-label">Consultation Fee: </label><i style="color:red">*</i>
-    {{ Form::text('fees',null,array('class'=>'form-control','id'=>'fees')) }} 
-    @if($errors->has('fees')) {{-- Without null di gagana yan error class for css class and rescuers id para alam ni laravel kanino siya babase --}}
-    <small>{{ $errors->first('fees') }}</small>
-    @endif
-  </div> 
-
-  <div class="col-md-4"></div>
-  <div class="form-group col-md-4">
-  <label for="comment" class="control-label">Observations/Comments: </label><i style="color:red">*</i>
-  {{ Form::text('comment',null,array('class'=>'form-control','id'=>'comment')) }}
-  @if($errors->has('comment'))
-  <small>{{ $errors->first('comment') }}</small>
-  @endif
-
-</div>
-
-<div >
-<button type="submit" class="btn btn-primary" onclick="return confirm('Consultation updated!')">Update &#128233;</button>
-<a href="{{url()->previous()}}" class="btn btn-default" role="button">Cancel</a>
-  </div>  
-  
-</div> 
-</div>
-
-{!! Form::close() !!} 
+@extends('html.usermaster')
+@section('title')
+    Consultation Edit
 @endsection
+@section('contents')
+    <div>
+        <div>
+            <h1>
+                Update consultations
+            </h1>
+        </div>
+        <div>
+            <div>
+                {{ Form::model($consultations, [
+                    'route' => ['consultation.update', $consultations->id],
+                    'method' => 'PUT',
+                    'enctype' => 'multipart/form-data',
+                ]) }}
+                <div>
+
+                    <div class="col-md-4"></div>
+                    {{-- <div class="form-group col-md-4">
+                        <label for="customer">Employee Name Incharged:</label>
+                        {!! Form::select('customer_id', $customers, $animal->customer_id, ['class' => 'form-control']) !!}
+                    </div> --}}
+
+                    <div class="md-form mb-5">
+                        <label for="employee_id">Employee Name Incharged:</label>
+                        {!!
+                         Form::select('employee_id', App\Models\Employee::pluck('name', 'id'), null, [
+                            'class' => 'form-control',
+                        ]) !!}
+                    </div>
+
+                    <div class="md-form mb-5">
+                        <label for="animal_id">Pet Name:</label>
+                        {!!
+                         Form::select('animal_id', App\Models\Animal::pluck('petName', 'id'), null, [
+                            'class' => 'form-control',
+                        ]) !!}
+                    </div>
+
+                    <div>
+                        <div>
+                            <label for="dateConsult">Date of Consultation:</label>
+                            {{ Form::text('dateConsult', null, [
+                                'id' => 'dateConsult',
+                            ]) }}
+                            @if ($errors->has('dateConsult'))
+                                <p>{{ $errors->first('dateConsult') }}</p>
+                            @endif
+                        </div>
+
+                        <div>
+                            <div>
+                                <label for="fees">Fees:</label>
+                                {{ Form::text('fees', null, [
+                                    'id' => 'fees',
+                                ]) }}
+                                @if ($errors->has('fees'))
+                                    <p>{{ $errors->first('fees') }}</p>
+                                @endif
+                            </div>
+
+                            <div class="md-form mb-5">
+                                <label for="disease_id">Disease:</label>
+                                {!!
+                                 Form::select('disease_id', App\Models\disease::pluck('title', 'id'), null, [
+                                    'class' => 'form-control',
+                                ]) !!}
+                            </div>
+
+
+                            <div class="md-form mb-5">
+                                <label for="injury_id">Injury:</label>
+                                {!!
+                                 Form::select('injury_id', App\Models\injury::pluck('titles', 'id'), null, [
+                                    'class' => 'form-control',
+                                ]) !!}
+                            </div>
+
+                            <div>
+                                <div>
+                                    <label for="comment">Comment:</label>
+                                    {{ Form::text('comment', null, [
+                                        'id' => 'comment',
+                                    ]) }}
+                                    @if ($errors->has('comment'))
+                                        <p>{{ $errors->first('comment') }}</p>
+                                    @endif
+                                </div>
+
+                                <div>
+                                    <button type="submit">
+                                        Submit
+                                    </button>
+                                    <a href="{{ url()->previous() }}" role="button">Cancel</a>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endsection
