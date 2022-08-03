@@ -12,7 +12,7 @@
     @yield('styles')
 </head>
 
-<body style="background-image: url(bg.png); background-size:cover;">
+<body style="background-image: url(/navbar/bg.png); background-size:cover;">
 
     @include('partials.header')
     <div>
