@@ -19,10 +19,10 @@
                         <th>Customer ID</th>
                         <th>Customer Name</th>
                         <th>Customer Image</th>
-                        <th>Pet ID</th>
+                        {{-- <th>Pet ID</th>
                         <th>Customer's Pet Name</th>
                         <th>Customer's Pet Full Info</th>
-                        <th>Customer's Pet Image</th>
+                        <th>Customer's Pet Image</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -32,23 +32,30 @@
                         <td> <img src="{{ asset($customer->img_path) }}" alt="I am A Pic" width="100" height="100">
                         </td>
                 </tbody>
+
+                <thead>
+                    <tr>
+                        <th>Pet information</th>
+                    </tr>
+                </thead>
+<tbody>
                 @foreach ($customer->animals as $animal)
-                    <td>{{ $animal->id }} </td>
-                    <td>{{ $animal->petName }} </td>
+                    <td>Id: <i style= "color:red">{{ $animal->id }} </i></td>
+                    <td>Name:  <i style= "color:red">{{ $animal->petName }}</i> </td>
                     <td>
-                        <li> {{ $animal->Age }}</li>
-                        <li> {{ $animal->Type }}</li>
-                        <li> {{ $animal->Breed }}</li>
-                        <li> {{ $animal->Sex }}</li>
-                        <li> {{ $animal->Color }}</li>
+                        <li> Age: <i style= "color:red">{{ $animal->Age }}</i></li>
+                        <li> Type: <i style= "color:red">{{ $animal->Type }}</i></li>
+                        <li> Breed: <i style= "color:red">{{ $animal->Breed }}</i></li>
+                        <li> Sex: <i style= "color:red">{{ $animal->Sex }}</i></li>
+                        <li> Color: <i style= "color:red">{{ $animal->Color }}</i></li>
                     </td>
-                    <td> <img src="{{ asset($animal->img_path) }}" alt="I am A Pic" width="100" height="100"></td>
+                    <td>Image: <img src="{{ asset($animal->img_path) }}" alt="I am A Pic" width="100" height="100"></td>
                 @endforeach
             @empty
                 <p>The Customer Haven't Added His/Her Pet Yet!</p>
                 @endforelse
             </table>
-
+        </tbody>
             <div class="modal" id="animalModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document" style="width:75%;">
