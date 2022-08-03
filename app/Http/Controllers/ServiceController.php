@@ -56,21 +56,25 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        $request->validate([
-        "servname" => ["required", "min:3"],
-        "description" => ["required"],
-        "price" => ["required", "numeric", "min:3"],
-        'img_path' => ['mimes:jpeg,png,jpg,gif,svg'],
+        $this->validate($request, [
+            'img_path' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
+
+        $services = new Service();
+       
+            $services->servname = $request->input("servname");
+            $services->description = $request->input("description");
+            $services->price = $request->input("price");
+
         if ($file = $request->hasfile("img_path")) {
             $file = $request->file("img_path");
             $filename =  $file->getClientOriginalName();
             $destinationPath = public_path() . '/images/services';
-            $input->img_path = '/images/services/' . $filename;   
+            $services->img_path = '/images/services/' . $filename;   
             $file->move($destinationPath,$filename); 
         }
-        Service::create($input);
+
+        $services->save();
         return Redirect::route("getService")->with(
             "New Service Added!"
         );
