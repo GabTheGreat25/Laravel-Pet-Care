@@ -1,103 +1,108 @@
 @extends('html.usermaster')
 @section('title')
-    animal Edit
+animal Edit
 @endsection
 @section('contents')
+<div>
     <div>
-        <div>
-            <h1>
-                Update animals
-            </h1>
-        </div>
-        <div>
-            <div>
+        <h1 style="text-align:
+        center; font-weight: 700;">
+            Update Animals
+        </h1>
+    </div>
+    <div class="modal-body mx-3" style="display: grid; justify-content:center;">
+        <div class="md-form mb-5">
+            <div style="display: inline-block; width: 40rem;">
                 {{ Form::model($animal, [
-                    'route' => ['animal.update', $animal->id],
-                    'method' => 'PUT',
-                    'enctype' => 'multipart/form-data',
+                'route' => ['animal.update', $animal->id],
+                'method' => 'PUT',
+                'enctype' => 'multipart/form-data',
                 ]) }}
+
                 <div>
-
-                    <div class="col-md-4"></div>
-                    <div class="form-group col-md-4">
-                        <label for="customer">Customer:</label><i style="color:red">*</i>
-                        {!! Form::select('customer_id', $customers, $animal->customer_id, ['class' => 'form-control']) !!}
-                    </div>
-
                     <div>
-                        <div>
-                            <label for="petName">Pet Name</label>
-                            {{ Form::text('petName', null, [
-                                'id' => 'petName',
-                            ]) }}
-                            @if ($errors->has('petName'))
-                                <p>{{ $errors->first('petName') }}</p>
-                            @endif
-                        </div>
-
-                        <div>
-                            <div>
-                                <label for="Age">Age</label>
-                                {{ Form::text('Age', null, [
-                                    'id' => 'Age',
-                                ]) }}
-                                @if ($errors->has('Age'))
-                                    <p>{{ $errors->first('Age') }}</p>
-                                @endif
-                            </div>
-
-
-                            <div>
-                                <div>
-                                    <label for="Type">Type</label>
-                                    {{ Form::text('Type', null, [
-                                        'id' => 'Type',
-                                    ]) }}
-                                    @if ($errors->has('Type'))
-                                        <p>{{ $errors->first('Type') }}</p>
-                                    @endif
-                                </div>
-
-                                <div>
-                                    <label for="Breed">Breed</label>
-                                    {{ Form::text('Breed', null, ['id' => 'Breed']) }}
-                                    @if ($errors->has('Breed'))
-                                        <p>{{ $errors->first('Breed') }}</p>
-                                    @endif
-                                </div>
-
-                                <div>
-                                    <label for="Sex">Sex</label>
-                                    {{ Form::text('Sex', null, [
-                                        'id' => 'Sex',
-                                    ]) }}
-                                    @if ($errors->has('Sex'))
-                                        <p>{{ $errors->first('Sex') }}</p>
-                                    @endif
-                                </div>
-
-                                <div>
-                                    <label for="Color">Color</label>
-                                    {{ Form::text('Color', null, ['id' => 'Color']) }}
-                                    @if ($errors->has('Color'))
-                                        <p>{{ $errors->first('Color') }}</p>
-                                    @endif
-                                </div>
-
-                                <label data-error="wrong" data-success="right" for="img_path"
-                                    style="display: inline-block;
-          width: 150px; ">Animal Image</label>
-                                <input type="file" id="img_path" class="form-control validate" name="img_path">
-
-                                <div>
-                                    <button type="submit">
-                                        Submit
-                                    </button>
-                                    <a href="{{ url()->previous() }}" role="button">Cancel</a>
-                                </div>
-                            </div>
-                            </form>
-                        </div>
+                        <label for="customer">Customer:</label>
+                        {!! Form::select('customer_id', $customers, $animal->customer_id, ['class' => 'form-control'])
+                        !!}
                     </div>
+                    <br>
+                    <div>
+                        <label for="petName">Pet Name</label>
+                        {{ Form::text('petName', null, [
+                        'id' => 'petName',
+                        'class' => 'form-control',
+                        ]) }}
+                        @if ($errors->has('petName'))
+                        <p>{{ $errors->first('petName') }}</p>
+                        @endif
+                    </div>
+                    <br>
+                    <div>
+                        <label for="Age">Age</label>
+                        {{ Form::text('Age', null, [
+                        'id' => 'Age',
+                        'class' => 'form-control',
+                        ]) }}
+                        @if ($errors->has('Age'))
+                        <p>{{ $errors->first('Age') }}</p>
+                        @endif
+                    </div>
+                    <br>
+                    <div>
+                        <label for="Type">Type</label>
+                        {{ Form::text('Type', null, [
+                        'id' => 'Type',
+                        'class' => 'form-control',
+                        ]) }}
+                        @if ($errors->has('Type'))
+                        <p>{{ $errors->first('Type') }}</p>
+                        @endif
+                    </div>
+                    <br>
+                    <div>
+                        <label for="Breed">Breed</label>
+                        {{ Form::text('Breed', null, ['id' => 'Breed', 'class' => 'form-control',]) }}
+                        @if ($errors->has('Breed'))
+                        <p>{{ $errors->first('Breed') }}</p>
+                        @endif
+                    </div>
+                    <br>
+                    <div>
+                        <label for="Sex">Sex</label>
+                        {{ Form::text('Sex', null, [
+                        'id' => 'Sex', 'class' => 'form-control',
+                        ]) }}
+                        @if ($errors->has('Sex'))
+                        <p>{{ $errors->first('Sex') }}</p>
+                        @endif
+                    </div>
+                    <br>
+                    <div>
+                        <label for="Color">Color</label>
+                        {{ Form::text('Color', null, ['id' => 'Color', 'class' => 'form-control',]) }}
+                        @if ($errors->has('Color'))
+                        <p>{{ $errors->first('Color') }}</p>
+                        @endif
+                    </div>
+                    <br>
                 </div>
-            @endsection
+            </div>
+        </div>
+
+        <label data-error="wrong" data-success="right" for="img_path" style="display: inline-block;
+                  width: 150px; ">Animal Image</label>
+        <input type="file" id="img_path" class="form-control validate" name="img_path">
+        <br>
+        <div style="display: grid; grid-template-columns: .5fr .5fr; gap: 2rem; ">
+            <button type="submit" class="btn btn-success">
+                Submit
+            </button>
+            <div style="display: grid; justify-content: center;" class="btn btn-danger">
+                <a href="{{ url()->previous() }}" role="button">Cancel</a>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+</div>
+@endsection

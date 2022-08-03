@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ url('src/css/app.css') }}">
 </head>
 
-<body style="background-image: url(bg.png); background-size:cover;">
+<body style="background-image: url(/navbar/bg.png); background-size:cover;">
     {{-- @include('html.header') --}}
     @include('partials.header')
     <section>

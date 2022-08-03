@@ -56,6 +56,8 @@ Route::group(['middleware' => 'guest'], function() {
 
     Route::group(['middleware' => 'role:admin,employee'], function() {
 
+        Route::resource("/consultation", ConsultationController::class);
+
         Route::get('/services', [
             'uses' => 'ServiceController@getService',
             'as' => 'getService',
@@ -108,6 +110,7 @@ Route::group(['middleware' => 'guest'], function() {
                 ]);
 
         Route::resource("/employee", EmployeeController::class);
+
         // Route::resource("/customer", CustomerController::class)->except(['index','customer']);
 
         Route::get('empoyeeedit', [
@@ -139,10 +142,16 @@ Route::group(['middleware' => 'guest'], function() {
                     'as' => 'employee.register',
                 ]);
 
-                Route::resource("/customer", CustomerController::class, ['except'=>['destroy']]);;
+        // Route::resource("/customer", CustomerController::class, ['except'=>['destroy']]);
+
+        Route::get('/consultations', [
+            'uses' => 'ConsultationController@getconsultation',
+            'as' => 'getconsultation',
+        ]);
+
+        // Route::resource("/employee", EmployeeController::class)->except(['index', 'destroy','employee' , 'edit']);
+  
     });
-
-
 
     Route::group(['middleware' => 'role:customer'], function() {
         Route::get('customerProfile', [
@@ -170,7 +179,22 @@ Route::group(['middleware' => 'guest'], function() {
             'as' => 'customer.postupdate',
         ]); 
 
-        Route::resource("/animal", AnimalController::class)->except(['animals','edit','destroy','animals']);
+        Route::get('/mypets', [
+            'uses' => 'AnimalController@getpet',
+            'as' => 'animal.getpet',
+        ]);
+
+        Route::get('/mypetcreate', [
+            'uses' => 'AnimalController@petcreate',
+            'as' => 'animal.petcreate',
+        ]);
+
+        Route::post('/mypetstore', [
+            'uses' => 'AnimalController@petstore',
+            'as' => 'customer.petstore',
+        ]); 
+        
+        // Route::resource("/animal", AnimalController::class)->only(['edit','destroy','create','index','animal']);
     });
 
 Route::get('logout',[

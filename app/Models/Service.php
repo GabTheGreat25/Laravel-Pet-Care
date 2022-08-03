@@ -11,6 +11,7 @@ class Service extends Model
         "servname" => ["required", "min:3"],
         "description" => ["required"],
         "price" => ["required", "numeric", "min:3"],
+        'img_path' => ['mimes:jpeg,png,jpg,gif,svg'],
     ];
 
     use HasFactory;
