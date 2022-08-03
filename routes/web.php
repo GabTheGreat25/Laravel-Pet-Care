@@ -108,6 +108,7 @@ Route::group(['middleware' => 'guest'], function() {
                 ]);
 
         Route::resource("/employee", EmployeeController::class);
+
         // Route::resource("/customer", CustomerController::class)->except(['index','customer']);
 
         Route::get('empoyeeedit', [
@@ -139,7 +140,8 @@ Route::group(['middleware' => 'guest'], function() {
                     'as' => 'employee.register',
                 ]);
 
-        Route::resource("/customer", CustomerController::class, ['except'=>['destroy']]);;
+        // Route::resource("/customer", CustomerController::class, ['except'=>['destroy']]);
+
     });
 
 
