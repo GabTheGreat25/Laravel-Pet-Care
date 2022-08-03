@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\View;
 use App\Models\consultations;
 use App\Models\employee;
 use App\Models\animal;
-use App\Models\disease;
-use App\Models\injury;
-use App\Models\consultations_line;
+use App\Models\diseases_injuries;
+use App\Models\consultations_disease_injuries;
+use App\DataTables\ConsultationsDataTable;
 
 class ConsultationController extends Controller
 {
@@ -23,31 +23,18 @@ class ConsultationController extends Controller
     public function index()
     {
         //
-        $consultations = DB::table('consultations')
 
-        // ->leftJoin('employees','consultations.employee_id','=','employees.id')
+        // $consultations = DB::table('consultations')
+        // ->leftJoin('consultations_line','consultations.id','=','consultations_line.consultations_line_id')
+        // ->leftJoin('employees','employees.id','=','consultations.employee_id')
         // ->leftJoin('animals','animals.id','=','consultations_line.animal_id')
-        // // ->leftJoin('animals','consultations_line.animal_id','=','animals.id')
-        // ->leftJoin('diseases','consultations_line.disease_id','=','diseases.id')
-        // ->leftJoin('injuries','consultations_line.injury_id','=','injuries.id')
+        // ->leftJoin('diseases','diseases.id','=','consultations_line.disease_id')
+        // ->leftJoin('injuries','injuries.id','=','consultations_line.injury_id')
+        // ->select('consultations.id', 'animals.id', 'animals.img_path', 'consultations.employee_id', 'employees.id', 'consultations_line.animal_id', 'diseases.id', 'injuries.id', 'consultations.dateConsult', 'consultations.fees', 'consultations_line.disease_id', 'consultations_line.injury_id', 'consultations.comment', 'consultations.created_at', 'consultations.updated_at', 'consultations.deleted_at', 'employees.name', 'animals.petName', 'diseases.title', 'injuries.titles')
 
-        // ->leftJoin('consultations','consultations.id','=','consultations_line.consultations_line_id')
+        // ->get();
 
-        // ->select('consultations.id', 'consultations.employee_id','consultations_line.animal_id','consultations.dateConsult', 'consultations.fees', 'consultations_line.disease_id', 'consultations_line.injury_id', 'consultations.comment', 'consultations.created_at', 'consultations.updated_at', 'consultations.deleted_at', 'employees.name', 'animals.petName', 'diseases.title', 'injuries.titles')
-
-        ->leftJoin('consultations_line','consultations.id','=','consultations_line.consultations_line_id')
-        ->leftJoin('employees','employees.id','=','consultations.employee_id')
-        ->leftJoin('animals','animals.id','=','consultations_line.animal_id')
-        ->leftJoin('diseases','diseases.id','=','consultations_line.disease_id')
-        ->leftJoin('injuries','injuries.id','=','consultations_line.injury_id')
-
-        // ->select('listeners.id','listeners.listener_name','albums.album_name')
-        // ->select('animals.id','animals.Name', 'animals.Age', 'animals.Type', 'animals.Breed', 'animals.Sex','animals.Color', 'animals.img_path', 'animals.customers_id','animals.created_at', 'animals.updated_at', 'animals.deleted_at', 'customers.customer_id', 'customers.firstName')
-        ->select('consultations.id', 'animals.id', 'animals.img_path', 'consultations.employee_id', 'employees.id', 'consultations_line.animal_id', 'diseases.id', 'injuries.id', 'consultations.dateConsult', 'consultations.fees', 'consultations_line.disease_id', 'consultations_line.injury_id', 'consultations.comment', 'consultations.created_at', 'consultations.updated_at', 'consultations.deleted_at', 'employees.name', 'animals.petName', 'diseases.title', 'injuries.titles')
-
-        ->get();
-
-        return View::make('consultations.index', ['consultations' => $consultations]);
+        // return View::make('consultations.index', ['consultations' => $consultations]);
 
     }
 
@@ -59,14 +46,18 @@ class ConsultationController extends Controller
     public function create()
     {
         //
-        $employees = employee::pluck('name', 'id');
-        $animals = animal::pluck('petName', 'id');
-        $diseases = disease::pluck('title', 'id');
-        $injuries = injury::pluck('titles', 'id');
-        return View::make('consultations.create',compact('employees', 'animals', 'diseases', 'injuries'));
+        // $employees = employee::pluck('name', 'id');
+        // $animals = animal::pluck('petName', 'id');
+        // $diseases_injuries = diseases_injuries::pluck('title', 'id');
+        // // return View::make('consultations.create',compact('employees', 'animals', 'diseases', 'injuries'));
 
-        // $customers = customers::pluck('firstName', 'customer_id');
-        // return View::make('animals.create',['customers' => $customers]);
+        // return view('consultations.create',['employees' => $employees, 'animals' => $animals, 'diseases_injuries' => $diseases_injuries]);
+        // // $customers = customers::pluck('firstName', 'customer_id');
+        // // return View::make('animals.create',['customers' => $customers]);
+
+        $diseases_injuries = diseases_injuries::with('animals')->get();
+        
+        return View::make('consultations.create', compact('diseases_injuries'));
 
     }
 
@@ -79,42 +70,36 @@ class ConsultationController extends Controller
     public function store(Request $request)
     {
         //
-        
-        $success = false; //flag
-        DB::beginTransaction();
-        try {
-            $consultations = new consultations;
-            $consultations->employee_id = $request->input("employee_id");
-            $consultations->dateConsult = $request->input("dateConsult");
-            $consultations->fees = $request->input("fees");
-            $consultations->comment = $request->input("comment");
-            $consultations->save();
 
-            $line = new consultations_line;
-            $line->consultations_line_id = $consultations->id;
-            $line->animal_id = $request->input("animal_id");
-            $line->disease_id = $request->input("disease_id");
-            $line->injury_id = $request->input("injury_id");
-            
+        // $input = $request->all();
+        // $consultations = consultations::create($input);
+        // // Event::dispatch(new SendMail($listener));
+        // if(!(empty($request->disease_injuries_id))){
+        //         $consultations->diseases_injuries()->attach($request->disease_injuries_id);
+        //   }
+        // return Redirect::route('getconsultation')->with('success','listener created!');
 
-            // $consultations->username = $request::get('username');
-            // $user->email = $request::get('email');
+        // $this->validate($request, [
+        //     'employee_id' => 'required| numeric',
+        //     'fees' => 'required| numeric',
+        //     'comment' => 'required| min:4'
+        // ]);
+
+        $consultations = new consultations([
+              'employee_id' => $request->input('employee_id'),
+              'dateConsult' => $request->input('dateConsult'),
+              'fees' => $request->input('fees'),
+              'comment' => $request->input('comment'),
+          ]);
+           $consultations->save();
+
+            $line = new consultations_disease_injuries;
+            $line->consultations_id = $consultations->id;
+            $line->animals_id = $request->input("animals_id");
+            $line->disease_injuries_id = $request->input("disease_injuries_id");
             $line->save();
     
-            $success = true;
-            if ($success) {
-                DB::commit();
-            }
-    
-        } catch (\Exception $e) {
-            DB::rollback();
-            $success = false;
-            return ["error" => $e->getMessage()];
-        }
-    
-        // return ["success" => "Data Inserted"];
-
-         return redirect()->route('consultations.index')->with('SUCCESS!', 'Consultation added!');
+         return redirect()->route('getconsultation')->with('SUCCESS!', 'Consultation added!');
 
     }
     
@@ -128,8 +113,24 @@ class ConsultationController extends Controller
     public function show($id)
     {
         //
-        $consultations = consultations::all();
-        return View::make('consultations.index',compact('consultations'));
+        // $consultations = consultations::all();
+        // return View::make('consultations.index',compact('consultations'));
+
+    //     $consultations = DB::table('consultations')
+    //     ->leftJoin('consultations_line','consultations.id','=','consultations_line.consultations_line_id')
+    //     ->leftJoin('employees','employees.id','=','consultations.employee_id')
+    //     ->leftJoin('animals','animals.id','=','consultations_line.animal_id')
+    //     ->leftJoin('diseases','diseases.id','=','consultations_line.disease_id')
+    //     ->leftJoin('injuries','injuries.id','=','consultations_line.injury_id')
+    //     ->select('consultations.id', 'animals.id', 'animals.img_path', 'consultations.employee_id', 'employees.id', 'consultations_line.animal_id', 'diseases.id', 'injuries.id', 'consultations.dateConsult', 'consultations.fees', 'consultations_line.disease_id', 'consultations_line.injury_id', 'consultations.comment', 'consultations.created_at', 'consultations.updated_at', 'consultations.deleted_at', 'employees.name', 'animals.petName', 'diseases.title', 'injuries.titles')
+
+    //     ->get();
+
+    //     //return View::make('consultations.show', ('consultations'));
+    //    // return View::make('consultations.show', ['consultations' => $consultations]);
+    //     return View::make('consultations.show', ('consultations'));
+
+
     }
 
     /**
@@ -142,13 +143,36 @@ class ConsultationController extends Controller
     {
         //
 
-        $consultations = consultations::find($id);
-        $employees = employee::pluck('name', 'id');
-        $animals = animal::pluck('petName', 'id');
-        $diseases = disease::pluck('title', 'id');
-        $injuries = injury::pluck('titles', 'id');
+        $consultation_disease_injuries = array();
+        $consultations = consultations::with('diseases_injuries')->where('id', $id)->first();
+        if (!(empty($consultations->diseases_injuries))) {
+            foreach ($consultations->diseases_injuries as $consultation_disease_injuries) {
+                $consultation_disease_injuries[$consultation_disease_injuries->id] = $consultation_disease_injuries->title;
+            }
+        }
+        
+        $diseases_injuries = diseases_injuries::pluck('title', 'id')->toArray();
 
-	    return View::make('consultations.edit',compact('consultations', 'employees', 'animals', 'diseases', 'injuries'));
+        return View::make('consultations.edit', compact('diseases_injuries', 'consultations', 'consultation_disease_injuries' ,'animals'));
+
+//-------
+        //  $listener_albums = array();
+        // $listener = Listener::with('albums')->where('id', $id)->first();
+        // if (!(empty($listener->albums))) {
+        //     foreach ($listener->albums as $listener_album) {
+        //         $listener_albums[$listener_album->id] = $listener_album->album_name;
+        //     }
+        // }
+        // $albums = Album::pluck('album_name', 'id')->toArray();
+
+        // return View::make('listener.edit', compact('albums', 'listener', 'listener_albums'));
+//--------------
+        // $consultations = consultations::find($id);
+        // $employees = employee::pluck('name', 'id');
+        // $animals = animal::pluck('petName', 'id');
+        // $diseases_injuries = diseases_injuries::pluck('title', 'id');
+
+	    // return View::make('consultations.edit',compact('consultations', 'employees', 'animals', 'diseases', 'injuries'));
 
     }
 
@@ -163,38 +187,33 @@ class ConsultationController extends Controller
     {
         //
         
-        $success = false; //flag
-        DB::beginTransaction();
-        try {
-            $request->validate([
-                'id'=>'required|numeric',
-                'dateConsult'=>'required',
-                'fees'=>'required|numeric',
-                'comment'=>'required|regex:/^[a-zA-Z\s]*$/',
-    ]);
+        $consultations = consultations::find($id);
+        $diseases_injuriess = $request->input('animals_id');
+        $diseases_injuriess = $request->input('diseases_injuries_id');
+      
+        $consultations->diseases_injuries()->sync($diseases_injuriess);
 
-            $consultations = consultations::find($id);
-            $consultations->employee_id = $request->input("id");
-            $consultations->dateConsult = $request->input("dateConsult");
-            $consultations->fees = $request->input("fees");
-            $consultations->comment = $request->input("comment");
+        $consultations->update($request->all());
 
-            $consultations->update();
+        return Redirect::route('consultations.index')->with('success', 'consultations updated!');
 
-            $success = true;
-            if ($success) {
-                DB::commit();
-            }
-    
-        } catch (\Exception $e) {
-            DB::rollback();
-            $success = false;
-            return ["error" => $e->getMessage()];
-        }
-    
-        // return ["success" => "Data Inserted"];
 
-         return redirect()->route('consultations.index')->with('SUCCESS!', 'consultation edited!');
+    //         $request->validate([
+    //             'id'=>'required|numeric',
+    //             'dateConsult'=>'required',
+    //             'fees'=>'required|numeric',
+    //             'comment'=>'required|regex:/^[a-zA-Z\s]*$/',
+    // ]);
+
+    //         $consultations = consultations::find($id);
+    //         $consultations->employee_id = $request->input("id");
+    //         $consultations->dateConsult = $request->input("dateConsult");
+    //         $consultations->fees = $request->input("fees");
+    //         $consultations->comment = $request->input("comment");
+
+    //         $consultations->update();
+
+    //      return redirect()->route('getconsultation')->with('SUCCESS!', 'consultation edited!');
 
     }
 
@@ -206,16 +225,44 @@ class ConsultationController extends Controller
      */
     public function destroy($id)
     {
-        //
-        consultations::destroy($id);
-        return Redirect::to('/consultations')->with('SUCCESS!','Record deleted!');
+        $consultations = consultations::find($id);
+        $consultations->diseases_injuries()->detach();
+        // DB::table('album_listener')->where('listener_id',$id)->delete();
+        
+        $consultations->delete();
+     //   return Redirect::route('listener')->with('success','listener deleted!');
+        return Redirect::to('consultations')->with('success','New listener deleted!');
+
+        //-----
+        // consultations::destroy($id);
+        // return Redirect::to('/consultations')->with('SUCCESS!','Record deleted!');
+   //------
+        // $consultations= consultations::find($id);
+        // $consultations->delete();
+        // return Redirect::route("getconsultation")->with(
+        //             "Animal Deleted!"
+        //         );
     }
 
-    public function restore($id)
+    
+    public function getconsultation(ConsultationsDataTable $dataTable)
     {
-        consultations::onlyTrashed()->findOrFail($id)->restore(); 
-        return  Redirect::route('consultations.index')->with('SUCCESS','Consultation restored successfully!');
+        $diseases_injuries = diseases_injuries::with('animals')->get();
+        return $dataTable->render('consultations.consultation', compact('diseases_injuries'));
+        
+        // $consultations = consultations::with(['employee','animal','disease','injury'])->get();
+        //return $dataTable->render('consultations.consultation',compact('consultations'));
+ // $consultations = consultations::with('animal','disease','injury')->get();
+        // return $dataTable->render('animals.animal', compact('consultations'));
+
     }
+
+    
+    // public function restore($id)
+    // {
+    //     consultations::onlyTrashed()->findOrFail($id)->restore(); 
+    //     return  Redirect::route('consultations.index')->with('SUCCESS','Consultation restored successfully!');
+    // }
 
     // public function forceDelete($consult_id)
     // {
@@ -227,23 +274,23 @@ class ConsultationController extends Controller
 
     // }
 
-    public function search(Request $request){
-        $search_text = $request->get('query');
-        $consultations = DB::table('consultations')
+    // public function search(Request $request){
+    //     $search_text = $request->get('query');
+    //     $consultations = DB::table('consultations')
   
-        ->leftJoin('consultations_line','consultations.id','=','consultations_line.consultations_line_id')
-        ->leftJoin('employees','employees.id','=','consultations.employee_id')
-        ->leftJoin('animals','animals.id','=','consultations_line.animal_id')
-        ->leftJoin('diseases','diseases.id','=','consultations_line.disease_id')
-        ->leftJoin('injuries','injuries.id','=','consultations_line.injury_id')
+    //     ->leftJoin('consultations_line','consultations.id','=','consultations_line.consultations_line_id')
+    //     ->leftJoin('employees','employees.id','=','consultations.employee_id')
+    //     ->leftJoin('animals','animals.id','=','consultations_line.animal_id')
+    //     ->leftJoin('diseases','diseases.id','=','consultations_line.disease_id')
+    //     ->leftJoin('injuries','injuries.id','=','consultations_line.injury_id')
         
-        ->select('consultations.id', 'animals.id', 'animals.img_path', 'consultations.employee_id', 'employees.id', 'consultations_line.animal_id', 'diseases.id', 'injuries.id', 'consultations.dateConsult', 'consultations.fees', 'consultations_line.disease_id', 'consultations_line.injury_id', 'consultations.comment', 'consultations.created_at', 'consultations.updated_at', 'consultations.deleted_at', 'employees.name', 'animals.petName', 'diseases.title', 'injuries.titles')
+    //     ->select('consultations.id', 'animals.id', 'animals.img_path', 'consultations.employee_id', 'employees.id', 'consultations_line.animal_id', 'diseases.id', 'injuries.id', 'consultations.dateConsult', 'consultations.fees', 'consultations_line.disease_id', 'consultations_line.injury_id', 'consultations.comment', 'consultations.created_at', 'consultations.updated_at', 'consultations.deleted_at', 'employees.name', 'animals.petName', 'diseases.title', 'injuries.titles')
 
-        // ->select('animals.id', 'animals.img_path','animals.petName','employees.id', 'employees.name', 'diseases.id',  'diseases.title','injuries.id','injuries.titles', 'animals.img_path', 'consultations.id', 'consultations.employee_id','consultations.animal_id', 'consultations.dateConsult','consultations.fees','consultations.disease_id', 'consultations.injury_id', 'consultations.comment',)
+    //     // ->select('animals.id', 'animals.img_path','animals.petName','employees.id', 'employees.name', 'diseases.id',  'diseases.title','injuries.id','injuries.titles', 'animals.img_path', 'consultations.id', 'consultations.employee_id','consultations.animal_id', 'consultations.dateConsult','consultations.fees','consultations.disease_id', 'consultations.injury_id', 'consultations.comment',)
 
-        ->where('petName', 'LIKE', '%' .$search_text.'%') 
-        ->get();
+    //     ->where('petName', 'LIKE', '%' .$search_text.'%') 
+    //     ->get();
 
-        return View::make('consultations.search',compact('consultations'));
-      }
+    //     return View::make('consultations.search',compact('consultations'));
+    //   }
 }
