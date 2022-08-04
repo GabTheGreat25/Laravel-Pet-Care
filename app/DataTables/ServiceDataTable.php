@@ -28,9 +28,12 @@ class ServiceDataTable extends DataTable
                     <button class="btn btn-danger" type="submit">Delete</button>
                       </form>';
             })
-            ->addColumn('images', function ($services) {
-                $url = asset("$services->img_path");
-                return '<img src=' . $url . ' alt = "I am a Pic" height="100" width="100">';
+            ->addColumn('images', function ($services) { 
+                        $images = explode('|',$services->img_path);
+                        foreach ($images as $url) 
+                        { 
+                            return '<img src='.$url.' alt = "I am a Pic" height="100" width="100">';
+                        } 
             })
             ->rawColumns(['action', 'images']);
     }
