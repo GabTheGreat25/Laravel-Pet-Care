@@ -282,14 +282,27 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        $customers= Customer::find($id);
-        $customers->animals()->delete();
-        $customers->user()->delete();
-        $customers->delete();
-        $customers = Customer::with('animals','user')->get();
+        // $customers= Customer::find($id);
+        // $customers->animals()->delete();
+        // $customers->user()->delete();
+        Customer::destroy($id);
+        // $customers->delete();
+        // $customers = Customer::with('animals','user')->get();
+        // DB::table("users")->where("user_id", $id)->delete();
+        // DB::table("animals")->where("customer_id", $id)->delete();
         return Redirect::route("getCustomer")->with(
                     "Customer Deleted!"
                 );
+    }
+
+    public function restore($id)
+    {
+        Customer::onlyTrashed()
+            ->findOrFail($id)
+            ->restore();
+        return Redirect::route("getCustomer")->with(
+            "Customer Restored!"
+        );
     }
 
     public function getCustomer(CustomerDataTable $dataTable)

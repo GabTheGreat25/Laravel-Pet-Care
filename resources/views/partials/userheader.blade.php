@@ -39,49 +39,57 @@
                 </li>
 
                 {{-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right"> --}}
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                        aria-expanded="false"> <i class="fa fa-archive" style="padding: 0 .5rem 0 0;"
-                            aria-hidden="true"></i> Storage <span class="caret"></span></a>
-                    <ul class="dropdown-menu" style="font-size: 1.75rem;">
+                    <ul class="nav navbar-nav navbar-right"> --}}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                aria-haspopup="true" aria-expanded="false"> <i class="fa fa-archive"
+                                    style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Storage <span
+                                    class="caret"></span></a>
+                            <ul class="dropdown-menu" style="font-size: 1.75rem;">
 
-                        <div>
-                            <ul class="nav navbar-nav">
+                                <div>
+                                    <ul class="nav navbar-nav">
 
-                                {{-- <li style="padding: 0 1rem;">
-                    <a href="{{ url('admin.profile') }}">
-                        Profile
-                    </a>
-                </li> --}}
+                                        {{-- <li style="padding: 0 1rem;">
+                                            <a href="{{ url('admin.profile') }}">
+                                                Profile
+                                            </a>
+                                        </li> --}}
 
-                                <li style="padding: 0 1rem;">
-                                    <a href="{{ url('/customers') }}">
-                                        Customer
-                                    </a>
-                                </li>
+                                        <li style="padding: 0 1rem;">
+                                            <a href="{{ url('/customers') }}">
+                                                Customer
+                                            </a>
+                                        </li>
 
-                                <li style="padding: 0 1rem;">
-                                    <a href="{{ url('/animals') }}">
-                                        Animals
-                                    </a>
-                                </li>
+                                        <li style="padding: 0 1rem;">
+                                            <a href="{{ url('/animals') }}">
+                                                Animals
+                                            </a>
+                                        </li>
 
-                                <li style="padding: 0 1rem;">
-                                    <a href="{{ url('/employees') }}">
-                                        Employee
-                                    </a>
-                                </li>
+                                        <li style="padding: 0 1rem;">
+                                            <a href="{{ url('/employees') }}">
+                                                Employee
+                                            </a>
+                                        </li>
 
-                                <li style="padding: 0 1rem;">
-                                    <a href="{{ url('/services') }}">
-                                        Pet Services
-                                    </a>
-                                </li>
-                            </ul>
-                </li>
-                {{-- </ul>
-</div> <!-- /.navbar-collapse --> --}}
+                                        <li style="padding: 0 1rem;">
+                                            <a href="{{ url('/services') }}">
+                                                Pet Services
+                                            </a>
+                                        </li>
+
+                                        <li style="padding: 0 1rem;">
+                                            <a href="{{ url('/customer') }}">
+                                                Reactivate
+                                            </a>
+                                        </li>
+                                    </ul>
+                        </li>
+                        {{--
+                    </ul>
+                </div> <!-- /.navbar-collapse --> --}}
         </div> <!-- /.container-fluid -->
         </ul>
     </div>
@@ -94,16 +102,15 @@
                         class="caret"></span></a>
                 <ul class="dropdown-menu" style="font-size: 1.75rem;">
                     @if (Auth::check())
-                        <li
-                            style="padding-left: 2rem; white-space: nowrap; overflow: hidden;
+                    <li style="padding-left: 2rem; white-space: nowrap; overflow: hidden;
                             text-overflow: ellipsis;">
-                            <p> Welcome, {{ Auth::user()->userName }}</p>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="{{ route('user.logout') }}">Logout</a></li>
+                        <p> Welcome, {{ Auth::user()->userName }}</p>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="{{ route('user.logout') }}">Logout</a></li>
                     @else
-                        <li><a href="{{ route('user.signup') }}">Signup</a></li>
-                        <li><a href="{{ route('user.signin') }}">Signin</a></li>
+                    <li><a href="{{ route('user.signup') }}">Signup</a></li>
+                    <li><a href="{{ route('user.signin') }}">Signin</a></li>
                     @endif
                 </ul>
             </li>
