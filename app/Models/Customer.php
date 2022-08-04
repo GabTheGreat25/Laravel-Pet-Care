@@ -33,6 +33,7 @@ class Customer extends Model
 
     protected $guarded = ["id"];
 
+
     public function animals() {
         return $this->hasMany('App\Models\Animal');
     }

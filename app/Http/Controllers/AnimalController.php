@@ -204,7 +204,7 @@ class AnimalController extends Controller
     {
         //
         $animals= Animal::find($id);
-        $animals->delete();
+        $animals->forceDelete();
         return Redirect::route("getAnimal")->with(
                     "Animal Deleted!"
                 );
