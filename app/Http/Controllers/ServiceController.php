@@ -56,24 +56,23 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'img_path' => 'mimes:jpeg,png,jpg,gif,svg',
-        ]);
-
-        $services = new Service();
-       
-            $services->servname = $request->input("servname");
-            $services->description = $request->input("description");
-            $services->price = $request->input("price");
-
-        if ($file = $request->hasfile("img_path")) {
-            $file = $request->file("img_path");
-            $filename =  $file->getClientOriginalName();
-            $destinationPath = public_path() . '/images/services';
-            $services->img_path = '/images/services/' . $filename;   
-            $file->move($destinationPath,$filename); 
+        $input=$request->all();
+        $images=array();
+         if($files=$request->file('images')){
+            foreach($files as $file){
+                $name=$file->getClientOriginalName();
+                $destinationPath = public_path().'/images/services' ;
+                $file->move($destinationPath,$name);
+                $images[]='images/services/'.$name;
+            }
         }
 
+       $services = new Service([
+            'img_path'=>  implode("|",$images),
+            'servname' =>$input['servname'],
+            'description' =>$input['description'],
+            'price' =>$input['price'],
+        ]);
         $services->save();
         return Redirect::route("getService")->with(
             "New Service Added!"
@@ -117,32 +116,22 @@ class ServiceController extends Controller
     public function update(Request $request, $id)
     {
         $services = Service::find($id);
-        $validator = Validator::make($request->all(), Service::$valRules);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withInput()->withErrors($validator);
-        }
-
-        if ($validator->passes()) {
-            $path = Storage::putFileAs('/images/services/', $request->file('img_path'), $request->file('img_path')->getClientOriginalName());
-
-            $request->merge(["img_path" => $request->file('img_path')->getClientOriginalName()]);
-
-            $input = $request->all();
-
-            if ($file = $request->hasFile('img_path')) {
-                $file = $request->file('img_path');
-                $fileName = $file->getClientOriginalName();
-                $destinationPath = public_path() . '/images/services';
-                $input['img_path'] = 'images/services/' . $fileName;
-                $services->update($input);
-                $file->move($destinationPath, $fileName);
-                return Redirect::route("getService")->with(
+        $input = $request->all();
+                        $images=array();
+                        if($files=$request->file('images')){
+                            foreach($files as $file){
+                            $name=$file->getClientOriginalName();
+                            $destinationPath = public_path().'/images/services' ;
+                            $file->move($destinationPath,$name);
+                            $images[]='images/services/'.$name;
+                            } 
+                        }
+                        $input['img_path'] = implode("|",$images);
+                        $services->update($input);
+                             return Redirect::route("getService")->with(
                     "Service Updated!"
                 );
             }
-        }
-    }
 
     /**
      * Remove the specified resource from storage.
