@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\consultations;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-class Animal extends Model
+class Animal extends Model implements Searchable
 {
     public static $valRules = [
         "petName" => ["required", "min:3"],
@@ -34,4 +36,20 @@ class Animal extends Model
     public function customer() {
         return $this->belongsTo('App\Models\Customer');
     }
+
+    public function consultations() 
+    {
+       return $this->belongsToMany('App\Models\consultations');
+    }
+
+     public function getSearchResult(): SearchResult
+      {
+         $url = route('getconsultation', $this->id);
+         return new \Spatie\Searchable\SearchResult(
+            $this,
+            $this->petName,
+            $url
+               );
+      }
+
 }

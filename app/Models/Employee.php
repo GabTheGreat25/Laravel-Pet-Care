@@ -19,6 +19,10 @@ class Employee extends Model
         return $this->belongsTO('App\Models\User');
     }
 
+    public function consultations() {
+        return $this->belongsToMany('App\Models\consultations');
+    }
+
     use HasFactory;
 
     protected $table = "employees";

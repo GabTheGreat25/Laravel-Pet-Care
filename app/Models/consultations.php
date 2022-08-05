@@ -2,13 +2,23 @@
 
 namespace App\Models;
 
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes; 
 
-class consultations extends Model
+
+class consultations extends Model implements Searchable
 {
+
     use HasFactory;
+
+    
+    protected $table = "consultations"; 
+
+    protected $primaryKey = "id";
+
+    protected $guarded = ["id"]; 
 
     public static $valRules = [
        
@@ -21,19 +31,33 @@ class consultations extends Model
 
     protected $fillable = ['employee_id','dateConsult', 'fees', 'comment'];
 
-    protected $table = "consultations"; 
 
-    protected $primaryKey = "id";
+    public function employees()
+    {
+         return $this->belongsToMany(employees::class);
+     }
 
-    protected $guarded = ["id"]; 
+    public function animals()
+    {
+         return $this->belongsToMany(animal::class);
+     }
 
-      public function diseases_injuries()
+    public function diseases_injuries()
 	{
  		return $this->belongsToMany(diseases_injuries::class);
  	}
    
-     public function employee()
-     {
-          return $this->belongsToMany(employee::class);
-      }
-}
+      public function getSearchResult(): SearchResult
+      {
+        $url = url('show-consultrecord/'.$this->id);
+      
+          return new \Spatie\Searchable\SearchResult(
+             $this,
+             $this->employee_id,
+             $this->dateConsult,
+             $this->fees,
+             $this->comment,
+             $url
+             );
+      }   
+    }

@@ -63,18 +63,9 @@
                             </div>
 
                             <div class="md-form mb-5">
-                                <label for="disease_id">Disease:</label>
+                                <label for="disease_injuries_id">Any disease/injury?</label>
                                 {!!
-                                 Form::select('disease_id', App\Models\disease::pluck('title', 'id'), null, [
-                                    'class' => 'form-control',
-                                ]) !!}
-                            </div>
-
-
-                            <div class="md-form mb-5">
-                                <label for="injury_id">Injury:</label>
-                                {!!
-                                 Form::select('injury_id', App\Models\injury::pluck('titles', 'id'), null, [
+                                 Form::select('disease_injuries_id', App\Models\diseases_injuries::pluck('title', 'id'), null, [
                                     'class' => 'form-control',
                                 ]) !!}
                             </div>
