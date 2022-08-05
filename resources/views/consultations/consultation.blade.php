@@ -1,16 +1,22 @@
-@extends('layouts.usermaster')
-@section('content')
+@extends('html.usermaster')
+@section('contents')
 
 <div><button type="button" class="btn btn-sm" data-toggle="modal" data-target="#listenerModal">
   create new consultation
 </button></div>
 
+<form class="navbar-form navbar-left" method="POST" role="search" action="{{route('petsearch')}}">
+  <input type="hidden" name="_token" value="{{ csrf_token() }}">
+  <div class="form-group">
+    <input type="text" name="search" class="form-control" placeholder="Search">
+  </div>
+  <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+</form></li>
+
   <div >
     {{$dataTable->table(['class' => 'table table-bordered table-striped table-hover '], true)}}
   </div>
-
   
-  {{-- june 29 --}}
   <div class="modal" id="listenerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document" style="width:75%;">
       <div class="modal-content">

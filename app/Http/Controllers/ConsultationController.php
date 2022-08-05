@@ -12,6 +12,9 @@ use App\Models\animal;
 use App\Models\diseases_injuries;
 use App\Models\consultations_disease_injuries;
 use App\DataTables\ConsultationsDataTable;
+use Spatie\Searchable\Search;
+use Illuminate\Support\Facades\Event;
+use App\Events\SendMail;
 
 class ConsultationController extends Controller
 {
@@ -20,7 +23,7 @@ class ConsultationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
 
@@ -35,6 +38,28 @@ class ConsultationController extends Controller
         // ->get();
 
         // return View::make('consultations.index', ['consultations' => $consultations]);
+
+
+        ///-----sa search na to
+        if (empty($request->get('search'))) {
+            $consultations = consultations::with('animals')->get();
+        
+        }
+    
+        else {
+
+            $consultations = consultations::whereHas('animals', function($q) use($request){
+                $q->where("petName","LIKE", "%".$request->get('search')."%");})
+                //   ->orWhere("petName","LIKE", "%".$request->get('search')."%");
+                //   })->orWhere('listener_name',"LIKE", "%".$request->get('search')."%")
+              ->get();
+          }
+      
+          $url = 'consultations';
+      
+        // return View::make('consultations.consultation',compact('consultations','url'));
+        // return Redirect::route('getconsultation')->with('success','listener created!');
+        return View::make('consultations.index',compact('consultations','url'));
 
     }
 
@@ -55,9 +80,9 @@ class ConsultationController extends Controller
         // // $customers = customers::pluck('firstName', 'customer_id');
         // // return View::make('animals.create',['customers' => $customers]);
 
-        $diseases_injuries = diseases_injuries::with('animals')->get();
+        $diseases_injuries = diseases_injuries::get();
         
-        return View::make('consultations.create', compact('diseases_injuries'));
+        return View::make('consultations.consultation', compact('diseases_injuries'));
 
     }
 
@@ -71,13 +96,19 @@ class ConsultationController extends Controller
     {
         //
 
-        // $input = $request->all();
-        // $consultations = consultations::create($input);
-        // // Event::dispatch(new SendMail($listener));
-        // if(!(empty($request->disease_injuries_id))){
-        //         $consultations->diseases_injuries()->attach($request->disease_injuries_id);
-        //   }
-        // return Redirect::route('getconsultation')->with('success','listener created!');
+        $input = $request->all();
+        $consultations = consultations::create($input);
+        Event::dispatch(new SendMail($consultations));
+
+        if(!(empty($request->disease_injuries_id))){
+                $consultations->diseases_injuries()->attach($request->disease_injuries_id);
+            }
+
+        // if(!(empty($request->animals_id))){
+        //     $consultations->animals()->attach($request->animals_id);      
+        // }
+   
+        return Redirect::route('getconsultation')->with('success','consultations created!');
 
         // $this->validate($request, [
         //     'employee_id' => 'required| numeric',
@@ -85,21 +116,23 @@ class ConsultationController extends Controller
         //     'comment' => 'required| min:4'
         // ]);
 
-        $consultations = new consultations([
-              'employee_id' => $request->input('employee_id'),
-              'dateConsult' => $request->input('dateConsult'),
-              'fees' => $request->input('fees'),
-              'comment' => $request->input('comment'),
-          ]);
-           $consultations->save();
 
-            $line = new consultations_disease_injuries;
-            $line->consultations_id = $consultations->id;
-            $line->animals_id = $request->input("animals_id");
-            $line->disease_injuries_id = $request->input("disease_injuries_id");
-            $line->save();
+        //------nagana
+        // $consultations = new consultations([
+        //       'employee_id' => $request->input('employee_id'),
+        //       'dateConsult' => $request->input('dateConsult'),
+        //       'fees' => $request->input('fees'),
+        //       'comment' => $request->input('comment'),
+        //   ]);
+        //    $consultations->save();
+
+        //     $line = new consultations_disease_injuries;
+        //     $line->consultations_id = $consultations->id;
+        //     $line->animals_id = $request->input("animals_id");
+        //     $line->diseases_injuries_id = $request->input("disease_injuries_id");
+        //     $line->save();
     
-         return redirect()->route('getconsultation')->with('SUCCESS!', 'Consultation added!');
+        //  return redirect()->route('getconsultation')->with('SUCCESS!', 'Consultation added!');
 
     }
     
@@ -112,25 +145,17 @@ class ConsultationController extends Controller
      */
     public function show($id)
     {
-        //
-        // $consultations = consultations::all();
-        // return View::make('consultations.index',compact('consultations'));
-
-    //     $consultations = DB::table('consultations')
-    //     ->leftJoin('consultations_line','consultations.id','=','consultations_line.consultations_line_id')
-    //     ->leftJoin('employees','employees.id','=','consultations.employee_id')
-    //     ->leftJoin('animals','animals.id','=','consultations_line.animal_id')
-    //     ->leftJoin('diseases','diseases.id','=','consultations_line.disease_id')
-    //     ->leftJoin('injuries','injuries.id','=','consultations_line.injury_id')
-    //     ->select('consultations.id', 'animals.id', 'animals.img_path', 'consultations.employee_id', 'employees.id', 'consultations_line.animal_id', 'diseases.id', 'injuries.id', 'consultations.dateConsult', 'consultations.fees', 'consultations_line.disease_id', 'consultations_line.injury_id', 'consultations.comment', 'consultations.created_at', 'consultations.updated_at', 'consultations.deleted_at', 'employees.name', 'animals.petName', 'diseases.title', 'injuries.titles')
-
-    //     ->get();
-
-    //     //return View::make('consultations.show', ('consultations'));
-    //    // return View::make('consultations.show', ['consultations' => $consultations]);
-    //     return View::make('consultations.show', ('consultations'));
-
-
+        
+        // $consultations = DB::table('consultations')
+        // ->leftJoin('consultations_line','consultations.id','=','consultations_disease_injuries.consultations_id')
+        // ->leftJoin('employees','employees.id','=','consultations.employee_id')
+        // ->leftJoin('animals','animals.id','=','consultations_disease_injuries.animals_id')
+        // ->leftJoin('diseases_injuries','diseases_injuries.id','=','consultations_disease_injuries.disease_injuries_id')
+        // ->select('consultations.id', 'animals.id', 'animals.img_path', 'consultations.employee_id', 'employees.id', 'consultations_disease_injuries.animals_id', 'diseases_injuries.id', 'consultations.dateConsult', 'consultations.fees', 'consultations_disease_injuries.disease_injuries_id', 'consultations.comment', 'consultations.created_at', 'consultations.updated_at', 'consultations.deleted_at', 'employees.name', 'animals.petName', 'diseases_injuries.title')
+        // ->where('consultations.id', $id)
+        // ->get();
+        // return View::make('consultations.show', compact('consultations'));
+        
     }
 
     /**
@@ -143,18 +168,37 @@ class ConsultationController extends Controller
     {
         //
 
-        $consultation_disease_injuries = array();
+        // $listener_albums = array();
+        // $listener = Listener::with('albums')->where('id', $id)->first();
+        // if (!(empty($listener->albums))) {
+        //     foreach ($listener->albums as $listener_album) {
+        //         $listener_albums[$listener_album->id] = $listener_album->album_name;
+        //     }
+        // }
+
+
+
+        $consultations_diseases_injuries = array();
+      //  $consultations = consultations::with('animals')->where('id', $id)->first();
         $consultations = consultations::with('diseases_injuries')->where('id', $id)->first();
+    
         if (!(empty($consultations->diseases_injuries))) {
-            foreach ($consultations->diseases_injuries as $consultation_disease_injuries) {
-                $consultation_disease_injuries[$consultation_disease_injuries->id] = $consultation_disease_injuries->title;
+            foreach ($consultations->diseases_injuries as $consultations_diseases_injuries) {
+                $consultations_diseases_injuries[$consultations_diseases_injuries->id] = $consultations_diseases_injuries->title;
             }
         }
-        
+
+        // if (!(empty($consultations->animals))) {
+        //         foreach ($consultations->animals as $consultations_diseases_injuries) {
+        //             $consultations_diseases_injuries[$consultations_diseases_injuries->id] = $consultations_diseases_injuries->petName;
+        //         }
+        // }
+    
+        $animals = animal::pluck('petName', 'id')->toArray();
         $diseases_injuries = diseases_injuries::pluck('title', 'id')->toArray();
-
-        return View::make('consultations.edit', compact('diseases_injuries', 'consultations', 'consultation_disease_injuries' ,'animals'));
-
+     
+        return View::make('consultations.edit', compact('diseases_injuries', 'consultations', 'animals','consultations_diseases_injuries'));
+    
 //-------
         //  $listener_albums = array();
         // $listener = Listener::with('albums')->where('id', $id)->first();
@@ -187,17 +231,45 @@ class ConsultationController extends Controller
     {
         //
         
+        // $consultations = consultations::find($request->id);
+        // $diseases_injuries = diseases_injuries::find($id);
+        // $diseases_injuries->consultations()->associate($consultations);
+
+        // return Redirect::route("getconsultation")->with(
+        //     "Consultation Updated!"
+        // );
+
+        // $listener = Listener::find($id);
+        // $album_ids = $request->input('album_id');
+        // $listener->albums()->sync($album_ids);
+        // $listener->update($request->all());
+        // return Redirect::route('listener.index')->with('success', 'lister updated!');
+
         $consultations = consultations::find($id);
-        $diseases_injuriess = $request->input('animals_id');
-        $diseases_injuriess = $request->input('diseases_injuries_id');
-      
-        $consultations->diseases_injuries()->sync($diseases_injuriess);
-
+        $animals_id = $request->input('animals_id');
+        $diseases_injuries_id = $request->input('diseases_injuries_id');
+        $consultations->animals()->sync($animals_id);
+        $consultations->diseases_injuries()->sync($diseases_injuries_id);
         $consultations->update($request->all());
+        return Redirect::route('getconsultation')->with('success', 'consultations updated!');
 
-        return Redirect::route('consultations.index')->with('success', 'consultations updated!');
 
+//---nagana
+        // $consultations = consultations::find($id);
+        // $consultations_ids = $request->input('consultations_id');
+        // // $diseases_injuriess = $request->input('diseases_injuries_id');
+        // $consultations->diseases_injuries()->sync($consultations_ids);
+        // $consultations->update($request->all());
 
+        // $line = new consultations_disease_injuries;
+        // $line->consultations_id = $consultations->id;
+        // $line->animals_id = $request->input("animal_id");
+        // $line->diseases_injuries_id = $request->input("disease_injuries_id");
+        // $line->save();
+
+        // return Redirect::route('getconsultation')->with('success', 'consultations updated!');
+
+///----
     //         $request->validate([
     //             'id'=>'required|numeric',
     //             'dateConsult'=>'required',
@@ -211,7 +283,21 @@ class ConsultationController extends Controller
     //         $consultations->fees = $request->input("fees");
     //         $consultations->comment = $request->input("comment");
 
-    //         $consultations->update();
+
+    // $consultations = consultations::find($id);
+    // $consultations = new consultations([
+    //     'employee_id' => $request->input('employee_id'),
+    //     'dateConsult' => $request->input('dateConsult'),
+    //     'fees' => $request->input('fees'),
+    //     'comment' => $request->input('comment'),
+    // ]);
+    //  $consultations->update();
+
+    //  $diseases_injuries = diseases_injuries::find($id);
+    //   $diseases_injuries = new consultations_disease_injuries;
+    //   $diseases_injuries->animals_id = $request->input("animal_id");
+    //   $diseases_injuries->diseases_injuries_id = $request->input("disease_injuries_id");
+    //   $diseases_injuries->update();
 
     //      return redirect()->route('getconsultation')->with('SUCCESS!', 'consultation edited!');
 
@@ -226,6 +312,7 @@ class ConsultationController extends Controller
     public function destroy($id)
     {
         $consultations = consultations::find($id);
+      //  $consultations->animals()->detach();
         $consultations->diseases_injuries()->detach();
         // DB::table('album_listener')->where('listener_id',$id)->delete();
         
@@ -233,28 +320,15 @@ class ConsultationController extends Controller
      //   return Redirect::route('listener')->with('success','listener deleted!');
         return Redirect::to('consultations')->with('success','New listener deleted!');
 
-        //-----
-        // consultations::destroy($id);
-        // return Redirect::to('/consultations')->with('SUCCESS!','Record deleted!');
-   //------
-        // $consultations= consultations::find($id);
-        // $consultations->delete();
-        // return Redirect::route("getconsultation")->with(
-        //             "Animal Deleted!"
-        //         );
     }
 
     
     public function getconsultation(ConsultationsDataTable $dataTable)
     {
-        $diseases_injuries = diseases_injuries::with('animals')->get();
-        return $dataTable->render('consultations.consultation', compact('diseases_injuries'));
+        $diseases_injuries = diseases_injuries::get();
+        $animals = animal::get();
+        return $dataTable->render('consultations.consultation', compact('diseases_injuries','animals'));
         
-        // $consultations = consultations::with(['employee','animal','disease','injury'])->get();
-        //return $dataTable->render('consultations.consultation',compact('consultations'));
- // $consultations = consultations::with('animal','disease','injury')->get();
-        // return $dataTable->render('animals.animal', compact('consultations'));
-
     }
 
     
@@ -293,4 +367,31 @@ class ConsultationController extends Controller
 
     //     return View::make('consultations.search',compact('consultations'));
     //   }
+
+
+    // public function search(Request $request){
+    //     $searchResults = (new Search())
+    //    ->registerModel(Item::class, 'description','cost_price','sell_price')
+    //    ->registerModel(Customer::class, 'lname','fname','addressline','town')
+    //    ->search($request->search);
+       
+    //    return view('search',compact('searchResults'));
+    //    }
+   // a pet and show it's medical history. 
+
+
+
+    //    public function petsearch(Request $request){
+    //     $petsearchResults = (new Search())
+    //     ->registerModel(animal::class, 'petName','Age','Type','Breed','Sex','Color','customer_id')
+    //    ->registerModel(consultations::class, 'employee_id','dateConsult','fees','comment')
+    //    ->registerModel(consultations_disease_injuries::class, 'animals_id','disease_injuries_id')
+    //    ->registerModel(diseases_injuries::class, 'title','description')
+    //    ->search($request->search);
+    //    // dd($searchResults);
+    //    // return view('item.search',compact('searchResults'));
+    //    return view('consultations.petsearch',compact('petsearchResults'));
+    //    }
 }
+
+
