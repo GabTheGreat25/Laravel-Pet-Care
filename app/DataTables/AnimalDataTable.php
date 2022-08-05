@@ -19,8 +19,10 @@ class AnimalDataTable extends DataTable
      */
     public function dataTable($query)
     {
+         $animals =  Animal::with(['customer:id,firstName'])->select('animals.*');
+
         return datatables()
-            ->eloquent($query)
+            ->eloquent($animals)
              ->addColumn('action', function($row) {
                     return "<a href=". route('animal.edit', $row->id). " class=\"btn btn-warning\">Edit</a> 
                     <form action=". route('animal.destroy', $row->id). " method= \"POST\" >". csrf_field().
@@ -28,11 +30,14 @@ class AnimalDataTable extends DataTable
                     <button class="btn btn-danger" type="submit">Delete</button>
                       </form>';
             })
+            ->addColumn('customer', function (Animal $animals) {
+                    return $animals->customer->firstName;
+                })
             ->addColumn('images', function ($Animals) {
                 $url = asset("$Animals->img_path");
                 return '<img src=' . $url . ' alt = "I am a pic" height="100" width="100">';
             })
-            ->rawColumns(['action', 'images']);
+            ->rawColumns(['customer','action','images']);
     }
 
     /**
@@ -77,7 +82,7 @@ class AnimalDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('customer_id')->title('customer'), // ? Title is yung header
+            Column::make('customer')->name('customer.firstName')->title('Owner'),
             Column::make('petName'),
             Column::make('Age'),
             Column::make('Type'),
