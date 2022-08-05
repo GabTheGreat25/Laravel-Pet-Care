@@ -80,6 +80,11 @@ Route::group(['middleware' => 'guest'], function() {
             'as' => 'getCustomer',
         ]);
 
+        Route::get("/customer/restore/{id}", [
+            "uses" => "customerController@restore",
+            "as" => "customer.restore",
+        ]);
+
         Route::resource("/animal", AnimalController::class)->except(['index','animal']);
         Route::resource("/customer", CustomerController::class);
 

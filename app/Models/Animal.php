@@ -7,6 +7,7 @@ use Spatie\Searchable\SearchResult;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\consultations;
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Animal extends Model implements Searchable
 {
     public static $valRules = [
@@ -20,10 +21,13 @@ class Animal extends Model implements Searchable
     ];
 
     use HasFactory;
+    use SoftDeletes;
+
+    protected $dates = ["deleted_at"];
 
     protected $table = "animals";
 
-    protected $fillable = [ "customer_id", "petName", "Age", "Type", "Breed", "Sex","Color","img_path"];
+    protected $fillable = [ "customer_id", "petName", "Age", "Type", "Breed", "Sex","Color","img_path",'created_at', 'updated_at','deleted_at'];
 
     protected $primaryKey = "id";
 

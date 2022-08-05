@@ -51,9 +51,9 @@ Service Edit
                 </div>
             </div>
         </div>
-        <label data-error="wrong" data-success="right" for="img_path" style="display: inline-block;
-          width: 150px; ">Service Image</label>
-        <input type="file" id="img_path" class="form-control validate" name="img_path">
+        <label for="img_path" style="display: inline-block; width: 150px;">Petgrooming
+            Image</label>
+        <input type="file" class="form-control validate" name="images[]" multiple>
         <br>
         <div style="display: grid; grid-template-columns: .5fr .5fr; gap: 2rem; ">
             <button type="submit" class="btn btn-success">
