@@ -30,9 +30,11 @@ class ServiceDataTable extends DataTable
             })
             ->addColumn('images', function ($services) { 
                         $images = explode('|',$services->img_path);
-                        foreach ($images as $url) 
+                        $image_name = is_array($images);
+                        $number = rand(0,3);
+                        for ($i = $number; $i <= $image_name; $i++) 
                         { 
-                            return '<img src='.$url.' alt = "I am a Pic" height="100" width="100">';
+                            return '<img src=' . $images[$i] .' alt = "I am a Pic" height="100" width="100">';
                         } 
             })
             ->rawColumns(['action', 'images']);
