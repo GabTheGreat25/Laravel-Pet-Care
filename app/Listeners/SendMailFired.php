@@ -30,7 +30,6 @@ class SendMailFired
 
        $customer = $event->customer;
        $customer = Customer::where('id',$event->customer->id)->first();
-       $email = 'email@address.com';
 
         Mail::send( 'email.user_notification', ['fname' => $customer->firstName, 'lname' => $customer->lastName,], function($message) use ($customer) {
             $message->from('meantonettemedalla@tup.edu.ph');

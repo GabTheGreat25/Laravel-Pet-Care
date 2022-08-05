@@ -29,18 +29,18 @@ class consultations extends Model implements Searchable
     
     ];
 
-    protected $fillable = ['employee_id','dateConsult', 'fees', 'comment'];
+    protected $fillable = ['employee_id','animal_id','dateConsult', 'fees', 'comment'];
 
 
     public function employees()
     {
-         return $this->belongsToMany(employees::class);
+         return $this->belongsTo(employee::class);
      }
 
-    public function animals()
-    {
-         return $this->belongsToMany(animal::class);
-     }
+     public function animals()
+     {
+          return $this->belongsTo(animal::class);
+      }
 
     public function diseases_injuries()
 	{
@@ -54,6 +54,7 @@ class consultations extends Model implements Searchable
           return new \Spatie\Searchable\SearchResult(
              $this,
              $this->employee_id,
+             $this->animal_id,
              $this->dateConsult,
              $this->fees,
              $this->comment,

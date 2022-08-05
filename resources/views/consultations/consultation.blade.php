@@ -40,9 +40,9 @@
             </div>
 
             <div class="md-form mb-5">
-                <label for="animals_id">Pet Name:</label>
+                <label for="animal_id">Pet Name:</label>
                 {!!
-                 Form::select('animals_id', App\Models\Animal::pluck('petName', 'id'), null, [
+                 Form::select('animal_id', App\Models\Animal::pluck('petName', 'id'), null, [
                     'class' => 'form-control',
                 ]) !!}
             </div>
@@ -68,22 +68,24 @@
              Form::select('disease_injuries_id', App\Models\diseases_injuries::pluck('title', 'id'), null, [
                 'class' => 'form-control',
             ]) !!}
-        </div>
-{{-- 
-<div class="row">
+        </div> 
+
+{{-- <div class="row">
           <div class="col-md-4"></div>
-          <div class="form-group col-md-4" style="margin-top:60px">
-            <button type="submit" class="btn btn-success">Submit</button>
-          </div>
-        </div>
-      {!! Form::close() !!}
-    </div>
-  </div>
-</div>
-  @push('scripts')
-    {{$dataTable->scripts()}}
-  @endpush
-@endsection --}}
+        <div class="form-group col-md-4">
+
+          <label for="disease_injuries_id">Any disease/injury?</label>
+                @foreach($diseases_injuries as $diseases_injury ) 
+             
+                 <div class="form-check form-check-inline">
+                     {{ Form::checkbox('diseases_injuries_id[]',$diseases_injury->id, null, array('class'=>'form-check-input','id'=>'diseases_injury')) }} 
+                      {!!Form::label('diseases_injury', $diseases_injury->title ,array('class'=>'form-check-label')) !!}
+               
+           </div>
+          @endforeach 
+            </div>  
+          </div>  --}}
+
 
 <div class="modal-footer d-flex justify-content-center">
     <button type="submit" class="btn btn-success">Save</button>

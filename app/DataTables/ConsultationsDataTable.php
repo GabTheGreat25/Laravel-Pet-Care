@@ -73,9 +73,18 @@ class ConsultationsDataTable extends DataTable
         // // // })
         
         //  ->rawColumns(['action']);
-//mlai 
-          $consultations = consultations::with('diseases_injuries:title')->select('consultations.*');
-        // $consultations = consultations::with('animals:petName')->select('consultations_diseases_injuries.*');
+
+           $consultations = consultations::with(['diseases_injuries','animals','employees'])->select('consultations.*');
+        //   $consultations = consultations::with('diseases_injuries:title')->select('consultations.*');
+        //   $consultations = consultations::with('animals:petName')->select('consultations.*');
+
+       //   $consultations =  consultations::with(['diseases_injuries','animals']);
+
+          //  $animals =  Animal::with(['customer:id,firstName'])->select('animals.*');
+
+            // $albums =  Album::with(['artist','listeners']); sample anu toh sample dalawa tables
+        
+          // $consultations = consultations::with('animals:petName')->select('consultations_diseases_injuries.*');
 
            return datatables()
                ->eloquent($consultations)
@@ -101,14 +110,34 @@ class ConsultationsDataTable extends DataTable
             //     })->implode('<br>'); //lalagyan nya ng break, implode-returns the array string
             // })
 
-                 ->addColumn('diseases_injuries', function (consultations $consultations) {
+            // ->addColumn('employees', function (consultations $consultations) {
+            //     return $consultations->employees->map(function($employees) {
+            //         return "<li>".$employees->name. "</li>";
+            //     })->implode('<br>');
+            // })
+
+            // ->addColumn('animals', function (consultations $consultations) {
+            //     return $consultations->animals->map(function($animals) {
+            //         return "<li>".$animals->petName. "</li>";
+            //     })->implode('<br>');
+            // })
+
+            // ->addColumn('employee', function (consultations $consultations) {
+            //     return $consultations->employee->name;
+            // }) 
+
+            // ->addColumn('animals', function (consultations $consultations) {
+            //     return $consultations->animals->petName;
+            // }) 
+
+            ->addColumn('diseases_injuries', function (consultations $consultations) {
                        return $consultations->diseases_injuries->map(function($diseases_injuries) { //map will illeterate na album
                         //return str_limit($listener->listener_name, 30, '...');
                         return "<li>".$diseases_injuries->title. "</li>";
                        })->implode('<br>'); //lalagyan nya ng break, implode-returns the array string
-                   })
+            })
 
-               ->escapeColumns([]); 
+            ->escapeColumns([]); 
 
     }
 
@@ -154,11 +183,12 @@ class ConsultationsDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            //Column::make('employee_id')->title('Employee Incharged'),
-       // Column::make('employees')->name('employees.name')->title('Employee Incharged'),
 
-        //Column::make('animals_id')->title('Pet Name'),
-        //   Column::make('animals')->name('animals.petName')->title('animals'),
+          Column::make('employee_id')->title('Employee Incharged'),
+        //  Column::make('employee')->name('employee.name')->title('Employee Incharged'),
+          
+        Column::make('animal_id')->title('Pet Name'),
+         // Column::make('animals')->name('animals.petName')->title('animals'),
 
             Column::make('dateConsult'),
             Column::make('fees'),

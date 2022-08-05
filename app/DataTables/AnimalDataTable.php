@@ -32,7 +32,7 @@ class AnimalDataTable extends DataTable
             })
             ->addColumn('customer', function (Animal $animals) {
                     return $animals->customer->firstName;
-                })
+                }) 
             ->addColumn('images', function ($Animals) {
                 $url = asset("$Animals->img_path");
                 return '<img src=' . $url . ' alt = "I am a pic" height="100" width="100">';
