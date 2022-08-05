@@ -132,8 +132,6 @@ Show Each Pet Of The Customer That Is Log In
                     </form>
                 </div>
             </div>
-
         </div>
-
     </div>
     @endsection

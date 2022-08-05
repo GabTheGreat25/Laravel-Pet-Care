@@ -56,9 +56,12 @@ Service Data Table
                         <label data-error="wrong" data-success="right" for="Price" style="display: inline-block;
           width: 150px; ">Price</label>
                         <input type="text" id="price" class="form-control validate" name="price">
-                        <label data-error="wrong" data-success="right" for="img_path" style="display: inline-block;
-          width: 150px; ">Service Image</label>
-                        <input type="file" id="img_path" class="form-control validate" name="img_path">
+
+                        <label data-error="wrong" data-success="right" for="images"
+                            style="display: inline-block; width: 150px;">Petgrooming
+                            Image</label>
+                        <input type="file" class="form-control validate" name="images[]" multiple>
+
                     </div>
 
 

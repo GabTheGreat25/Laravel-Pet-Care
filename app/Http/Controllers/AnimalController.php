@@ -29,9 +29,7 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        // $customers = Customer::with('animals')->where('user_id', Auth::id())->get();
-        // // dd($customers);
-        // return View::make('animals.index', ['customers' => $customers]);
+        //
     }
     
     public function getpet()
@@ -204,7 +202,7 @@ class AnimalController extends Controller
     {
         //
         $animals= Animal::find($id);
-        $animals->delete();
+        $animals->forceDelete();
         return Redirect::route("getAnimal")->with(
                     "Animal Deleted!"
                 );
