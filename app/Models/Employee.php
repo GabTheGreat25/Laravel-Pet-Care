@@ -16,7 +16,11 @@ class Employee extends Model
     ];
 
     public function user() {
-        return $this->belongsTO('App\Models\User');
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function consultations() {
+        return $this->hasMany('App\Models\consultations','employee_id');
     }
 
     use HasFactory;
