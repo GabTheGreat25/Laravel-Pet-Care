@@ -22,70 +22,9 @@ class ConsultationsDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        // $consultations = consultations::with('diseases_injuries:title')->select('consultations.*');
-        // return datatables()
-        //     ->eloquent($consultations)
-        //     ->addColumn('action', function($row) {
-        // return "<a href=". route('consultation.edit', $row->id). " class=\"btn btn-warning\">Edit</a> 
-        //             <form action=". route('consultation.destroy', $row->id). " method= \"POST\" >". csrf_field() .
-        //             '<input name="_method" type="hidden" value="DELETE">
-        //             <button class="btn btn-danger" type="submit">Delete</button>
-        //               </form>';
-        //     })
+          //  $consultations =  Consultation::with(['animals:petName','diseases_injuries:title','employees:name',])->select('consultations.*');
 
-        //     ->addColumn('diseases_injuries', function (consultations $consultations) {
-        //         return $consultations->disease_injuries->map(function($diseases_injuries) { //map will illeterate na album
-        //          //return str_limit($listener->listener_name, 30, '...');
-        //          return "<li>".$diseases_injuries->title. "</li>";
-        //         })->implode('<br>'); //lalagyan nya ng break, implode-returns the array string
-        //     })
-
-        //     ->addColumn('employees', function (consultations $consultations) {
-        //         return $consultations->employees->map(function($employees) { //map will illeterate na album
-        //          //return str_limit($listener->listener_name, 30, '...');
-        //          return "<li>".$employees->name. "</li>";
-        //         })->implode('<br>'); //lalagyan nya ng break, implode-returns the array string
-        //     })
-
-        //     ->addColumn('animals', function (consultations $consultations) {
-        //             return $consultations->animals->map(function($animals) { //map will illeterate na album
-        //              //return str_limit($listener->listener_name, 30, '...');
-        //              return "<li>".$animals->petName. "</li>";
-        //             })->implode('<br>'); //lalagyan nya ng break, implode-returns the array string
-        //         })
-
-          
-        //     ->escapeColumns([]); 
-
-        ///--no animal and diseases shown
-        //  return datatables()
-        //  ->eloquent($query)
-        //   ->addColumn('action', function($row) {
-        //         return "<a href=". route('consultation.edit', $row->id). " class=\"btn btn-warning\">Edit</a> 
-        //          <form action=". route('consultation.destroy', $row->id). " method= \"POST\" >". csrf_field().
-        //          '<input name="_method" type="hidden" value="DELETE">
-        //          <button class="btn btn-danger" type="submit">Delete</button>
-        //            </form>';
-        //  })
-        // // // ->addColumn('images', function ($Animals) {
-        // // //     $url = asset("$Animals->img_path");
-        // // //     return '<img src=' . $url . ' alt = "I am a pic" height="100" width="100">';
-        // // // })
-        
-        //  ->rawColumns(['action']);
-
-           $consultations = consultations::with(['diseases_injuries:title'])->select('consultations.*');
-        //   $consultations = consultations::with('diseases_injuries:title')->select('consultations.*');
-        //   $consultations = consultations::with('animals:petName')->select('consultations.*');
-
-       //   $consultations =  consultations::with(['diseases_injuries','animals']);
-
-          //  $animals =  Animal::with(['customer:id,firstName'])->select('animals.*');
-
-            // $albums =  Album::with(['artist','listeners']); sample anu toh sample dalawa tables
-        
-          // $consultations = consultations::with('animals:petName')->select('consultations_diseases_injuries.*');
-
+           $consultations =  consultations::with(['animal:id,petName','diseases_injuries:title','employee:id,name',])->select('consultations.*');
            return datatables()
                ->eloquent($consultations)
                ->addColumn('action', function($row) {
@@ -95,40 +34,15 @@ class ConsultationsDataTable extends DataTable
                        <button class="btn btn-danger" type="submit">Delete</button>
                          </form>';
                })
-               
-            //    ->addColumn('employees', function (consultations $consultations) {
-            //     return $consultations->employees->map(function($employees) { //map will illeterate na album
-            //      //return str_limit($listener->listener_name, 30, '...');
-            //      return "<li>".$employees->name. "</li>";
-            //     })->implode('<br>'); //lalagyan nya ng break, implode-returns the array string
-            // })
+              
 
-            //    ->addColumn('animals', function (consultations $consultations) {
-            //     return $consultations->animals->map(function($animals) { //map will illeterate na album
-            //      //return str_limit($listener->listener_name, 30, '...');
-            //      return "<li>".$animals->petName. "</li>";
-            //     })->implode('<br>'); //lalagyan nya ng break, implode-returns the array string
-            // })
+            ->addColumn('employee', function (consultations $consultations) {
+                return $consultations->employee->name;
+            }) 
 
-            // ->addColumn('employees', function (consultations $consultations) {
-            //     return $consultations->employees->map(function($employees) {
-            //         return "<li>".$employees->name. "</li>";
-            //     })->implode('<br>');
-            // })
-
-            // ->addColumn('animals', function (consultations $consultations) {
-            //     return $consultations->animals->map(function($animals) {
-            //         return "<li>".$animals->petName. "</li>";
-            //     })->implode('<br>');
-            // })
-
-            // ->addColumn('employee', function (consultations $consultations) {
-            //     return $consultations->employee->name;
-            // }) 
-
-            // ->addColumn('animals', function (consultations $consultations) {
-            //     return $consultations->animals->petName;
-            // }) 
+            ->addColumn('animal', function (consultations $consultations) {
+                return $consultations->animal->petName;
+            }) 
 
             ->addColumn('diseases_injuries', function (consultations $consultations) {
                        return $consultations->diseases_injuries->map(function($diseases_injuries) { //map will illeterate na album
@@ -137,8 +51,8 @@ class ConsultationsDataTable extends DataTable
                        })->implode('<br>'); //lalagyan nya ng break, implode-returns the array string
             })
 
-            ->escapeColumns([]); 
-
+            // ->escapeColumns([]); 
+            ->rawColumns(['diseases_injuries','animal','action','employee']);
     }
 
     /**
@@ -184,11 +98,11 @@ class ConsultationsDataTable extends DataTable
         return [
             Column::make('id'),
 
-          Column::make('employee_id')->title('Vet Incharged'),
-        //  Column::make('employee')->name('employee.name')->title('Employee Incharged'),
+          // Column::make('employee_id')->title('Vet Incharged'),
+         Column::make('employee')->name('employee.name')->title('Employee Incharged'),
           
-        Column::make('animal_id')->title('Pet Name'),
-         // Column::make('animals')->name('animals.petName')->title('animals'),
+        // Column::make('animal_id')->title('Pet Name'),
+         Column::make('animal')->name('animal.petName')->title('animals'),
 
             Column::make('dateConsult'),
             Column::make('fees'),

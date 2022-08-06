@@ -32,12 +32,12 @@ class consultations extends Model implements Searchable
     protected $fillable = ['employee_id','animal_id','dateConsult', 'fees', 'comment'];
 
 
-    public function employees()
+    public function employee()
     {
          return $this->belongsTo(employee::class);
      }
 
-     public function animals()
+     public function animal()
      {
           return $this->belongsTo(animal::class);
       }
