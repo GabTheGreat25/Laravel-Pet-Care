@@ -184,7 +184,7 @@ class ConsultationsDataTable extends DataTable
         return [
             Column::make('id'),
 
-          Column::make('employee_id')->title('Employee Incharged'),
+          Column::make('employee_id')->title('Vet Incharged'),
         //  Column::make('employee')->name('employee.name')->title('Employee Incharged'),
           
         Column::make('animal_id')->title('Pet Name'),

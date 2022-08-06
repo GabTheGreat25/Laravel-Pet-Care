@@ -216,16 +216,16 @@ class ConsultationController extends Controller
         // }
 
 
-        $diseases_injuries = diseases_injuries::get();
-        $consultations_diseases_injuries = array();
-      //  $consultations = consultations::with('animals')->where('id', $id)->first();
-        $consultations = consultations::with('diseases_injuries')->where('id', $id)->first();
+    //     $diseases_injuries = diseases_injuries::get();
+    //     $consultations_diseases_injuries = array();
+    //   //  $consultations = consultations::with('animals')->where('id', $id)->first();
+    //     $consultations = consultations::with('diseases_injuries')->where('id', $id)->first();
     
-        if (!(empty($consultations->diseases_injuries))) {
-            foreach ($consultations->diseases_injuries as $consultations_diseases_injuries) {
-                $consultations_diseases_injuries[$consultations_diseases_injuries->id] = $consultations_diseases_injuries->title;
-            }
-        }
+    //     if (!(empty($consultations->diseases_injuries))) {
+    //         foreach ($consultations->diseases_injuries as $consultations_diseases_injuries) {
+    //             $consultations_diseases_injuries[$consultations_diseases_injuries->id] = $consultations_diseases_injuries->title;
+    //         }
+    //     }
 
         // if (!(empty($consultations->animals))) {
         //         foreach ($consultations->animals as $consultations_diseases_injuries) {
@@ -233,8 +233,13 @@ class ConsultationController extends Controller
         //         }
         // }
     
-        // $animals = animal::pluck('petName', 'id')->toArray();
-        // $diseases_injuries = diseases_injuries::pluck('title', 'id')->toArray();
+         $consultations = consultations::find($id);
+            $consultations_diseases_injuries = DB::table('consultations_diseases_injuries')
+                            ->where('consultations_id',$id)
+                            ->pluck('diseases_injuries_id')
+                            ->toArray();
+        // $animals = animal::pluck('petName', 'id');
+        $diseases_injuries = diseases_injuries::pluck('title', 'id');
     
         return View::make('consultations.edit', compact('diseases_injuries', 'consultations', 'consultations_diseases_injuries'));
     

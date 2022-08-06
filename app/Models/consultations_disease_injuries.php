@@ -14,7 +14,7 @@ class consultations_disease_injuries extends Model implements Searchable
 
     public $timestamps = false;
     
-    protected $fillable = ['consultations_id','animals_id','diseases_injuries_id'];
+    protected $fillable = ['consultations_id','diseases_injuries_id'];
 
        public function diseases_injuries()
        {
