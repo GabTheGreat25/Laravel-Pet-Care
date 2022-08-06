@@ -19,8 +19,10 @@ class EmployeeDataTable extends DataTable
      */
     public function dataTable($query)
     {
+
+        $employee =  Employee::with(['user:id,email'])->select('employees.*');
         return datatables()
-            ->eloquent($query)
+            ->eloquent($employee)
              ->addColumn('action', function($row) {
                     return "<a href=". route('employee.edit', $row->id). " class=\"btn btn-warning\">Edit</a> 
                     <form action=". route('employee.destroy', $row->id). " method= \"POST\" >". csrf_field().
@@ -28,6 +30,9 @@ class EmployeeDataTable extends DataTable
                     <button class="btn btn-danger" type="submit">Delete</button>
                       </form>';
             })
+            ->addColumn('user', function (Employee $employee) {
+                return $employee->user->email;
+            }) 
             ->addColumn('images', function ($employees) {
                 $url = asset("$employees->img_path");
                 return '<img src=' . $url . ' alt = "I am a pic" height="100" width="100">';
@@ -77,7 +82,7 @@ class EmployeeDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('user_id')->title('User'), // ? Title is yung header
+            Column::make('user')->name('user.email')->title('email'),
             Column::make('name'),
             Column::make('position'),
             Column::make('address'),

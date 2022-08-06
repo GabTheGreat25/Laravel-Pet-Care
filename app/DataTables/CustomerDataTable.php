@@ -19,8 +19,11 @@ class CustomerDataTable extends DataTable
      */
     public function dataTable($query)
     {
+
+        $customer =  Customer::with(['user:id,email'])->select('customers.*');
+
         return datatables()
-            ->eloquent($query)
+            ->eloquent($customer)
              ->addColumn('action', function($row) {
                     return "<a href=". route('customer.edit', $row->id). " class=\"btn btn-warning\">Edit</a> 
                     <form action=". route('customer.destroy', $row->id). " method= \"POST\" >". csrf_field().
@@ -28,6 +31,9 @@ class CustomerDataTable extends DataTable
                     <button class="btn btn-danger" type="submit">Delete</button>
                       </form>';
             })
+            ->addColumn('user', function (Customer $customer) {
+                return $customer->user->email;
+            }) 
             ->addColumn('images', function ($employees) {
                 $url = asset("$employees->img_path");
                 return '<img src=' . $url . ' alt = "I am a pic" height="100" width="100">';
@@ -77,7 +83,7 @@ class CustomerDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('user_id')->title('User'), // ? Title is yung header
+            Column::make('user')->name('user.email')->title('email'),
             Column::make('title'),
             Column::make('firstName'),
             Column::make('lastName'),

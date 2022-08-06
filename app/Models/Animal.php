@@ -39,7 +39,7 @@ class Animal extends Model implements Searchable
 
     public function consultations() 
     {
-       return $this->belongsToMany('App\Models\consultations');
+       return $this->hasMany('App\Models\consultations', 'animal_id');
     }
 
      public function getSearchResult(): SearchResult
