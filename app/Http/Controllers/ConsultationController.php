@@ -216,7 +216,7 @@ class ConsultationController extends Controller
         // }
 
 
-
+        $diseases_injuries = diseases_injuries::get();
         $consultations_diseases_injuries = array();
       //  $consultations = consultations::with('animals')->where('id', $id)->first();
         $consultations = consultations::with('diseases_injuries')->where('id', $id)->first();
@@ -235,7 +235,7 @@ class ConsultationController extends Controller
     
         // $animals = animal::pluck('petName', 'id')->toArray();
         // $diseases_injuries = diseases_injuries::pluck('title', 'id')->toArray();
-        $diseases_injuries = diseases_injuries::get();
+    
         return View::make('consultations.edit', compact('diseases_injuries', 'consultations', 'consultations_diseases_injuries'));
     
 //-------
