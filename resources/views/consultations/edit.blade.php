@@ -87,12 +87,12 @@
                                   <div class="form-group col-md-4">
                           
                                     <label for="disease_injuries_id">Any disease/injury?</label>
-                                          @foreach($diseases_injuries as $diseases_injuries ) 
-                                       
+                                          @foreach($diseases_injuries as $id=> $diseases_injuries ) 
+                                          @if(in_array($diseases_injuries,$diseases_injuries))  
                                            <div class="form-check form-check-inline">
-                                               {{ Form::checkbox('diseases_injuries_id[]',$diseases_injuries->id, null, array('class'=>'form-check-input','id'=>'diseases_injuries')) }} 
+                                               {{ Form::checkbox('diseases_injuries_id[]',$id, true, array('class'=>'form-check-input','id'=>'diseases_injuries')) }} 
                                                 {!!Form::label('diseases_injuries', $diseases_injuries->title ,array('class'=>'form-check-label')) !!}
-                                     </div>
+                                            </div>
                                     @endforeach 
                                       </div>  
                                     </div> 
