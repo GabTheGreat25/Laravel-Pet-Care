@@ -74,7 +74,7 @@ class ConsultationsDataTable extends DataTable
         
         //  ->rawColumns(['action']);
 
-           $consultations = consultations::with(['diseases_injuries','animals','employees'])->select('consultations.*');
+           $consultations = consultations::with(['diseases_injuries:title','animals:petName'])->select('consultations.*');
         //   $consultations = consultations::with('diseases_injuries:title')->select('consultations.*');
         //   $consultations = consultations::with('animals:petName')->select('consultations.*');
 

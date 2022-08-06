@@ -62,13 +62,13 @@
                                 @endif
                             </div>
 
-                            <div class="md-form mb-5">
+                            {{-- <div class="md-form mb-5">
                                 <label for="disease_injuries_id">Any disease/injury?</label>
                                 {!!
                                  Form::select('disease_injuries_id', App\Models\diseases_injuries::pluck('title', 'id'), null, [
                                     'class' => 'form-control',
                                 ]) !!}
-                            </div>
+                            </div> --}}
 
                             <div>
                                 <div>
@@ -80,6 +80,22 @@
                                         <p>{{ $errors->first('comment') }}</p>
                                     @endif
                                 </div>
+
+
+                     <div class="row">
+                                    <div class="col-md-4"></div>
+                                  <div class="form-group col-md-4">
+                          
+                                    <label for="disease_injuries_id">Any disease/injury?</label>
+                                          @foreach($diseases_injuries as $diseases_injuries ) 
+                                       
+                                           <div class="form-check form-check-inline">
+                                               {{ Form::checkbox('diseases_injuries_id[]',$diseases_injuries->id, null, array('class'=>'form-check-input','id'=>'diseases_injuries')) }} 
+                                                {!!Form::label('diseases_injuries', $diseases_injuries->title ,array('class'=>'form-check-label')) !!}
+                                     </div>
+                                    @endforeach 
+                                      </div>  
+                                    </div> 
 
                                 <div>
                                     <button type="submit">

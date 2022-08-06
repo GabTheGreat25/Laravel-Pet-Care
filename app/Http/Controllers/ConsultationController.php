@@ -234,8 +234,8 @@ class ConsultationController extends Controller
         // }
     
         // $animals = animal::pluck('petName', 'id')->toArray();
-        $diseases_injuries = diseases_injuries::pluck('title', 'id')->toArray();
-     
+        // $diseases_injuries = diseases_injuries::pluck('title', 'id')->toArray();
+        $diseases_injuries = diseases_injuries::get();
         return View::make('consultations.edit', compact('diseases_injuries', 'consultations', 'consultations_diseases_injuries'));
     
 //-------
@@ -293,27 +293,35 @@ class ConsultationController extends Controller
         // return Redirect::route('getconsultation')->with('success', 'consultations updated!');
 
 
-//---nagana
+
         $consultations = consultations::find($id);
-
-$consultations->employee_id = $request->input("id");
-$consultations->dateConsult = $request->input("dateConsult");
-$consultations->fees = $request->input("fees");
-$consultations->comment = $request->input("comment");
-$consultations->animal_id = $request->input("animal_id");
-
-        $consultations_ids = $request->input('consultations_id');
-        // $diseases_injuriess = $request->input('diseases_injuries_id');
-        $consultations->diseases_injuries()->sync($consultations_ids);
+        $diseases_injuries_id = $request->input('diseases_injuries_id');
+        $consultations->diseases_injuries()->sync($diseases_injuries_id);
         $consultations->update($request->all());
 
-        $line = new consultations_disease_injuries;
-        $line->consultations_id = $consultations->id;
-      
-        $line->diseases_injuries_id = $request->input("disease_injuries_id");
-        $line->save();
+        return Redirect::route('getconsultation')->with('success', 'consultation updated!');
 
-        return Redirect::route('getconsultation')->with('success', 'consultations updated!');
+//---nagana
+//         $consultations = consultations::find($id);
+
+// $consultations->employee_id = $request->input("id");
+// $consultations->dateConsult = $request->input("dateConsult");
+// $consultations->fees = $request->input("fees");
+// $consultations->comment = $request->input("comment");
+// $consultations->animal_id = $request->input("animal_id");
+
+//         $consultations_ids = $request->input('consultations_id');
+//         // $diseases_injuriess = $request->input('diseases_injuries_id');
+//         $consultations->diseases_injuries()->sync($consultations_ids);
+//         $consultations->update($request->all());
+
+//         $line = new consultations_disease_injuries;
+//         $line->consultations_id = $consultations->id;
+      
+//         $line->diseases_injuries_id = $request->input("disease_injuries_id");
+//         $line->save();
+
+//         return Redirect::route('getconsultation')->with('success', 'consultations updated!');
 
 ///----
 
