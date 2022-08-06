@@ -116,8 +116,6 @@ class ConsultationController extends Controller
         //     'comment' => 'required| min:4'
         // ]);
 
-     //   $try = DB::table('consultations')->rightJoin('animals', 'consultations.animal_id', '=', 'animals.id')->leftJoin('customers', 'customers.id', '=', 'animals.customer_id')->leftJoin('users', 'users.id', '=', 'customers.user_id')->select('customers.*, users.*')->get();
-
         //------nagana
         // $consultations = new consultations([
         //       'employee_id' => $request->input('employee_id'),
@@ -144,12 +142,14 @@ class ConsultationController extends Controller
         // return redirect()->route('getconsultation')->with('SUCCESS!', 'Consultation added!');
 
         $input = $request->all();
-     //   $input['password'] = bcrypt($request->password);
         $consultations = consultations::create($input);
-       // Event::dispatch(new SendConsultation($consultations));
+        Event::dispatch(new SendConsultation($consultations)); 
         if(!(empty($request->diseases_injuries_id))){
                 $consultations->diseases_injuries()->attach($request->diseases_injuries_id);
-          } //need ata toh? ay yan error kanina e di pumapasok sa pivot pero yung sa consultations ok ngayon ayaw pag checkbox baka kasi di checkbox kanina? checkbox yunn? e
+                // $try = DB::table('consultations')->rightJoin('animals', 'consultations.animal_id', '=', 'animals.id')->leftJoin('customers', 'customers.id', '=', 'animals.customer_id')->leftJoin('users', 'users.id', '=', 'customers.user_id') ->pluck('users.email')->first(); //Get email of customer
+ 
+          } 
+
         return Redirect::route('getconsultation')->with('success','Consultation created!');
         } 
     
