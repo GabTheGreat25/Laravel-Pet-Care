@@ -45,7 +45,7 @@ Consultation Edit
 
                     <div>
                         <label for="dateConsult">Date of Consultation:</label>
-                        {{ Form::text('dateConsult', null, [
+                        {{ Form::date('dateConsult', null, [
                         'id' => 'dateConsult',
                         'class' => 'form-control',
                         ]) }}
