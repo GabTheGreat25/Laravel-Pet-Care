@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Customer;
 use Mail;
+use DB;
 class SendMailFired
 {
     /**
@@ -32,8 +33,8 @@ class SendMailFired
        $customer = Customer::where('id',$event->customer->id)->first();
 
         Mail::send( 'email.user_notification', ['fname' => $customer->firstName, 'lname' => $customer->lastName,], function($message) use ($customer) {
-            $message->from('meantonettemedalla@tup.edu.ph');
-            $message->to('gabrielarafol.mendoza@tup.edu.ph');
+            $message->from('petcare@yahoo.com.ph');
+            $message->to(DB::table('customers')->leftJoin('users', 'users.id', '=', 'customers.user_id')->orderBy("customers.created_at", "DESC")->pluck('users.email')->first());
             $message->subject('Thank you');
             $message->attach(public_path('/folder/thank_you.jpg'));
         });
