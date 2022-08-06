@@ -116,33 +116,41 @@ class ConsultationController extends Controller
         //     'comment' => 'required| min:4'
         // ]);
 
-        $try = DB::table('consultations')->rightJoin('animals', 'consultations.animal_id', '=', 'animals.id')->leftJoin('customers', 'customers.id', '=', 'animals.customer_id')->leftJoin('users', 'users.id', '=', 'customers.user_id')->select('customers.*, users.*')->get();
+     //   $try = DB::table('consultations')->rightJoin('animals', 'consultations.animal_id', '=', 'animals.id')->leftJoin('customers', 'customers.id', '=', 'animals.customer_id')->leftJoin('users', 'users.id', '=', 'customers.user_id')->select('customers.*, users.*')->get();
 
         //------nagana
-        $consultations = new consultations([
-              'employee_id' => $request->input('employee_id'),
-              'animal_id' => $request->input('animal_id'),
-              'dateConsult' => $request->input('dateConsult'),
-              'fees' => $request->input('fees'),
-              'comment' => $request->input('comment'),
-          ]);
-           $consultations->save();
+        // $consultations = new consultations([
+        //       'employee_id' => $request->input('employee_id'),
+        //       'animal_id' => $request->input('animal_id'),
+        //       'dateConsult' => $request->input('dateConsult'),
+        //       'fees' => $request->input('fees'),
+        //       'comment' => $request->input('comment'),
+        //   ]);
+        //    $consultations->save();
 
-           $line = new consultations_disease_injuries;
-            $line->consultations_id = $consultations->id;
-            // $input = $request->all();
-            // $input['diseases_injuries_id'] = $request->input('diseases_injuries_id');
-            // $line = consultations_disease_injuries::create($input);
+        //    $line = new consultations_disease_injuries;
+        //     $line->consultations_id = $consultations->id;
+        //     // $input = $request->all();
+        //     // $input['diseases_injuries_id'] = $request->input('diseases_injuries_id');
+        //     // $line = consultations_disease_injuries::create($input);
 
-            // $line = consultations_disease_injuries::create($input);
-        // if(!(empty($request->diseases_injuries_id))){
-            //$line->consultations_id = $consultations->id;
-            $line->diseases_injuries_id = $request->input("disease_injuries_id");
-        //  $line->diseases_injuries()->attach($request->diseases_injuries_id);
-        Event::dispatch(new SendConsultation($try));
-         $line->save();
-        return redirect()->route('getconsultation')->with('SUCCESS!', 'Consultation added!');
+        //     // $line = consultations_disease_injuries::create($input);
+        // // if(!(empty($request->diseases_injuries_id))){
+        //     //$line->consultations_id = $consultations->id;
+        //     $line->diseases_injuries_id = $request->input("disease_injuries_id");
+        // //  $line->diseases_injuries()->attach($request->diseases_injuries_id);
+        // Event::dispatch(new SendConsultation($try));
+        //  $line->save();
+        // return redirect()->route('getconsultation')->with('SUCCESS!', 'Consultation added!');
 
+        $input = $request->all();
+     //   $input['password'] = bcrypt($request->password);
+        $consultations = consultations::create($input);
+       // Event::dispatch(new SendConsultation($consultations));
+        if(!(empty($request->diseases_injuries_id))){
+                $consultations->diseases_injuries()->attach($request->diseases_injuries_id);
+          } //need ata toh? ay yan error kanina e di pumapasok sa pivot pero yung sa consultations ok ngayon ayaw pag checkbox baka kasi di checkbox kanina? checkbox yunn? e
+        return Redirect::route('getconsultation')->with('success','Consultation created!');
         } 
     
     
