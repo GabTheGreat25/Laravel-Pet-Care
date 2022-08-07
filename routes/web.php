@@ -56,7 +56,7 @@ Route::group(['middleware' => 'guest'], function() {
 
     Route::group(['middleware' => 'role:admin,employee'], function() {
 
-        Route::post('/petsearch',['uses' => 'ConsultationController@petsearch','as' => 'petsearch'] );
+        Route::post('/petsearch',['uses' => 'petSearchController@petsearch','as' => 'petsearch'] );
       
         Route::resource("/consultation", ConsultationController::class);
 
