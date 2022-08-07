@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
-class consultations_disease_injuries extends Model 
+class consultations_disease_injuries extends Model implements Searchable
 {
     use HasFactory;
     protected $table = 'consultations_diseases_injuries';
@@ -46,14 +46,15 @@ class consultations_disease_injuries extends Model
         //             );
         //    }
 
-        //    public function getSearchResult(): SearchResult
-        //    {
-        //       $url = route('getconsultation', $this->id);
+           public function getSearchResult(): SearchResult
+           {
+              $url = route('getconsultation', $this->id);
            
-        //        return new \Spatie\Searchable\SearchResult(
-        //           $this,
-        //           $this->petName,
-        //           $url
-        //           );
-        //    }
+               return new \Spatie\Searchable\SearchResult(
+                  $this,
+                  $this->consultations_id,
+                  $this->diseases_injuries_id,
+                  $url
+                  );
+           }
     }

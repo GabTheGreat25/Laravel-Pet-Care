@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class consultations extends Model
+class consultations extends Model implements Searchable
 {
 
     use HasFactory;
@@ -47,18 +47,18 @@ class consultations extends Model
  		return $this->belongsToMany(diseases_injuries::class);
  	}
    
-      // public function getSearchResult(): SearchResult
-      // {
-      //   $url = url('show-consultrecord/'.$this->id);
+      public function getSearchResult(): SearchResult
+      {
+        $url = url('show-consultrecord/'.$this->id);
       
-      //     return new \Spatie\Searchable\SearchResult(
-      //        $this,
-      //        $this->employee_id,
-      //        $this->animal_id,
-      //        $this->dateConsult,
-      //        $this->fees,
-      //        $this->comment,
-      //        $url
-      //        );
-      // }   
+          return new \Spatie\Searchable\SearchResult(
+             $this,
+             $this->employee_id,
+             $this->animal_id,
+             $this->dateConsult,
+             $this->fees,
+             $this->comment,
+             $url
+             );
+      }   
     }
