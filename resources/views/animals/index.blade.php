@@ -6,7 +6,7 @@ Show Each Pet Of The Customer That Is Log In
 <style>
     .dot {
         border: 1px dashed #000;
-        width: 105%;
+        width: 103.5%;
         margin: auto;
         margin-left: -1rem;
         margin-top: 1.5rem;
