@@ -96,6 +96,15 @@ Route::group(['middleware' => 'guest'], function() {
         Route::resource("/service", ServiceController::class)->except(['index', 'service']);
         Route::resource("/employee", EmployeeController::class)->except(['index', 'destroy','employee' , 'edit']);
 
+        Route::get('/dashboard', [
+            'uses' => 'DashboardController@index',
+             'as' => 'dashboard.index'
+          ]);
+
+        Route::get('/animal/{search?}', [
+            'uses' => 'ConsultationController@index',
+             'as' => 'Consultations.index'
+          ]);
     });
 
 //  ->middleware('auth');
