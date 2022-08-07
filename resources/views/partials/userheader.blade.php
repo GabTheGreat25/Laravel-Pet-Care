@@ -31,7 +31,7 @@
                 </li>
 
                 <li style="padding: 0 1rem;">
-                    <a href="{{ url('/animals') }}">
+                    <a href="{{ url('/dashboard') }}">
                         <i class="fa fa-area-chart" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i>
                         <span style="font-size: 3.25rem;">&#128480;</span>
                         <span style="">Dashboard</span>
