@@ -13,6 +13,27 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
+Route::resource("/transaction", TransactionController::class);
+
+Route::get("shopping-cart", [
+    "uses" => 'App\Http\Controllers\transactionController@getCart',
+    "as" => "transaction.shoppingCart",
+]);
+
+ Route::get("add-to-cart/{id}", [
+    "uses" => 'App\Http\Controllers\TransactionController@getAddToCart',
+    "as" => "transaction.addToCart",
+]);
+
+Route::get("add-animal/{id}", [
+    "uses" => 'App\Http\Controllers\TransactionController@getAnimal',
+    "as" => "transaction.addAnimal",
+]);
+
+Route::get("remove/{id}", [
+    "uses" => 'App\Http\Controllers\TransactionController@getRemoveItem',
+    "as" => "transaction.remove",
+]);
 
 Auth::routes();
 
@@ -56,7 +77,7 @@ Route::group(['middleware' => 'guest'], function() {
 
     Route::group(['middleware' => 'role:admin,employee'], function() {
 
-        Route::post('/petsearch',['uses' => 'ConsultationController@petsearch','as' => 'petsearch'] );
+        Route::post('/petsearch',['uses' => 'petSearchController@petsearch','as' => 'petsearch'] );
       
         Route::resource("/consultation", ConsultationController::class);
 
@@ -96,6 +117,15 @@ Route::group(['middleware' => 'guest'], function() {
         Route::resource("/service", ServiceController::class)->except(['index', 'service']);
         Route::resource("/employee", EmployeeController::class)->except(['index', 'destroy','employee' , 'edit']);
 
+        Route::get('/dashboard', [
+            'uses' => 'DashboardController@index',
+             'as' => 'dashboard.index'
+          ]);
+
+        Route::get('/animal/{search?}', [
+            'uses' => 'ConsultationController@index',
+             'as' => 'Consultations.index'
+          ]);
     });
 
 //  ->middleware('auth');

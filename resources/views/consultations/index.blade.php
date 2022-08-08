@@ -14,7 +14,7 @@
       </div><br />
      @endif --}}
      
-     @include('partials.search')
+     {{-- @include('partials.search') --}}
      
 <table class="table table-striped">
       <tr>{{ link_to_route('consultations.create', 'Add new consultation:')}}</tr>
@@ -34,6 +34,7 @@
 <tbody>
 
       @foreach($consultations as $consultation)
+      <td>{{$consultation->id}}</td>
         <td>{{$consultation->employee_id}}</td>
         <td>{{$consultation->dateConsult}}</td>
         <td>{{$consultation->fees}}</td>

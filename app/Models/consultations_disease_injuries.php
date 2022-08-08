@@ -36,13 +36,25 @@ class consultations_disease_injuries extends Model implements Searchable
                return $this->belongsToMany(consultations::class);
            }
 
+        //    public function getSearchResult(): SearchResult
+        //    {
+        //       $url = route('getconsultation', $this->id);
+        //       return new \Spatie\Searchable\SearchResult(
+        //          $this,
+        //          $this->petName,
+        //          $url
+        //             );
+        //    }
+
            public function getSearchResult(): SearchResult
            {
               $url = route('getconsultation', $this->id);
-              return new \Spatie\Searchable\SearchResult(
-                 $this,
-                 $this->petName,
-                 $url
-                    );
+           
+               return new \Spatie\Searchable\SearchResult(
+                  $this,
+                  $this->consultations_id,
+                  $this->diseases_injuries_id,
+                  $url
+                  );
            }
     }
