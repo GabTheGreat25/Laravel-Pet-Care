@@ -26,7 +26,7 @@ class ConsultationController extends Controller
     public function index(Request $request)
     {
         //
-        ///-----sa search na to
+        ///-----sa search na to 
         if (empty($request->get('search'))) {
             $consultations = consultations::with('animals')->get();
         
@@ -76,9 +76,7 @@ class ConsultationController extends Controller
         $consultations = consultations::create($input);
         Event::dispatch(new SendConsultation($consultations)); 
         if(!(empty($request->diseases_injuries_id))){
-                $consultations->diseases_injuries()->attach($request->diseases_injuries_id);
-                // $try = DB::table('consultations')->rightJoin('animals', 'consultations.animal_id', '=', 'animals.id')->leftJoin('customers', 'customers.id', '=', 'animals.customer_id')->leftJoin('users', 'users.id', '=', 'customers.user_id') ->pluck('users.email')->first(); //Get email of customer
- 
+                $consultations->diseases_injuries()->attach($request->diseases_injuries_id); 
           } 
 
         return Redirect::route('getconsultation')->with('success','Consultation created!');

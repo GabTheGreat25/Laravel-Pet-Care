@@ -13,6 +13,27 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
+Route::resource("/transaction", TransactionController::class);
+
+Route::get("shopping-cart", [
+    "uses" => 'App\Http\Controllers\transactionController@getCart',
+    "as" => "transaction.shoppingCart",
+]);
+
+ Route::get("add-to-cart/{id}", [
+    "uses" => 'App\Http\Controllers\TransactionController@getAddToCart',
+    "as" => "transaction.addToCart",
+]);
+
+Route::get("add-animal/{id}", [
+    "uses" => 'App\Http\Controllers\TransactionController@getAnimal',
+    "as" => "transaction.addAnimal",
+]);
+
+Route::get("remove/{id}", [
+    "uses" => 'App\Http\Controllers\TransactionController@getRemoveItem',
+    "as" => "transaction.remove",
+]);
 
 Auth::routes();
 

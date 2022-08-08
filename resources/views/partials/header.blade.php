@@ -18,8 +18,15 @@
         <div>
             <ul class="nav navbar-nav">
                 <li style="padding: 0 1rem;">
-                    <a href="{{ url('/customers') }}">
-                        <i class="fa fa-cart-plus" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Services
+                    <a href="{{ url('/transaction') }}">
+                        <i class="fa fa-cart-plus" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Transaction
+                    </a>
+                </li>
+                <li style="padding: 0 1rem;">
+                    <a href="{{ route('transaction.shoppingCart') }}">
+                        <i class="fa fa-paw" aria-hidden="true"></i> Pet Transaction
+                        <span class="text-xs text-white">{{ Session::has('cart') ? '':
+                            '' }}</span>
                     </a>
                 </li>
             </ul>
@@ -33,16 +40,15 @@
                             class="caret"></span></a>
                     <ul class="dropdown-menu" style="font-size: 1.75rem;">
                         @if (Auth::check())
-                            <li
-                                style="padding-left: 2rem; white-space: nowrap; overflow: hidden;
+                        <li style="padding-left: 2rem; white-space: nowrap; overflow: hidden;
                             text-overflow: ellipsis;">
-                                <p> Welcome, {{ Auth::user()->userName }}</p>
-                            </li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="{{ route('user.logout') }}">Logout</a></li>
+                            <p> Welcome, {{ Auth::user()->userName }}</p>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{ route('user.logout') }}">Logout</a></li>
                         @else
-                            <li><a href="{{ route('user.signup') }}">Signup</a></li>
-                            <li><a href="{{ route('user.signin') }}">Signin</a></li>
+                        <li><a href="{{ route('user.signup') }}">Signup</a></li>
+                        <li><a href="{{ route('user.signin') }}">Signin</a></li>
                         @endif
                     </ul>
                 </li>
