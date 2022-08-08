@@ -87,28 +87,11 @@ class TransactionController extends Controller
      */
     public function index()
     {
-             $animals = Animal::join(
-            "customers",
-            "customers.id",
-            "=",
-            "animals.customer_id"
-        )
-            ->select(
-                "customers.firstName",
-                "animals.id",
-                "animals.petName",
-                "animals.Age",
-                "animals.Sex",
-                "animals.Breed",
-                "animals.img_path",
-                "animals.customer_id",
-                "animals.deleted_at"
-            )
-            ->get();
+        $customers = Customer::with('animals')->where('user_id', Auth::id())->get();
         $services = Service::all();
         return view("transaction.index", [
             "services" => $services,
-            "animals" => $animals,
+            "customers" => $customers,
         ]);
     }
 
