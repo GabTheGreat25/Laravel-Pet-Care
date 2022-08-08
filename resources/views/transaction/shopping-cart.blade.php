@@ -44,9 +44,8 @@
         <hr>
         <div class="row">
             <div class="grid justify-center">
-                <button type="button" class="btn btn-success">Checkout</button>
+                <a href="{{ route('checkout') }}" type="button" class="btn btn-success">Checkout</a>
             </div>
-            {{-- {{route ('checkout')}} --}}
         </div>
         @else
         <div class="row">

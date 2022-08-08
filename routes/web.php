@@ -15,8 +15,14 @@ use Illuminate\Support\Facades\Route;
  */
 Route::resource("/transaction", TransactionController::class);
 
+ Route::get('checkout',[
+        'uses' => 'TransactionController@postCheckout',
+        'as' => 'checkout',
+        'middleware' =>'role:customer' //lagay sa reduce & remove
+    ]);
+    
 Route::get("shopping-cart", [
-    "uses" => 'App\Http\Controllers\transactionController@getCart',
+    "uses" => 'App\Http\Controllers\TransactionController@getCart',
     "as" => "transaction.shoppingCart",
 ]);
 

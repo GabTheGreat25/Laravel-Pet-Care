@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Order;
 class Service extends Model
 {
     public static $valRules = [
@@ -23,4 +23,8 @@ class Service extends Model
     protected $primaryKey = "id";
 
     protected $guarded = ["id"];
+
+    public function orders() {
+    return $this->belongToMany(Order::class,'service_orderline','service_orderinfo_id','service_id','animal_id');
+    }
 }

@@ -42,6 +42,10 @@ class Animal extends Model implements Searchable
        return $this->hasMany('App\Models\consultations', 'animal_id');
     }
 
+    public function orders() {
+    return $this->belongToMany(Order::class,'service_orderline','service_orderinfo_id','service_id','animal_id');
+    }
+
      public function getSearchResult(): SearchResult
       {
          $url = route('getconsultation', $this->id);
