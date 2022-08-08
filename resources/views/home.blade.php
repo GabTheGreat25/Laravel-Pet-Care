@@ -14,7 +14,7 @@
         }
 
         main {
-            height: 100%;
+            height: fit-content;
             width: 100%;
             background-image:
                 linear-gradient(rgba(0, 0, 0, 0.5),
