@@ -38,7 +38,7 @@
         <div
             class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
             @forelse ($customers as $customer)
-            <div style="display:grid; justify-items:center; align-items:center; font-size: 2.5rem; font-weight: 700; padding: 3rem 1rem; margin: 0 5rem; border-radius: .75rem; text-align:center;"
+            <div style="display:grid; justify-items:center; align-items:center; font-size: 2.5rem; font-weight: 700; padding: 3rem 1rem; margin: 0 5rem; border-radius: .75rem; text-align:center;">
                 @foreach ($customer->animals as $animal)
 
                 <p> Pet ID: <i style="color:red">{{ $animal->id }} </i></p>
@@ -92,5 +92,4 @@
         @endforeach
     </section>
 </body>
-
 </html>
