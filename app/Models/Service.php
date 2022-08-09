@@ -25,6 +25,6 @@ class Service extends Model
     protected $guarded = ["id"];
 
     public function orders() {
-    return $this->belongToMany(Order::class,'service_orderline','service_orderinfo_id','service_id','animal_id');
+     return $this->belongsToMany(Order::class,'service_orderline','service_orderinfo_id','service_id')->withPivot('animal_id');
     }
 }

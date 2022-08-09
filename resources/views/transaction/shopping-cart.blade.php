@@ -38,7 +38,7 @@
         </div>
         <div class="row">
             <div>
-                <strong>Total: {{ $totalPrice }}</strong>
+                {{-- <strong>Total: {{ $totalPrice }}</strong> --}}
             </div>
         </div>
         <hr>

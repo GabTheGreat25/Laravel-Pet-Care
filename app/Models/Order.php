@@ -16,10 +16,10 @@ class Order extends Model
     return $this->belongsTo('App\Models\Customer');
     }
     public function items() {
-    return $this->belongsToMany(Service::class,'service_orderline','service_orderinfo_id','service_id')->withPivot('animal_id');;
+    return $this->belongsToMany(Service::class,'service_orderline','service_orderinfo_id','service_id')->withPivot('animal_id');
     }
 
-    // public function tests() {
-    // return $this->belongsToMany(Service::class,'service_orderline','service_orderinfo_id','animal_id');
-    // }
+    public function pets() {
+    return $this->belongsToMany(Animal::class,'service_orderline','service_orderinfo_id','animal_id')->withPivot('service_id');
+    }
 }

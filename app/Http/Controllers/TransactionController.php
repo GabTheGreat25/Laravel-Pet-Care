@@ -81,9 +81,10 @@ class TransactionController extends Controller
         unset($this->animals[$id]);
     }
 
-        public function getSession(){
+    public function getSession(){
      Session::flush();
     }
+
     public function postCheckout(Request $request){
         if (!Session::has('cart')) {
             return redirect()->route('transaction.shoppingCart');
@@ -119,8 +120,18 @@ class TransactionController extends Controller
         }
         DB::commit();
         Session::forget('cart');
-        return redirect()->route('transaction.index')->with('success','Successfully Purchased Your Products!!!');
+        return redirect()->route('transaction.receipt')->with('success','Successfully Purchased Your Products!!!');
     }
+
+    public function getReceipt()
+    {
+        $customer = Customer::where('user_id',Auth::id())->first();
+        $orders = Order::with('customer','items','pets')->where('customer_id',$customer->id)->latest()->take("1")->get();
+        // dd($customer, $orders);
+        return view('transaction.receipt',compact('orders'));
+
+    }
+
 
     /**
      * Display a listing of the resource.
