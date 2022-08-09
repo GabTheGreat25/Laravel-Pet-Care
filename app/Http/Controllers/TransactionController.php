@@ -9,6 +9,7 @@ use App\Models\Animal;
 use App\Models\Employee;
 use App\Models\Transaction;
 use App\Models\Customer;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
@@ -79,6 +80,58 @@ class TransactionController extends Controller
         unset($this->services[$id]);
         unset($this->animals[$id]);
     }
+
+    public function getSession(){
+     Session::flush();
+    }
+
+    public function postCheckout(Request $request){
+        if (!Session::has('cart')) {
+            return redirect()->route('transaction.shoppingCart');
+        }
+        $oldCart = Session::get('cart');
+        $cart = new Cart($oldCart);
+
+        try {
+            DB::beginTransaction();
+            $order = new Order();
+            $customer =  Customer::where('user_id',Auth::id())->first();
+            $order->customer_id = $customer->id;
+            $order->schedule = now();
+            $order->save();
+         foreach($cart->services as $services){
+            foreach ($cart->animals as $animals) {
+         $id = $services['services']['id'];
+        //  $animal_id = $animals["animals"]["id"];
+         $order->items()->attach($id,['animal_id'=>$animals["animals"]["id"]]);
+        //  $order->tests()->attach($animal_id);
+        // DB::table("service_orderinfo")->insert([
+        //                 "service_orderinfo_id" => DB::getPdo()->lastInsertId(),
+        //                 "service_id" => $id,
+        //                 "animal_id" => $animal_id,
+        //             ]);
+                }
+            }
+        }
+        catch (\Exception $e) {
+            dd($e);
+         DB::rollback();
+            return redirect()->route('transaction.shoppingCart')->with('error', $e->getMessage());
+        }
+        DB::commit();
+        Session::forget('cart');
+        return redirect()->route('transaction.receipt')->with('success','Successfully Purchased Your Products!!!');
+    }
+
+    public function getReceipt()
+    {
+        $customer = Customer::where('user_id',Auth::id())->first();
+        $orders = Order::with('customer','items','pets')->where('customer_id',$customer->id)->latest()->take("1")->get();
+        // dd($customer, $orders);
+        return view('transaction.receipt',compact('orders'));
+
+    }
+
 
     /**
      * Display a listing of the resource.
