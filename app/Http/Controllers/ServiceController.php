@@ -162,4 +162,16 @@ class ServiceController extends Controller
         Excel::import(new ServiceImport, request()->file('service_upload'));
         return redirect()->back()->with('success', 'Excel file Imported Successfully');
     }
+
+    public function viewComment($id)
+    {
+        //
+        $services = DB::table('services')
+        ->rightJoin('comments','comments.service_id','services.id')
+        ->select('comments.id', 'comments.created_at','comments.service_id','services.servname', 'comments.guestName', 'comments.gEmail', 'comments.cellnum','comments.gcomment')
+        ->where('services.id', $id)
+        ->get();
+   
+        return view('comments.index', ['services' => $services]);
+    }
 }
