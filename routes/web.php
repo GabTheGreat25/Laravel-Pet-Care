@@ -49,6 +49,19 @@ Route::get('/services', [
     'as' => 'getService',
 ]);
 
+
+Route::get('view-comment/{id}',[
+        'uses' => 'ServiceController@viewComment',
+        'as' => 'service.viewComment'
+    ]);
+
+Route::resource('/comments','CommentController');
+
+    Route::get('/comments/create/{id}', [
+        'uses' => 'CommentController@create',
+        'as' => 'service.addComment'
+    ]);
+
 Route::group(['middleware' => 'guest'], function() {
 
         Route::resource("/service", ServiceController::class)->except(['index', 'service']);

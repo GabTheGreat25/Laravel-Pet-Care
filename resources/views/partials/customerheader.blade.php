@@ -18,9 +18,23 @@
         <div>
             <ul class="nav navbar-nav">
 
-                <li style="padding: 0 2rem;">
+                <li style="padding: 0 1rem;">
+                    <a href="{{ url('/transaction') }}">
+                        <i class="fa fa-shopping-basket" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Shop
+                    </a>
+                </li>
+
+                {{-- <li style="padding: 0 2rem;">
                     <a href="{{ url('/employees') }}">
-                        <i class="fa fa-shopping-bag" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Cart
+                        <i class="fa fa-cart-plus" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Cart
+                    </a>
+                </li> --}}
+
+                 <li style="padding: 0 1rem;">
+                    <a href="{{ route('transaction.shoppingCart') }}">
+                        <i class="fa fa-cart-plus" aria-hidden="true"></i> Cart
+                        <span class="text-xs text-white">{{ Session::has('cart') ? '':
+                            '' }}</span>
                     </a>
                 </li>
 

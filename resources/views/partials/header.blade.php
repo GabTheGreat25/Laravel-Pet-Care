@@ -19,16 +19,16 @@
             <ul class="nav navbar-nav">
                 <li style="padding: 0 1rem;">
                     <a href="{{ url('/transaction') }}">
-                        <i class="fa fa-cart-plus" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Transaction
+                        <i class="fa fa-shopping-basket" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Shop
                     </a>
                 </li>
-                <li style="padding: 0 1rem;">
+                {{-- <li style="padding: 0 1rem;">
                     <a href="{{ route('transaction.shoppingCart') }}">
                         <i class="fa fa-paw" aria-hidden="true"></i> Pet Transaction
                         <span class="text-xs text-white">{{ Session::has('cart') ? '':
                             '' }}</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </div>
 

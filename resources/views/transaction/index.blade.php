@@ -82,8 +82,8 @@
                 <div class="grid grid-flow-col gap-2">
                     <a href=" {{ route('transaction.addToCart', ['id'=>$service->id]) }} " class="btn btn-primary"
                         role="button"><i class="fas fa-cart-plus"></i> Add Service </a>
-
-                    <a href="#" class="btn btn-success" role="button">View Comment</a>
+                        {{-- <td align="center"><a href="{{ route('service.viewComment', ['id'=>$services->id]) }}" class="btn btn-default pull-right" role="button"> <button style="background-color:#fae6ae;">View Comments</a></td></button> --}}
+                    <a href="{{ route('service.viewComment', ['id'=>$service->id]) }}" class="btn btn-success" role="button">View Comment</a>
                     {{-- {{route('transaction.show', ['id'=>$service->id]) }} --}}
                 </div>
             </div>
