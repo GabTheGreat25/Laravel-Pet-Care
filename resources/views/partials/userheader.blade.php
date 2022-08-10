@@ -24,7 +24,7 @@
                 </li>
 
                 <li style="padding: 0 1rem;">
-                    <a href="{{ url('/employees') }}">
+                    <a href="{{ url('/transactions') }}">
                         <i class="fa fa-cart-arrow-down" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i>
                         Transaction
                     </a>
@@ -81,12 +81,6 @@
                                         </li>
 
                                         <li style="padding: 0 1rem;">
-                                            <a href="{{ url('/transactions') }}">
-                                                Transaction
-                                            </a>
-                                        </li>
-
-                                        <li style="padding: 0 1rem;">
                                             <a href="{{ url('/customer') }}">
                                                 Reactivate
                                             </a>
@@ -102,10 +96,17 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
+            @if (Auth::check())
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                    aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> User <span
+                    aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> {{ Auth::user()->role }}
+                    <span class="caret"></span></a>
+                @else
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                    aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> Guest <span
                         class="caret"></span></a>
+                @endif
                 <ul class="dropdown-menu" style="font-size: 1.75rem;">
                     @if (Auth::check())
                     <li style="padding-left: 2rem; white-space: nowrap; overflow: hidden;
