@@ -246,7 +246,7 @@ Route::group(['middleware' => 'guest'], function() {
 
         Route::get("receipt", [
         "uses" => 'App\Http\Controllers\TransactionController@getReceipt',
-        "as" => "transaction.receipt",
+        "as" => "transactions.receipt",
         ]);
 
         Route::get('checkout',[
