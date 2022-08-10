@@ -188,7 +188,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        Askedio\Laravel5ProfanityFilter\Providers\ProfanityFilterServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Yajra\DataTables\ButtonsServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,

@@ -19,7 +19,8 @@ class ServiceImport implements ToModel, WithHeadingRow
             'servname' => $row['service_name'],
             'description' => $row['description'],
             'price' => $row['price'],
-            'img_path' => 'images/services/default.jpg',
+            'img_path' => ' images/services/default.jpg|images/services/Bam.png|images/services/bg.png|images/services/bichon-teddy-bear.jpg',
+           
         ]);
     }
 }

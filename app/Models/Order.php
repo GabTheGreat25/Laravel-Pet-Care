@@ -4,17 +4,39 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Service;
+use App\Models\Animal;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Order extends Model
+class Order extends Model implements Searchable
 {
     protected $table = 'service_orderinfo';
-    protected $primaryKey = 'id';
-    public $timestamps = false;
+    protected $primaryKey = 'service_orderinfo_id';
+    // public $timestamps = false;
     protected $fillable = ['customer_id','schedule','status'];
     public function customer() {
     return $this->belongsTo('App\Models\Customer');
     }
     public function items() {
-    return $this->belongsToMany(Item::class,'service_orderline','id','service_id')->withPivot('quantity');
+    return $this->belongsToMany(Service::class,'service_orderline','service_orderinfo_id','service_id')->withPivot('animal_id');
     }
+
+    public function pets() {
+    return $this->belongsToMany(Animal::class,'service_orderline','service_orderinfo_id','animal_id')->withPivot('service_id');
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+      $url = url('show-transacrecord/'.$this->id);
+    
+        return new \Spatie\Searchable\SearchResult(
+           $this,
+           $this->service_orderinfo_id,
+           $this->customer_id,
+           $this->schedule,
+           $this->status,
+           $url
+           );
+    }   
 }

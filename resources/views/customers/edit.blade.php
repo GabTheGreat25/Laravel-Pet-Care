@@ -77,10 +77,7 @@ Customer Edit
                                 <br>
                                 <div>
                                     <label for="sex">Sex</label>
-                                    {{ Form::text('sex', null, [
-                                    'id' => 'sex',
-                                    'class' => 'form-control',
-                                    ]) }}
+                                    {!! Form::select('sex', array('Male' => 'Male', 'Female' => 'Female'), null, ['id' => 'sex', 'class' => 'form-control',]); !!}
                                     @if ($errors->has('sex'))
                                     <p>{{ $errors->first('sex') }}</p>
                                     @endif

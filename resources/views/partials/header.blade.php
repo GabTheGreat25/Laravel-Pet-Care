@@ -18,31 +18,44 @@
         <div>
             <ul class="nav navbar-nav">
                 <li style="padding: 0 1rem;">
-                    <a href="{{ url('/customers') }}">
-                        <i class="fa fa-cart-plus" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Services
+                    <a href="{{ url('/shop') }}">
+                        <i class="fa fa-shopping-basket" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Shop
                     </a>
                 </li>
+                {{-- <li style="padding: 0 1rem;">
+                    <a href="{{ route('transaction.shoppingCart') }}">
+                        <i class="fa fa-paw" aria-hidden="true"></i> Pet Transaction
+                        <span class="badge">{{ Session::has('cart') ? Session::get('cart')->totalPrice : '' }}</span>
+                    </a>
+                    </a>
+                </li> --}}
             </ul>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
+                @if (Auth::check())
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                        aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> User <span
+                        aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> {{ Auth::user()->role }}
+                        <span class="caret"></span></a>
+                    @else
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                        aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> Guest <span
                             class="caret"></span></a>
+                    @endif
                     <ul class="dropdown-menu" style="font-size: 1.75rem;">
                         @if (Auth::check())
-                            <li
-                                style="padding-left: 2rem; white-space: nowrap; overflow: hidden;
+                        <li style="padding-left: 2rem; white-space: nowrap; overflow: hidden;
                             text-overflow: ellipsis;">
-                                <p> Welcome, {{ Auth::user()->userName }}</p>
-                            </li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="{{ route('user.logout') }}">Logout</a></li>
+                            <p> Welcome, {{ Auth::user()->userName }}</p>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{ route('user.logout') }}">Logout</a></li>
                         @else
-                            <li><a href="{{ route('user.signup') }}">Signup</a></li>
-                            <li><a href="{{ route('user.signin') }}">Signin</a></li>
+                        <li><a href="{{ route('user.signup') }}">Signup</a></li>
+                        <li><a href="{{ route('user.signin') }}">Signin</a></li>
                         @endif
                     </ul>
                 </li>

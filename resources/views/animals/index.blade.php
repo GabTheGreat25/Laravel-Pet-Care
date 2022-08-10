@@ -6,9 +6,9 @@ Show Each Pet Of The Customer That Is Log In
 <style>
     .dot {
         border: 1px dashed #000;
-        width: 120%;
+        width: 103.5%;
         margin: auto;
-        margin-left: -5rem;
+        margin-left: -1rem;
         margin-top: 1.5rem;
         margin-bottom: 1rem;
     }
@@ -30,7 +30,7 @@ Show Each Pet Of The Customer That Is Log In
     </div>
 
     <div
-        style="display:grid; justify-items:center; align-items:center; font-size: 2.5rem; font-weight: 700; background-color: rgba(173, 128, 79, 0.753); padding: 3rem 1rem; margin: 0 50rem; border-radius: .75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        style="display:grid; justify-items:center; align-items:center; font-size: 2.5rem; font-weight: 700; background-color: rgba(173, 128, 79, 0.753); padding: 3rem 1rem; margin: 0 45rem; border-radius: .75rem; text-align:center;">
         @forelse ($customers as $customer)
         <p> Customer ID: {{ $customer->id }}</p>
         <p> Customer's Name: {{ $customer->title }}. {{ $customer->firstName }}, {{ $customer->lastName }}</p>
@@ -39,7 +39,7 @@ Show Each Pet Of The Customer That Is Log In
     </div>
     <br>
     <div
-        style="display:grid; justify-items:center; align-items:center; font-size: 2.5rem; font-weight: 700; background-color: rgba(173, 128, 79, 0.753); padding: 3rem 1rem; margin: 0 50rem; border-radius: .75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        style="display:grid; justify-items:center; align-items:center; font-size: 2.5rem; font-weight: 700; background-color: rgba(173, 128, 79, 0.753); padding: 3rem 1rem; margin: 0 45rem; border-radius: .75rem; text-align:center;">
         @foreach ($customer->animals as $animal)
         <p> Pet ID: <i style="color:red">{{ $animal->id }} </i></p>
         <p> Pet Name: <i style="color:red">{{ $animal->petName }}</i></p>
