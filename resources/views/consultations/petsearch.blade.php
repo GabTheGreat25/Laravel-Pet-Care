@@ -11,9 +11,9 @@ There are {{ $searchResults->count() }} results.
    @foreach($modelSearchResults as $searchResult)
        <ul>
         {{-- {{dd($searchResult)}} --}}
-            <li><a href="{{ $searchResult->url }}">{{ $searchResult->title }}</a>
+            <h1>{{ $searchResult->title }}</a>
              {{-- {{$searchResult->searchable->item->cost_price}} --}}
-            </li>
+            </h1>
        </ul>
    @endforeach
 @endforeach

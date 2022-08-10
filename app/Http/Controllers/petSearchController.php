@@ -24,8 +24,8 @@ class petSearchController extends Controller
        public function petsearch(Request $request){
         $searchResults = (new Search())
        ->registerModel(Animal::class, 'petName')
-       ->registerModel(consultations::class, 'dateConsult','fees','comment')
-       ->registerModel(diseases_injuries::class, 'title')
+    //    ->registerModel(consultations::class, 'dateConsult','fees','comment')
+    //    ->registerModel(diseases_injuries::class, 'title')
        ->search($request->get('search'));
        // dd($searchResults);
        // return view('item.search',compact('searchResults'));
