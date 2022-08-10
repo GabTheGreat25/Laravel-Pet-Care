@@ -9,6 +9,7 @@
 
 <body style="background-image:linear-gradient(rgba(212, 212, 212, 0.1),rgba(212,212,212,0.1)),
     url(https://wallpapercave.com/wp/B1sODrM.jpg); background-size:cover;">
+    {{ link_to_route('item.export', 'Export to Excel') }}
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <h1>User Profile {{ Auth::user()->userName }}</h1>
