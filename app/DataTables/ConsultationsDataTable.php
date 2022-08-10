@@ -11,7 +11,7 @@ use App\Models\consultations;
 use App\Models\diseases_injuries;
 use App\Models\animal;
 use App\Models\Employee;
-use App\Models\consultations_disease_injuries;
+
 class ConsultationsDataTable extends DataTable
 {
     /**
