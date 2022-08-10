@@ -7,24 +7,32 @@ use Illuminate\Http\Request;
 use App\Cart;
 use App\Models\Animal;
 use App\Models\Employee;
-use App\Models\Transaction;
 use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Redirect;
+use App\Exports\TransactionExport;
+use App\Rules\ItemRule;
+use Maatwebsite\Excel\Concerns\WithStyles; 
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PDF;
+use Yajra\Datatables\Datatables;
+use Maatwebsite\Excel\Facades\Excel;
+use App\DataTables\TransactionDataTable;
 
 class TransactionController extends Controller
 {
     public function getCart()
     {
         if (!Session::has("cart")) {
-            return view("transaction.shopping-cart");
+            return view("transactions.shopping-cart");
         }
         $oldService = Session::get("cart");
         $cart = new Cart($oldService);
-        return view("transaction.shopping-cart", [
+        return view("transactions.shopping-cart", [
             "services" => $cart->services,
             "animals" => $cart->animals,
             "totalPrice" => $cart->totalPrice,
@@ -71,7 +79,7 @@ class TransactionController extends Controller
         } else {
             Session::forget("cart");
         }
-        return redirect()->route("transaction.shoppingCart");
+        return redirect()->route("transactions.shoppingCart");
     }
 
     public function removeService($id)
@@ -87,7 +95,7 @@ class TransactionController extends Controller
 
     public function postCheckout(Request $request){
         if (!Session::has('cart')) {
-            return redirect()->route('transaction.shoppingCart');
+            return redirect()->route('transactions.shoppingCart');
         }
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
@@ -116,11 +124,11 @@ class TransactionController extends Controller
         catch (\Exception $e) {
             dd($e);
          DB::rollback();
-            return redirect()->route('transaction.shoppingCart')->with('error', $e->getMessage());
+            return redirect()->route('transactions.shoppingCart')->with('error', $e->getMessage());
         }
         DB::commit();
         Session::forget('cart');
-        return redirect()->route('transaction.receipt')->with('success','Successfully Purchased Your Products!!!');
+        return redirect()->route('transactions.receipt')->with('success','Successfully Purchased Your Products!!!');
     }
 
     public function getReceipt()
@@ -128,8 +136,47 @@ class TransactionController extends Controller
         $customer = Customer::where('user_id',Auth::id())->first();
         $orders = Order::with('customer','items','pets')->where('customer_id',$customer->id)->latest()->take("1")->get();
         // dd($customer, $orders);
-        return view('transaction.receipt',compact('orders'));
+        return view('transactions.receipt',compact('orders'));
 
+    }
+
+    public function getProfile()
+    {
+        $customer = Customer::where('user_id',Auth::id())->first();
+        $orders = Order::with('customer','items','pets')->where('customer_id',$customer->id)->get();
+        // dd($customer, $orders);
+        return view('transactions.profile',compact('orders'));
+
+    }
+
+
+    public function export() 
+    {
+        return Excel::download(new TransactionExport, 'receipt'.now().'.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        // return (new TransactionExport ($this->selected))->download('receipt'.now().'.xls'); 
+    }
+
+    //     public function export() {
+    //     return Excel::download( new TransactionExport(), 'receipt'.now().'.pdf') ;
+    // }
+
+    public function getTransaction(TransactionDataTable $dataTable)
+    {
+        $customers = Customer::with([])->get();
+        $items = Service::get();
+        $animals = animal::get();
+        return $dataTable->render('transactions.transactions', compact('items','animals'));
+        
+    }
+
+    public function getData()
+    {
+        $customers = Customer::with('animals')->where('user_id', Auth::id())->get();
+        $services = Service::all();
+        return view("transactions.getData", [
+            "services" => $services,
+            "customers" => $customers,
+        ]);
     }
 
 
@@ -140,12 +187,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with('animals')->where('user_id', Auth::id())->get();
-        $services = Service::all();
-        return view("transaction.index", [
-            "services" => $services,
-            "customers" => $customers,
-        ]);
+        //
     }
 
     /**
@@ -187,8 +229,9 @@ class TransactionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+
+    {       $transactions = Order::find($id);
+            return View::make('transactions.edit',compact('transactions'));
     }
 
     /**
@@ -200,7 +243,12 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $transactions = Order::find($id);
+        $transactions->schedule = $request->input("schedule");
+        $transactions->status = $request->input("status");
+        $transactions->update();
+
+        return Redirect::route('getTransaction')->with('success', 'transaction updated!');
     }
 
     /**
@@ -211,6 +259,9 @@ class TransactionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $transactions = order::find($id);
+        $transactions->items()->detach();
+        $transactions->delete();
+        return Redirect::to('transactions')->with('success','New listener deleted!');
     }
 }

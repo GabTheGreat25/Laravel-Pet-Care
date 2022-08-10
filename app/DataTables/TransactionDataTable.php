@@ -2,17 +2,17 @@
 
 namespace App\DataTables;
 
+use App\Models\Order;
+use App\Models\Customer;
+use App\Models\animal;
+use App\Models\Employee;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
-use App\Models\consultations;
-use App\Models\diseases_injuries;
-use App\Models\animal;
-use App\Models\Employee;
 
-class ConsultationsDataTable extends DataTable
+class TransactionDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -22,46 +22,47 @@ class ConsultationsDataTable extends DataTable
      */
     public function dataTable($query)
     {
-          //  $consultations =  Consultation::with(['animals:petName','diseases_injuries:title','employees:name',])->select('consultations.*');
+        $transaction =  Order::with(['customer:id,firstName','items:servname','pets:petName',])->select('service_orderinfo.*');
 
-           $consultations =  consultations::with(['animal:id,petName','diseases_injuries:title','employee:id,name',])->select('consultations.*');
-           return datatables()
-               ->eloquent($consultations)
-               ->addColumn('action', function($row) {
-                         return "<a href=". route('consultation.edit', $row->id). " class=\"btn btn-warning\">Edit</a> 
-                       <form action=". route('consultation.destroy', $row->id). " method= \"POST\" >". csrf_field() .
+        return datatables()
+               ->eloquent($transaction)
+            ->addColumn('action', function($row) {
+                         return "<a href=". route('transaction.edit', $row->service_orderinfo_id). " class=\"btn btn-warning\">Edit</a> 
+                       <form action=". route('transaction.destroy', $row->service_orderinfo_id). " method= \"POST\" >". csrf_field() .
                        '<input name="_method" type="hidden" value="DELETE">
                        <button class="btn btn-danger" type="submit">Delete</button>
                          </form>';
                })
               
-
-            ->addColumn('employee', function (consultations $consultations) {
-                return $consultations->employee->name;
+            ->addColumn('customer', function (Order $transaction) {
+                return $transaction->customer->firstName;
             }) 
 
-            ->addColumn('animal', function (consultations $consultations) {
-                return $consultations->animal->petName;
-            }) 
-
-            ->addColumn('diseases_injuries', function (consultations $consultations) {
-                       return $consultations->diseases_injuries->map(function($diseases_injuries) { //map will illeterate na album
+            ->addColumn('items', function (Order $transaction) {
+                       return $transaction->items->map(function($items) { //map will illeterate na album
                         //return str_limit($listener->listener_name, 30, '...');
-                        return "<li>".$diseases_injuries->title. "</li>";
+                        return "<li>".$items->servname. "</li>";
+                       })->implode('<br>'); //lalagyan nya ng break, implode-returns the array string
+            })
+
+            ->addColumn('pets', function (Order $transaction) {
+                       return $transaction->pets->map(function($pets) { //map will illeterate na album
+                        //return str_limit($listener->listener_name, 30, '...');
+                        return "<li>".$pets->petName. "</li>";
                        })->implode('<br>'); //lalagyan nya ng break, implode-returns the array string
             })
 
             // ->escapeColumns([]); 
-            ->rawColumns(['diseases_injuries','animal','action','employee']);
+            ->rawColumns(['customer','items','action','pets']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\ConsultationsDataTable $model
+     * @param \App\Models\TransactionDataTable $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(consultations $model)
+    public function query(Order $model)
     {
         return $model->newQuery();
     }
@@ -74,7 +75,7 @@ class ConsultationsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('consultations-table')
+                    ->setTableId('transaction-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
@@ -96,19 +97,18 @@ class ConsultationsDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('id'),
+            Column::make('service_orderinfo_id'),
 
           // Column::make('employee_id')->title('Vet Incharged'),
-         Column::make('employee')->name('employee.name')->title('Employee Incharged'),
+         Column::make('customer')->name('customer.firstName')->title('Customer'),
           
         // Column::make('animal_id')->title('Pet Name'),
-         Column::make('animal')->name('animal.petName')->title('animals'),
+         Column::make('pets')->name('pets.petName')->title('Customer Pet'),
 
-            Column::make('dateConsult'),
-            Column::make('fees'),
+            Column::make('schedule'),
+            Column::make('status'),
           //  Column::make('disease_injuries_id')->title('Diseases/Injuries'),
-            Column::make('diseases_injuries')->name('diseases_injuries.title')->title('diseases_injuries'),
-            Column::make('comment'),
+            Column::make('items')->name('items.servname')->title('Services'),
             Column::make('created_at'),
             Column::make('updated_at'),
             Column::make('action')
@@ -124,6 +124,6 @@ class ConsultationsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Consultations_' . date('YmdHis');
+        return 'Transaction_' . date('YmdHis');
     }
 }
