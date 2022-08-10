@@ -67,8 +67,8 @@
                 <div class="dot"></div>
                 @endforeach
                 @empty
-                <h1 style="text-align:center; font-weight: 700;">
-                    This Customer Doesn't Have Any Pets
+                <h1 style="text-align:center; font-size: 2rem; font-weight: 700; padding: 2rem 1.4rem; color: red;">
+                    This Customer Doesn't Have Any Pets Or This Customer isn't Log In To Our Website
                 </h1>
                 @endforelse
             </div>
