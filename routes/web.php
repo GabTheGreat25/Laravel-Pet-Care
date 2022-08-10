@@ -13,7 +13,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
-
+        Route::get("data", [
+        "uses" => 'App\Http\Controllers\TransactionController@getData',
+        "as" => "transaction.data",
+        ]);
+        
 Auth::routes();
 
 Route::get('/', function () {
@@ -64,12 +68,6 @@ Route::group(['middleware' => 'guest'], function() {
                   'uses' => 'LoginController@postSignin',
                   'as' => 'user.signin',
               ]);
-
-        Route::get("data", [
-        "uses" => 'App\Http\Controllers\TransactionController@getData',
-        "as" => "transaction.data",
-        ]);
-
       });
 
     Route::group(['middleware' => 'role:admin,employee'], function() {
