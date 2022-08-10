@@ -13,68 +13,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
-// Route::get("/transaction", [
-//     "uses" => "TransactionController@index",
-//     "as" => "transaction.index",
-// ]);
-// Route::get("/transaction/{id}/edit", [
-//     "uses" => "TransactionController@edit",
-//     "as" => "transaction.edit",
-// ]);
-// Route::post("/transaction/update/{id}", [
-//     "uses" => "TransactionController@update",
-//     "as" => "transaction.update",
-// ]);
-// Route::get("/transaction/destroy/{id}", [
-//     "uses" => "TransactionController@destroy",
-//     "as" => "transaction.destroy",
-// ]);
-Route::resource("/transaction", TransactionController::class);
-        Route::get('/transactions', [
-            'uses' => 'TransactionController@getTransaction',
-            'as' => 'getTransaction',
-        ]);
-
-Route::get("profileHistory", [
-    "uses" => 'App\Http\Controllers\TransactionController@getProfile',
-    "as" => "transaction.profile",
-]);
-
-    Route::get('/export',[
-        'uses'=>'TransactionController@export',
-        'as' => 'item.export'
-    ]);
-
-Route::get("receipt", [
-    "uses" => 'App\Http\Controllers\TransactionController@getReceipt',
-    "as" => "transaction.receipt",
-]);
-
- Route::get('checkout',[
-        'uses' => 'TransactionController@postCheckout',
-        'as' => 'checkout',
-        'middleware' =>'role:customer' //lagay sa reduce & remove
-    ]);
-    
-Route::get("shopping-cart", [
-    "uses" => 'App\Http\Controllers\TransactionController@getCart',
-    "as" => "transaction.shoppingCart",
-]);
-
- Route::get("add-to-cart/{id}", [
-    "uses" => 'App\Http\Controllers\TransactionController@getAddToCart',
-    "as" => "transaction.addToCart",
-]);
-
-Route::get("add-animal/{id}", [
-    "uses" => 'App\Http\Controllers\TransactionController@getAnimal',
-    "as" => "transaction.addAnimal",
-]);
-
-Route::get("remove/{id}", [
-    "uses" => 'App\Http\Controllers\TransactionController@getRemoveItem',
-    "as" => "transaction.remove",
-]);
 
 Auth::routes();
 
@@ -133,6 +71,7 @@ Route::group(['middleware' => 'guest'], function() {
 
         Route::post('/petsearch',['uses' => 'petSearchController@petsearch','as' => 'petsearch'] );
       
+        Route::resource("/transaction", TransactionController::class);
         Route::resource("/consultation", ConsultationController::class);
 
         Route::get('/services', [
@@ -240,6 +179,11 @@ Route::group(['middleware' => 'guest'], function() {
             'as' => 'getconsultation',
         ]);
 
+        Route::get('/transactions', [
+            'uses' => 'TransactionController@getTransaction',
+            'as' => 'getTransaction',
+        ]);
+
         // Route::resource("/employee", EmployeeController::class)->except(['index', 'destroy','employee' , 'edit']);
   
     });
@@ -284,6 +228,52 @@ Route::group(['middleware' => 'guest'], function() {
             'uses' => 'AnimalController@petstore',
             'as' => 'customer.petstore',
         ]); 
+
+        Route::get("data", [
+        "uses" => 'App\Http\Controllers\TransactionController@getData',
+        "as" => "transaction.data",
+        ]);
+
+        Route::get("profileHistory", [
+        "uses" => 'App\Http\Controllers\TransactionController@getProfile',
+        "as" => "transaction.profile",
+        ]);
+
+        Route::get('/export',[
+        'uses'=>'TransactionController@export',
+        'as' => 'item.export'
+        ]);
+
+        Route::get("receipt", [
+        "uses" => 'App\Http\Controllers\TransactionController@getReceipt',
+        "as" => "transaction.receipt",
+        ]);
+
+        Route::get('checkout',[
+        'uses' => 'TransactionController@postCheckout',
+        'as' => 'checkout',
+        'middleware' =>'role:customer' 
+        ]);
+    
+        Route::get("shopping-cart", [
+        "uses" => 'App\Http\Controllers\TransactionController@getCart',
+        "as" => "transaction.shoppingCart",
+        ]);
+
+        Route::get("add-to-cart/{id}", [
+        "uses" => 'App\Http\Controllers\TransactionController@getAddToCart',
+        "as" => "transaction.addToCart",
+        ]);
+
+        Route::get("add-animal/{id}", [
+        "uses" => 'App\Http\Controllers\TransactionController@getAnimal',
+        "as" => "transaction.addAnimal",
+        ]);
+
+        Route::get("remove/{id}", [
+        "uses" => 'App\Http\Controllers\TransactionController@getRemoveItem',
+        "as" => "transaction.remove",
+        ]);
         
         // Route::resource("/animal", AnimalController::class)->only(['edit','destroy','create','index','animal']);
     });

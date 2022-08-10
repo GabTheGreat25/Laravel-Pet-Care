@@ -81,6 +81,12 @@
                                         </li>
 
                                         <li style="padding: 0 1rem;">
+                                            <a href="{{ url('/transactions') }}">
+                                                Transaction
+                                            </a>
+                                        </li>
+
+                                        <li style="padding: 0 1rem;">
                                             <a href="{{ url('/customer') }}">
                                                 Reactivate
                                             </a>

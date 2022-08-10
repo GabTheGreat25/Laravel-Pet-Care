@@ -150,7 +150,7 @@ class TransactionController extends Controller
     }
 
 
-        public function export() 
+    public function export() 
     {
         return Excel::download(new TransactionExport, 'receipt'.now().'.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
         // return (new TransactionExport ($this->selected))->download('receipt'.now().'.xls'); 
@@ -160,13 +160,23 @@ class TransactionController extends Controller
     //     return Excel::download( new TransactionExport(), 'receipt'.now().'.pdf') ;
     // }
 
-        public function getTransaction(TransactionDataTable $dataTable)
+    public function getTransaction(TransactionDataTable $dataTable)
     {
         $customers = Customer::with([])->get();
         $items = Service::get();
         $animals = animal::get();
         return $dataTable->render('transactions.transactions', compact('items','animals'));
         
+    }
+
+    public function getData()
+    {
+        $customers = Customer::with('animals')->where('user_id', Auth::id())->get();
+        $services = Service::all();
+        return view("transactions.getData", [
+            "services" => $services,
+            "customers" => $customers,
+        ]);
     }
 
 
@@ -177,12 +187,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with('animals')->where('user_id', Auth::id())->get();
-        $services = Service::all();
-        return view("transactions.index", [
-            "services" => $services,
-            "customers" => $customers,
-        ]);
+        //
     }
 
     /**
