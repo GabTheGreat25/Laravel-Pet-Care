@@ -1,34 +1,32 @@
-<div class="header">
-    Page <span class="pagenum"></span>
+<div>
+    <h1>Customer: {{ Auth::user()->userName }}</h1>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>Schedule</th>
+            <th>Status</th>
+            <th>Service</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Customer</th>
-                <th>Schedule</th>
-                <th>Status</th>
-                <th>Service</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($orders as $order)
-            @foreach ($order->items as $item)
-            {{-- @foreach ($order->pets as $pet) --}}
-            <tr>
-                <td>{{ $order->service_orderinfo_id }}</td>
-                <td>{{ Auth::user()->userName }}</td>
-                <td>{{ $order->schedule }}</td>
-                <td>{{ $order->status }}</td>
-                <td>{{ $item->servname }}</td>
-                <td>{{ $item->price }}</td>
+        @foreach ($orders as $order)
+        @foreach ($order->items as $item)
+        {{-- @foreach ($order->pets as $pet) --}}
+        <tr>
 
-                {{-- <td>{{ $pet->petName }}</td> --}}
-            </tr>
+            <td>{{ $order->schedule }}</td>
+            <td>{{ $order->status }}</td>
+            <td>{{ $item->servname }}</td>
+            <td>{{ $item->price }}</td>
 
-            @endforeach
-            @endforeach
-            {{-- @endforeach --}}
-        </tbody>
-    </table>
+            {{-- <td>{{ $pet->petName }}</td> --}}
+        </tr>
+
+        @endforeach
+        @endforeach
+        {{-- @endforeach --}}
+    </tbody>
+</table>

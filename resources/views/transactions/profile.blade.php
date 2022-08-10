@@ -4,9 +4,9 @@
     <div class="col-md-8 col-md-offset-2">
         <h1 style="text-align: center;">Customer Profile </h1>
         <hr>
+        @forelse ($orders as $order)
         <h2>My Transaction History</h2>
         {{-- {{dd($orders)}} --}}
-        @foreach ($orders as $order)
         <div class="panel panel-default">
             <div class="panel-body">
                 <h2>Transaction Number #{{ $order->service_orderinfo_id }}</h2>
@@ -36,7 +36,12 @@
                 <strong>Total Price: ${{ $total }}</strong>
             </div>
         </div>
-        @endforeach
+        @empty
+        <p
+            style="text-align: center; font-size: 2.5rem; font-weight: 900; font-style:italic; color:red; position: relative; top: 20rem;">
+            Dear Customer, You
+            Don't Have Any Transaction Right Now.</p>
+        @endforelse
     </div>
 </div>
 @endsection

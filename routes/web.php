@@ -13,7 +13,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
-
+        Route::get("data", [
+        "uses" => 'App\Http\Controllers\TransactionController@getData',
+        "as" => "transaction.data",
+        ]);
+        
 Auth::routes();
 
 Route::get('/', function () {
@@ -62,9 +66,6 @@ Route::group(['middleware' => 'guest'], function() {
                   'uses' => 'LoginController@postSignin',
                   'as' => 'user.signin',
               ]);
-
-     
-
       });
 
     Route::group(['middleware' => 'role:admin,employee'], function() {
@@ -242,7 +243,7 @@ Route::group(['middleware' => 'guest'], function() {
 
         Route::get("receipt", [
         "uses" => 'App\Http\Controllers\TransactionController@getReceipt',
-        "as" => "transaction.receipt",
+        "as" => "transactions.receipt",
         ]);
 
         Route::get('checkout',[
@@ -251,7 +252,7 @@ Route::group(['middleware' => 'guest'], function() {
         'middleware' =>'role:customer' 
         ]);
     
-        Route::get("shopping-cart", [
+        Route::get("shopping-cart", [ //dito napupunta after makuha data
         "uses" => 'App\Http\Controllers\TransactionController@getCart',
         "as" => "transaction.shoppingCart",
         ]);

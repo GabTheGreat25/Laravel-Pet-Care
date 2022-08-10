@@ -80,7 +80,9 @@ Customer That Is Deactivated
             @endif
         </tr>
         @empty
-        <p>No Customer That Is Deactivated</p>
+        <p style="text-align: center; font-size: 2.5rem; font-weight: 900; font-style:italic; color:red;">No Customer
+            That Is
+            Deactivated</p>
         @endforelse
     </table>
 
