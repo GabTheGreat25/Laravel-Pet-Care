@@ -21,8 +21,13 @@
     }
 </style>
 
-<body style="background-image:linear-gradient(rgba(212, 212, 212, 0.1),rgba(212,212,212,0.1)),
-    url(https://wallpapercave.com/wp/B1sODrM.jpg); background-size:cover;">
+<body style="background-image: url(/navbar/bg.png);">
+    <div style="display: grid; justify-content: end;">
+        <a href="/customerProfile" class="btn btn-danger"
+            style="padding: .7rem 1.5rem; margin: 3rem 6rem 0 3rem; font-size: 1rem; font-weight: 500; font-style:italic;"
+            role="button">Go
+            Back</a>
+    </div>
     @if ($message = Session::get('error'))
     <div class="bg-red-500 p-4 text-center">
         <strong class="text-white text-3xl pl-4 text-center">{{ $message }}</strong>
@@ -33,12 +38,14 @@
             Go Back
         </a> --}}
     </div>
-    <h1 class="text-center text-3xl text-white">CHOOSE YOUR PET</h1>
+    <h1 style="font-size: 2rem; color: white; text-align:center; padding-bottom: 1rem; font-weight: 700;">CHOOSE YOUR
+        PET</h1>
     <section class="flex flex-wrap justify-center gap-3 p-12 w-full">
         <div
             class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
             @forelse ($customers as $customer)
-            <div style="display:grid; justify-items:center; align-items:center; font-size: 2.5rem; font-weight: 700; padding: 3rem 1rem; margin: 0 5rem; border-radius: .75rem; text-align:center;">
+            <div
+                style="display:grid; justify-items:center; align-items:center; font-size: 2.5rem; font-weight: 700; padding: 3rem 1rem; margin: 0 5rem; border-radius: .75rem; text-align:center;">
                 @foreach ($customer->animals as $animal)
 
                 <p> Pet ID: <i style="color:red">{{ $animal->id }} </i></p>
@@ -66,7 +73,8 @@
                 @endforelse
             </div>
     </section>
-    <h1 class="text-center text-3xl text-white pt-3">CHOOSE YOUR SERVICE</h1>
+    <h1 style="font-size: 2rem; color: white; text-align:center; padding: 1rem 0; font-weight: 700;">CHOOSE YOUR SERVICE
+    </h1>
     <section class="flex flex-wrap gap-3 justify-center p-12 w-full">
         @foreach ($services->chunk(1) as $serviceChunk)
         <div
@@ -82,8 +90,11 @@
                 <div class="grid grid-flow-col gap-2">
                     <a href=" {{ route('transaction.addToCart', ['id'=>$service->id]) }} " class="btn btn-primary"
                         role="button"><i class="fas fa-cart-plus"></i> Add Service </a>
-                        {{-- <td align="center"><a href="{{ route('service.viewComment', ['id'=>$services->id]) }}" class="btn btn-default pull-right" role="button"> <button style="background-color:#fae6ae;">View Comments</a></td></button> --}}
-                    <a href="{{ route('service.viewComment', ['id'=>$service->id]) }}" class="btn btn-success" role="button">View Comment</a>
+                    {{-- <td align="center"><a href="{{ route('service.viewComment', ['id'=>$services->id]) }}"
+                            class="btn btn-default pull-right" role="button"> <button
+                                style="background-color:#fae6ae;">View Comments</a></td></button> --}}
+                    <a href="{{ route('service.viewComment', ['id'=>$service->id]) }}" class="btn btn-success"
+                        role="button">View Comment</a>
                     {{-- {{route('transaction.show', ['id'=>$service->id]) }} --}}
                 </div>
             </div>
@@ -92,4 +103,5 @@
         @endforeach
     </section>
 </body>
+
 </html>
