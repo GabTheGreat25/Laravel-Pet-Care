@@ -18,7 +18,7 @@
         <div>
             <ul class="nav navbar-nav">
                 <li style="padding: 0 1rem;">
-                    <a href="{{ url('/transaction') }}">
+                    <a href="{{ url('/shop') }}">
                         <i class="fa fa-shopping-basket" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Shop
                     </a>
                 </li>

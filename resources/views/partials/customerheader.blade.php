@@ -18,15 +18,8 @@
         <div>
             <ul class="nav navbar-nav">
 
-                <li style="padding: 0 2rem;">
-                    <a href="{{ url('/profileHistory') }}">
-                        <i class="fa fa-history" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Transaction
-                        Profile
-                    </a>
-                </li>
-
                 <li style="padding: 0 1rem;">
-                    <a href="{{ url('/data') }}">
+                    <a href="{{ url('/shop') }}">
                         <i class="fa fa-shopping-basket" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Shop
                     </a>
                 </li>
@@ -46,6 +39,19 @@
                 </li> --}}
 
                 <li style="padding: 0 1rem;">
+                    <a href="{{ url('/profileHistory') }}">
+                        <i class="fa fa-history" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Transaction
+                        Profile
+                    </a>
+                </li>
+
+                <li style="padding: 0 1rem;">
+                    <a href="{{ url('/mypets') }}">
+                        <i class="fa fa-paw" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Pet
+                    </a>
+                </li>
+                
+                <li style="padding: 0 1rem;">
                     <a href="{{ url('customerProfile') }}">
                         <i class="fa fa-id-card" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Profile
                     </a>
@@ -58,14 +64,10 @@
                     </a>
                 </li>
 
-                <li style="padding: 0 1rem;">
-                    <a href="{{ url('/mypets') }}">
-                        <i class="fa fa-paw" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Pet
-                    </a>
-                </li>
-
             </ul>
         </div>
+
+     
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">

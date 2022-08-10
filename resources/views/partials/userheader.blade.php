@@ -24,7 +24,7 @@
                 </li>
 
                 <li style="padding: 0 1rem;">
-                    <a href="{{ url('/employees') }}">
+                    <a href="{{ url('/transactions') }}">
                         <i class="fa fa-cart-arrow-down" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i>
                         Transaction
                     </a>
@@ -80,11 +80,11 @@
                                             </a>
                                         </li>
 
-                                        <li style="padding: 0 1rem;">
+                                        {{-- <li style="padding: 0 1rem;">
                                             <a href="{{ url('/transactions') }}">
                                                 Transaction
                                             </a>
-                                        </li>
+                                        </li> --}}
 
                                         <li style="padding: 0 1rem;">
                                             <a href="{{ url('/customer') }}">
