@@ -23,7 +23,7 @@
 
 <body style="background-image: url(/navbar/bg.png);">
     <div style="display: grid; justify-content: end;">
-        <a href="/customerProfile" class="btn btn-danger"
+        <a href="{{url()->previous()}}" class="btn btn-danger"
             style="padding: .7rem 1.5rem; margin: 3rem 6rem 0 3rem; font-size: 1rem; font-weight: 500; font-style:italic;"
             role="button">Go
             Back</a>

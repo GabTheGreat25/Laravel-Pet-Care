@@ -65,6 +65,11 @@ Route::group(['middleware' => 'guest'], function() {
                   'as' => 'user.signin',
               ]);
 
+        Route::get("data", [
+        "uses" => 'App\Http\Controllers\TransactionController@getData',
+        "as" => "transaction.data",
+        ]);
+
       });
 
     Route::group(['middleware' => 'role:admin,employee'], function() {
@@ -229,11 +234,6 @@ Route::group(['middleware' => 'guest'], function() {
             'as' => 'customer.petstore',
         ]); 
 
-        Route::get("data", [
-        "uses" => 'App\Http\Controllers\TransactionController@getData',
-        "as" => "transaction.data",
-        ]);
-
         Route::get("profileHistory", [
         "uses" => 'App\Http\Controllers\TransactionController@getProfile',
         "as" => "transaction.profile",
@@ -255,7 +255,7 @@ Route::group(['middleware' => 'guest'], function() {
         'middleware' =>'role:customer' 
         ]);
     
-        Route::get("shopping-cart", [
+        Route::get("shopping-cart", [ //dito napupunta after makuha data
         "uses" => 'App\Http\Controllers\TransactionController@getCart',
         "as" => "transaction.shoppingCart",
         ]);
