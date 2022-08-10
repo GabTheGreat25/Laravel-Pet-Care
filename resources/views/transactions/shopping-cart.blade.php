@@ -58,7 +58,7 @@
     @else
     <div class="row">
         <div class="grid justify-center position-absolute top-50">
-            <h2 style="font-size: 2rem; color: red;">You don't have any transaction!</h2>
+            <h2 style="font-size: 2rem; color: red; font-weight: 700;">You don't have any transaction!</h2>
         </div>
     </div>
     </div>
