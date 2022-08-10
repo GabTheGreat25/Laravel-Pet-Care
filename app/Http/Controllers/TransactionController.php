@@ -79,7 +79,7 @@ class TransactionController extends Controller
         } else {
             Session::forget("cart");
         }
-        return redirect()->route("transactions.shoppingCart");
+        return redirect()->route("transaction.shoppingCart");
     }
 
     public function removeService($id)
@@ -95,7 +95,7 @@ class TransactionController extends Controller
 
     public function postCheckout(Request $request){
         if (!Session::has('cart')) {
-            return redirect()->route('transactions.shoppingCart');
+            return redirect()->route('transaction.shoppingCart');
         }
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
@@ -124,7 +124,7 @@ class TransactionController extends Controller
         catch (\Exception $e) {
             dd($e);
          DB::rollback();
-            return redirect()->route('transactions.shoppingCart')->with('error', $e->getMessage());
+            return redirect()->route('transaction.shoppingCart')->with('error', $e->getMessage());
         }
         DB::commit();
         Session::forget('cart');

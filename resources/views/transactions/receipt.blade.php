@@ -47,7 +47,7 @@ Customer Receipt
             </div>
         </div>
         <div
-            style="display: grid; justify-content:center; background-color: rgb(26, 228, 26); margin: 0 50rem; padding: 1.5rem 0; border-radius: .75rem;">
+            style="display: grid; justify-content:center; background-color: rgb(26, 228, 26); margin: 0 38rem; padding: 1.5rem 0; border-radius: .75rem;">
             {{ link_to_route('item.export', 'Export to Excel') }}
         </div>
         @endforeach

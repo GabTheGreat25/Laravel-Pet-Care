@@ -9,7 +9,7 @@
 <style>
     .dot {
         border: 1px dashed #000;
-        width: 148%;
+        width: 139%;
         margin: auto;
         margin-left: -6rem;
         margin-top: 1.5rem;

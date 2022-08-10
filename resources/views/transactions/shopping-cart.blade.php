@@ -22,7 +22,7 @@
     </div>
     @if(Session::has('cart'))
     <div class="grid justify-center gap-3 w-full"
-        style="background-color:rgba(195, 195, 195, 0.700); margin: 0 35rem; padding: 3rem 0">
+        style="background-color:rgba(195, 195, 195, 0.700); margin: 0 30rem; padding: 3rem 0">
         <div class="row">
             <div>
                 <ul>

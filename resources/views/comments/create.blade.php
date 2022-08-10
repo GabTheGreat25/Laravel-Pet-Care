@@ -14,6 +14,7 @@
 
         .be-comment-block {
             /* margin-bottom: 50px !important; */
+            margin-top: 7rem;
             background-color: #edeff2;
             border-radius: 2px;
             padding: 1.5rem 8rem 4rem 8rem;
@@ -78,17 +79,24 @@
     </style>
 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div style="display: grid; justify-content: end;">
+        <a href="/data" class="btn btn-danger"
+            style="padding: .7rem 1.5rem; margin: 6rem 14rem 0 3rem; font-size: 1rem; font-weight: 500; font-style:italic; z-index: 9999;"
+            role="button">Home</a>
+    </div>
     <div class="container">
         <div class="be-comment-block">
             <div class="be-comment-content">
 
                 <div class="form-group">
                     <h1 class="text">Send Feeback About Our Service!</h1>
+                    <div style="position: absolute; left: -100rem;">
                     <select class="form-control" name="service_id" id="servname">
                         @foreach($services as $id => $service)
                         <option value="{{$id}}">{{$service}}</option>
                         @endforeach
                     </select>
+                </div>
                 </div>
 
                 <form class="form-block">
