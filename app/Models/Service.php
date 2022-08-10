@@ -5,7 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Order;
-class Service extends Model
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
+
+class Service extends Model implements Searchable
 {
     public static $valRules = [
         "servname" => ["required", "min:3"],
@@ -26,5 +29,15 @@ class Service extends Model
 
     public function orders() {
      return $this->belongsToMany(Order::class,'service_orderline','service_orderinfo_id','service_id')->withPivot('animal_id');
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+       $url = route('getTransaction', $this->id);
+       return new \Spatie\Searchable\SearchResult(
+          $this,
+          $this->servname,
+          $url
+             );
     }
 }

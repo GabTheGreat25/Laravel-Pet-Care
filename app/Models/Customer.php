@@ -5,8 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Customer extends Model
+class Customer extends Model implements Searchable
 {
     public static $valRules = [
         "title" => ["required", "min:2"],
@@ -46,4 +48,14 @@ class Customer extends Model
         return $this->hasMany('App\Models\Order');
     }
     
+    public function getSearchResult(): SearchResult
+    {
+       $url = route('getTransaction', $this->id);
+       return new \Spatie\Searchable\SearchResult(
+          $this,
+          $this->firstName,
+          $this->lastName,
+          $url
+             );
+    }
 }

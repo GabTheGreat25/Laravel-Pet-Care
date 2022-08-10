@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Service;
 use App\Models\Animal;
-class Order extends Model
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
+
+class Order extends Model implements Searchable
 {
     protected $table = 'service_orderinfo';
     protected $primaryKey = 'service_orderinfo_id';
@@ -22,4 +25,18 @@ class Order extends Model
     public function pets() {
     return $this->belongsToMany(Animal::class,'service_orderline','service_orderinfo_id','animal_id')->withPivot('service_id');
     }
+
+    public function getSearchResult(): SearchResult
+    {
+      $url = url('show-transacrecord/'.$this->id);
+    
+        return new \Spatie\Searchable\SearchResult(
+           $this,
+           $this->service_orderinfo_id,
+           $this->customer_id,
+           $this->schedule,
+           $this->status,
+           $url
+           );
+    }   
 }
