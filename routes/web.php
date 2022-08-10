@@ -13,7 +13,37 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
+// Route::get("/transaction", [
+//     "uses" => "TransactionController@index",
+//     "as" => "transaction.index",
+// ]);
+// Route::get("/transaction/{id}/edit", [
+//     "uses" => "TransactionController@edit",
+//     "as" => "transaction.edit",
+// ]);
+// Route::post("/transaction/update/{id}", [
+//     "uses" => "TransactionController@update",
+//     "as" => "transaction.update",
+// ]);
+// Route::get("/transaction/destroy/{id}", [
+//     "uses" => "TransactionController@destroy",
+//     "as" => "transaction.destroy",
+// ]);
 Route::resource("/transaction", TransactionController::class);
+        Route::get('/transactions', [
+            'uses' => 'TransactionController@getTransaction',
+            'as' => 'getTransaction',
+        ]);
+
+Route::get("profileHistory", [
+    "uses" => 'App\Http\Controllers\TransactionController@getProfile',
+    "as" => "transaction.profile",
+]);
+
+    Route::get('/export',[
+        'uses'=>'TransactionController@export',
+        'as' => 'item.export'
+    ]);
 
 Route::get("receipt", [
     "uses" => 'App\Http\Controllers\TransactionController@getReceipt',
