@@ -26,13 +26,6 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource("/service", ServiceController::class)->except(['index', 'service']);
-Route::get('/services', [
-    'uses' => 'ServiceController@getService',
-    'as' => 'getService',
-]);
-
-
 Route::get('view-comment/{id}',[
         'uses' => 'ServiceController@viewComment',
         'as' => 'service.viewComment'
@@ -44,6 +37,11 @@ Route::resource('/comments','CommentController');
         'uses' => 'CommentController@create',
         'as' => 'service.addComment'
     ]);
+
+    Route::get('/shop', [
+        "uses" => 'App\Http\Controllers\TransactionController@getData',
+        "as" => "transaction.data",
+        ]);
 
 Route::group(['middleware' => 'guest'], function() {
 
@@ -73,7 +71,8 @@ Route::group(['middleware' => 'guest'], function() {
     Route::group(['middleware' => 'role:admin,employee'], function() {
 
         Route::post('/petsearch',['uses' => 'petSearchController@petsearch','as' => 'petsearch'] );
-      
+        Route::post('/transactionsearch',['uses' => 'transactionSearchController@transactionsearch','as' => 'transactionsearch'] );
+
         Route::resource("/transaction", TransactionController::class);
         Route::resource("/consultation", ConsultationController::class);
 
