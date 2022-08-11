@@ -123,8 +123,10 @@
                     <li role="separator" class="divider"></li>
                     <li><a href="{{ route('user.logout') }}">Logout</a></li>
                     @else
-                    <li><a href="{{ route('user.signup') }}">Signup</a></li>
-                    <li><a href="{{ route('user.signin') }}">Signin</a></li>
+                    <li><a href="{{ route('customer.registers') }}">Customer Signup</a></li>
+                        <li><a href="{{ route('employee.registers') }}">Employee Signup</a></li>
+                        <li><a href="{{ route('admin.registers') }}">Admin Signup</a></li>
+                        <li><a href="{{ route('user.signin') }}">Signin</a></li>
                     @endif
                 </ul>
             </li>

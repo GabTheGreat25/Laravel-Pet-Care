@@ -18,7 +18,7 @@
         <div>
             <ul class="nav navbar-nav">
                 <li style="padding: 0 1rem;">
-                    <a href="{{ url('/shop') }}">
+                    <a href="{{ url('data') }}">
                         <i class="fa fa-shopping-basket" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i> Shop
                     </a>
                 </li>
@@ -54,7 +54,9 @@
                         <li role="separator" class="divider"></li>
                         <li><a href="{{ route('user.logout') }}">Logout</a></li>
                         @else
-                        <li><a href="{{ route('user.signup') }}">Signup</a></li>
+                        <li><a href="{{ route('customer.registers') }}">Customer Signup</a></li>
+                        <li><a href="{{ route('employee.registers') }}">Employee Signup</a></li>
+                        <li><a href="{{ route('admin.registers') }}">Admin Signup</a></li>
                         <li><a href="{{ route('user.signin') }}">Signin</a></li>
                         @endif
                     </ul>

@@ -20,6 +20,20 @@ class AdminController extends Controller
 
     public function postregistered(Request $request)
     {
+
+        $this->validate($request, [
+            'email' => 'email| required| unique:users',
+            'password' => 'required| min:4'
+        ]);
+
+        $user = new User();
+                $user->userName = $request->input("username");
+                $user->role = 'admin';
+                $user->email = $request->input("email");
+                $user->password = bcrypt($request->input('password'));
+                // $lastinsertedid=$user->id;
+                $user->save();
+
         $this->validate($request, [
             'name' =>'required|regex:/^[a-zA-Z\s]*$/', 
             'job'=>'required|regex:/^[a-zA-Z\s]*$/',
@@ -29,7 +43,7 @@ class AdminController extends Controller
         ]);
         $admin = new admins();
       
-            $admin->user_id = User::latest()->pluck('id')->first();
+            $admin->user_id = $user->id;
             // dd(User::latest()->pluck('id')->first());
             $admin->name = $request->input("name");
             $admin->job = $request->input("job");
@@ -44,7 +58,13 @@ class AdminController extends Controller
         }
 
         $admin->save();
+        Auth::login($user);
         return redirect()->route('admin.profile');
+    }
+    
+    public function getadminProfile(){
+        $admin = admins::where('user_id',Auth::id())->first();
+        return view('admin.profile',compact('admin'));
     }
     
     /**

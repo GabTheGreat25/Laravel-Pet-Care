@@ -34,6 +34,14 @@ class CustomerController extends Controller
 
     public function postregistered(Request $request)
     {
+        $user = new User();
+        $user->userName = $request->input("username");
+        $user->role = 'customer';
+        $user->email = $request->input("email");
+        $user->password = bcrypt($request->input('password'));
+        // $lastinsertedid=$user->id;
+        $user->save();
+
         $this->validate($request, [
             'title' =>'required|regex:/^[a-zA-Z\s]*$/', 
             'firstName'=>'required|regex:/^[a-zA-Z\s]*$/',
@@ -47,7 +55,8 @@ class CustomerController extends Controller
 
         $customer = new customer();
       
-            $customer->user_id = User::latest()->pluck('id')->first();
+            $customer->user_id = $user->id;
+            //User::latest()->pluck('id')->first();
             // dd(User::latest()->pluck('id')->first());
             $customer->title = $request->input("title");
             $customer->firstName = $request->input("firstName");
@@ -67,7 +76,13 @@ class CustomerController extends Controller
 
         $customer->save();
         Event::dispatch(new SendMail($customer));   
+        Auth::login($user);
         return redirect()->route('customer.profile');
+    }
+
+    public function getcustomerProfile(){
+        $customer = customer::where('user_id',Auth::id())->first();
+        return view('customers.profile',compact('customer'));
     }
 
     /**

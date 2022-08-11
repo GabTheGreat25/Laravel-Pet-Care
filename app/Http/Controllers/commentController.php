@@ -59,7 +59,6 @@ class commentController extends Controller
         //     'cellnum'=>'required|numeric',
         //     'gcomment'=>'required|regex:/^[a-zA-Z\s]*$/'
         // ]);
-        
         // $comment = new comments();
         // $comment->service_id = $request->input("service_id");
         // $comment->guestName = $request->input("guestName");
@@ -131,15 +130,14 @@ class commentController extends Controller
     {
 
             $request->validate([
-            'service_id' =>'required|numeric', 
-            'guestName'=>'required|regex:/^[a-zA-Z\s]*$/',
+            'guestName'=>'required',
             'gEmail'=>'email| required',
             'cellnum'=>'required|numeric',
-            'gcomment'=>'required|profanity|regex:/^[a-zA-Z\s]*$/'
+            'gcomment'=>'required|profanity'
         ]);
 
             $comments = new comments;
-            $comments->service_id = $request->$id;
+            $comments->service_id = $id;
             $comments->guestName = $request->guestName;
             $comments->gEmail = $request->gEmail;
             $comments->cellnum = $request->cellnum;

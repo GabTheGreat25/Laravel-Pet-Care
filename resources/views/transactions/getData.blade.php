@@ -27,6 +27,9 @@
             style="padding: .7rem 1.5rem; margin: 3rem 6rem 0 3rem; font-size: 1rem; font-weight: 500; font-style:italic;"
             role="button">Go
             Back</a>
+
+                    <a href="{{ route('transaction.shoppingCart') }}" type="button" class="btn btn-success">Cart</a>
+
     </div>
     @if ($message = Session::get('error'))
     <div class="bg-red-500 p-4 text-center">

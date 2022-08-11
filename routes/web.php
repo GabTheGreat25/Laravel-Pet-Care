@@ -24,6 +24,17 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/comments/viewComment/{id}',[
+    'uses' => 'CommentController@viewComment',
+    'as' => 'comments.viewComment'
+]);
+
+Route::post('/comments/updateComment/{id}', [
+'uses' => 'CommentController@updateComment',
+'as' => 'comments.updateComment',
+]);
+
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Route::get('view-comment/{id}',[
@@ -33,18 +44,20 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('comment', 'CommentController')->middleware('auth');
 
-Route::get('/comments/viewComment/{id}',['uses' => 'CommentController@viewComment','as' => 'comments.viewComment']);
-Route::post('/comments/updateComment/{id}',['uses' => 'CommentController@updateComment','as' => 'comments.updateComment']);
+
+
+// Route::get('/comments/viewComment/{id}',['uses' => 'CommentController@viewComment','as' => 'comments.viewComment']);
+// Route::post('/comments/updateComment/{id}',['uses' => 'CommentController@updateComment','as' => 'comments.updateComment']);
 
     // Route::get('/comments/create', [
     //     'uses' => 'CommentController@updateComment',
     //     'as' => 'comment.addComment'
     // ]);
 
-    Route::get('/shop', [
-        "uses" => 'App\Http\Controllers\TransactionController@getData',
-        "as" => "transaction.data",
-        ]);
+    // Route::get('/shop', [
+    //     "uses" => 'App\Http\Controllers\TransactionController@getData',
+    //     "as" => "transaction.data",
+    //     ]);
 
 Route::group(['middleware' => 'guest'], function() {
 
@@ -54,6 +67,17 @@ Route::group(['middleware' => 'guest'], function() {
           'uses' => 'userController@getSignup',
           'as' => 'user.signups',
               ]);
+
+              Route::get('signup', [
+                'uses' => 'userController@getSignup',
+                'as' => 'user.signups',
+                    ]);
+
+                    Route::get('signup', [
+                        'uses' => 'userController@getSignup',
+                        'as' => 'user.signups',
+                            ]);
+
 
           Route::post('signup', [
                   'uses' => 'userController@postSignup',
@@ -69,6 +93,37 @@ Route::group(['middleware' => 'guest'], function() {
                   'uses' => 'LoginController@postSignin',
                   'as' => 'user.signin',
               ]);
+
+        Route::get('customerregister', [
+                'uses' => 'CustomerController@getregister',
+                'as' => 'customer.registers',
+                    ]);
+    
+        Route::post('customerregister', [
+                        'uses' => 'CustomerController@postregistered',
+                        'as' => 'customer.register',
+                    ]);
+
+        Route::get('employeeregister', [
+                        'uses' => 'EmployeeController@getregister',
+                        'as' => 'employee.registers',
+                            ]);
+            
+         Route::post('employeeregister', [
+                         'uses' => 'EmployeeController@postregistered',
+                         'as' => 'employee.register',
+                            ]);
+
+        Route::get('adminregister', [
+                  'uses' => 'AdminController@getregister',
+                  'as' => 'admin.registers',
+                                    ]);
+                    
+         Route::post('adminregister', [
+                 'uses' => 'AdminController@postregistered',
+                    'as' => 'admin.register',
+                                    ]);
+
       });
 
     Route::group(['middleware' => 'role:admin,employee'], function() {
@@ -130,19 +185,11 @@ Route::group(['middleware' => 'guest'], function() {
 
       Route::group(['middleware' => 'role:admin'], function() {
         Route::get('adminProfile', [
-            'uses' => 'UserController@getadminProfile',
+            'uses' => 'AdminController@getadminProfile',
             'as' => 'admin.profile',
            ]);
 
-        Route::get('adminregister', [
-            'uses' => 'AdminController@getregister',
-            'as' => 'admin.registers',
-                ]);
-
-        Route::post('adminregister', [
-                    'uses' => 'AdminController@postregistered',
-                    'as' => 'admin.register',
-                ]);
+     
 
         Route::resource("/employee", EmployeeController::class);
 
@@ -163,19 +210,11 @@ Route::group(['middleware' => 'guest'], function() {
     Route::group(['middleware' => 'role:employee'], function() {
 
         Route::get('employeeProfile', [
-            'uses' => 'UserController@getemployeeProfile',
+            'uses' => 'EmployeeController@getemployeeProfile',
             'as' => 'employee.profile',
            ]);
 
-        Route::get('employeeregister', [
-            'uses' => 'EmployeeController@getregister',
-            'as' => 'employee.registers',
-                ]);
-
-        Route::post('employeeregister', [
-                    'uses' => 'EmployeeController@postregistered',
-                    'as' => 'employee.register',
-                ]);
+  
 
         // Route::resource("/customer", CustomerController::class, ['except'=>['destroy']]);
 
@@ -195,19 +234,10 @@ Route::group(['middleware' => 'guest'], function() {
 
     Route::group(['middleware' => 'role:customer'], function() {
         Route::get('customerProfile', [
-            'uses' => 'UserController@getcustomerProfile',
+            'uses' => 'CustomerController@getcustomerProfile',
             'as' => 'customer.profile',
            ]);
    
-        Route::get('customerregister', [
-            'uses' => 'CustomerController@getregister',
-            'as' => 'customer.registers',
-                ]);
-
-        Route::post('customerregister', [
-                    'uses' => 'CustomerController@postregistered',
-                    'as' => 'customer.register',
-                ]);
     
     Route::get('/customer/profile/edit/{id}', [
             'uses' => 'CustomerController@profileedit',

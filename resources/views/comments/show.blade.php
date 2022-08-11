@@ -193,7 +193,7 @@
                         @endif
                     </div>
                     <div class="form-group">
-                        <label for="cellnum" class="control-label">Email</label>
+                        <label for="cellnum" class="control-label">Number</label>
                         <input type="text" class="form-control " id="cellnum" name="cellnum" value="{{old('cellnum')}}"
                             placeholder="cellnum">
                         @if($errors->has('cellnum'))
