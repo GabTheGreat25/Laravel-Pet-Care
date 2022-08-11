@@ -19,18 +19,19 @@ Employee Edit
                 'enctype' => 'multipart/form-data',
                 ]) }}
                 <div>
-                    {{-- <div>
+                    <div>
                         <label for="name">Employee Name</label>
-                        {{ Form::text('name', null, [
+                        {{ Form::text('name', null,[
                         'id' => 'name',
                         'class' => 'form-control',
+                        'readonly',
                         ]) }}
                         @if ($errors->has('name'))
                         <p>{{ $errors->first('name') }}</p>
                         @endif
                     </div>
                     <br>
-                    <div> --}}
+                    <div>
                         <label for="position">Position</label>
                         {!! Form::select('position', array('Veterinarian' => 'Veterinarian', 'Groomer' => 'Groomer',
                         'Assistant' => 'Assistant'), null, ['id' => 'position', 'class' => 'form-control',]); !!}
@@ -38,10 +39,10 @@ Employee Edit
                         <p>{{ $errors->first('position') }}</p>
                         @endif
                     </div>
-                    {{-- <br>
+                    <br>
                     <div>
                         <label for="address">Address</label>
-                        {{ Form::text('address', null, ['id' => 'address', 'class' => 'form-control',]) }}
+                        {{ Form::text('address', null, ['id' => 'address', 'class' => 'form-control', 'readonly',]) }}
                         @if ($errors->has('address'))
                         <p>{{ $errors->first('address') }}</p>
                         @endif
@@ -49,11 +50,12 @@ Employee Edit
                     <br>
                     <div>
                         <label for="phonenumber">Phone Number</label>
-                        {{ Form::text('phonenumber', null, ['id' => 'phonenumber', 'class' => 'form-control',]) }}
+                        {{ Form::text('phonenumber', null, ['id' => 'phonenumber', 'class' => 'form-control',
+                        'readonly',]) }}
                         @if ($errors->has('phonenumber'))
                         <p>{{ $errors->first('phonenumber') }}</p>
                         @endif
-                    </div> --}}
+                    </div>
                     <br>
                 </div>
                 {{--
