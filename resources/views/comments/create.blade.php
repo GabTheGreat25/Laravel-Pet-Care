@@ -91,12 +91,12 @@
                 <div class="form-group">
                     <h1 class="text">Send Feeback About Our Service!</h1>
                     <div style="position: absolute; left: -100rem;">
-                    <select class="form-control" name="service_id" id="servname">
-                        @foreach($services as $id => $service)
-                        <option value="{{$id}}">{{$service}}</option>
-                        @endforeach
-                    </select>
-                </div>
+                        <select class="form-control" name="service_id" id="servname">
+                            @foreach($services as $id => $service)
+                            <option value="{{$id}}">{{$service}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
                 <form class="form-block">
@@ -143,6 +143,9 @@
                             <div class="form-group">
                                 <textarea class="form-input" required="" placeholder="Comment" id="gcomment"
                                     name="gcomment"></textarea>
+                                @if ($errors->has('gcomment'))
+                                <p>{{ $errors->first('gcomment') }}</p>
+                                @endif
                             </div>
                         </div>
                     </div>

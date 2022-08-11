@@ -56,7 +56,7 @@ class commentController extends Controller
             'guestName'=>'required|regex:/^[a-zA-Z\s]*$/',
             'gEmail'=>'email| required',
             'cellnum'=>'required|numeric',
-            'gcomment'=>'required|regex:/^[a-zA-Z\s]*$/'
+            'gcomment'=>'required|profanity|regex:/^[a-zA-Z\s]*$/'
         ]);
         
         $comment = new comments();
