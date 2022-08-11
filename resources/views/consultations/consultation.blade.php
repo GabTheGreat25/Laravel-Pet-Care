@@ -33,20 +33,35 @@
                 <div class="modal-body mx-3">
                     <div class="md-form mb-5">
                         <div>
-                            <label for="employee_id">Veterinarian Incharged:</label>
+                            {{-- <label for="employee_id">Veterinarian Incharged:</label> --}}
                             {{-- {!!
-                               Form::select('employee_id', App\Models\Employee::pluck('name', 'id'), null, [
-                               'class' => 'form-control',
-                               ]) !!} --}}
+                            Form::select('employee_id', App\Models\Employee::pluck('name', 'id'), null, [
+                            'class' => 'form-control',
+                            ]) !!} --}}
 
-                            {!! Form::select(
+                            {{-- {!! Form::select(
                             'employee_id',
-                            Illuminate\Support\Facades\DB::table('employees')->where('position', 'Veterinarian')->pluck('name', 'id'),
+                            Illuminate\Support\Facades\DB::table('employees')->where('position',
+                            'Veterinarian')->pluck('name', 'id'),
                             null,
                             [
                             'class' => 'form-control',
                             ],
-                            ) !!}
+                            ) !!} --}}
+                            <div class="md-form mb-5" style="position: absolute; left: -100rem;">
+                                {{-- <label for="customer">Customer:</label> --}}
+                                {!! Form::text(
+                                'employee_id',
+                                App\Models\Employee::where('position','Veterinarian')->orWhere('user_id',
+                                Auth::id())->latest()->pluck('id')->first(),
+                                ['readonly'],
+                                null,
+                                [
+                                'class' => 'form-control',
+                                ],
+                                ) !!}
+
+                            </div>
                         </div>
                         <br>
                         <div>
@@ -58,41 +73,46 @@
                         </div>
                         <br>
                         <div>
-                            <label data-error="wrong" data-success="right" for="dateConsult" style="display: inline-block; width: 150px; ">Date of Consultation:</label>
-                            <input type="date" class="form-control" id="dateConsult" name="dateConsult" value="2022-01-01" min="2000-01-01" max="2030-12-31">
+                            <label data-error="wrong" data-success="right" for="dateConsult"
+                                style="display: inline-block; width: 150px; ">Date of Consultation:</label>
+                            <input type="date" class="form-control" id="dateConsult" name="dateConsult"
+                                value="2022-01-01" min="2000-01-01" max="2030-12-31">
                         </div>
                         <br>
                         <div>
-                            <label data-error="wrong" data-success="right" for="fees" style="display: inline-block; width: 150px; ">Fees:</label>
+                            <label data-error="wrong" data-success="right" for="fees"
+                                style="display: inline-block; width: 150px; ">Fees:</label>
                             <input type="text" id="fees" class="form-control validate" name="fees">
                         </div>
                         <br>
                         <div>
-                            <label data-error="wrong" data-success="right" for="comment" style="display: inline-block; width: 150px; ">Comment:</label>
+                            <label data-error="wrong" data-success="right" for="comment"
+                                style="display: inline-block; width: 150px; ">Comment:</label>
                             <input type="text" id="comment" class="form-control validate" name="comment">
                         </div>
                         <br>
-                            <label for="disease_injuries_id">Any disease/injury?</label>
-                            <div style="display:grid; grid-auto-flow:column; padding: 1rem 0;">
-                                @foreach($diseases_injuries as $diseases_injuries )
+                        <label for="disease_injuries_id">Any disease/injury?</label>
+                        <div style="display:grid; grid-auto-flow:column; padding: 1rem 0;">
+                            @foreach($diseases_injuries as $diseases_injuries )
 
-                                <div class="form-check form-check-inline">
-                                    {{ Form::checkbox('diseases_injuries_id[]',$diseases_injuries->id, null,
-                                  array('class'=>'form-check-input','id'=>'diseases_injuries')) }}
-                                    {!!Form::label('diseases_injuries', $diseases_injuries->title ,array('class'=>'form-check-label')) !!}
-                                </div>
+                            <div class="form-check form-check-inline">
+                                {{ Form::checkbox('diseases_injuries_id[]',$diseases_injuries->id, null,
+                                array('class'=>'form-check-input','id'=>'diseases_injuries')) }}
+                                {!!Form::label('diseases_injuries', $diseases_injuries->title
+                                ,array('class'=>'form-check-label')) !!}
+                            </div>
                             @endforeach
                         </div>
                     </div>
                 </div>
 
                 {{-- <div>
-          <label for="disease_injuries_id">Any disease/injury?</label>
-          {!!
-          Form::select('disease_injuries_id', App\Models\diseases_injuries::pluck('title', 'id'), null, [
-          'class' => 'form-control',
-          ]) !!}
-        </div> --}}
+                    <label for="disease_injuries_id">Any disease/injury?</label>
+                    {!!
+                    Form::select('disease_injuries_id', App\Models\diseases_injuries::pluck('title', 'id'), null, [
+                    'class' => 'form-control',
+                    ]) !!}
+                </div> --}}
 
 
                 <div class="modal-footer d-flex justify-content-center">
