@@ -22,25 +22,24 @@
 </style>
 
 <body style="background-image: url(/navbar/bg.png);">
-    <div style="display: grid; justify-content: end;">
-        <a href="{{url()->previous()}}" class="btn btn-danger"
-            style="padding: .7rem 1.5rem; margin: 3rem 6rem 0 3rem; font-size: 1rem; font-weight: 500; font-style:italic;"
-            role="button">Go
-            Back</a>
-
-                    <a href="{{ route('transaction.shoppingCart') }}" type="button" class="btn btn-success">Cart</a>
-
+    <div style="display: grid; grid-template-columns: 3fr .1fr; justify-content: end;">
+        <div>
+            <a href="{{url()->previous()}}" class="btn btn-danger"
+                style="padding: .7rem 1.5rem; margin: 3rem 6rem 0 3rem; font-size: 1rem; font-weight: 500; font-style:italic;"
+                role="button">Go
+                Back</a>
+        </div>
+        <div>
+            <a href="{{ route('transaction.shoppingCart') }}" type="button"> <button class="btn btn-success"
+                    style="padding: .7rem 1.5rem; margin: 3rem 3rem 0 3rem; font-size: 1rem; font-weight: 500; font-style:italic;">Cart</button>
+            </a>
+        </div>
     </div>
     @if ($message = Session::get('error'))
     <div class="bg-red-500 p-4 text-center">
         <strong class="text-white text-3xl pl-4 text-center">{{ $message }}</strong>
     </div>
     @endif
-    <div class="pt-8 pb-4 px-8 grid justify-end">
-        {{-- <a href="{{ URL('/') }}" class="p-3 border-none italic text-white bg-black text-lg">
-            Go Back
-        </a> --}}
-    </div>
     <h1 style="font-size: 2rem; color: white; text-align:center; padding-bottom: 1rem; font-weight: 700;">CHOOSE YOUR
         PET</h1>
     <section class="flex flex-wrap justify-center gap-3 p-12 w-full">

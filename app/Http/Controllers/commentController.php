@@ -87,7 +87,7 @@ class commentController extends Controller
         $services = Service::find($id);
         $servicess = DB::table('services')
         ->rightJoin('comments','comments.service_id','services.id')
-        ->select('comments.id', 'comments.created_at','comments.service_id','services.servname', 'comments.guestName', 'comments.gEmail', 'comments.cellnum','comments.gcomment','comments.deleted_at')
+        ->select('comments.id', 'comments.created_at','comments.service_id','services.servname', 'comments.guestName', 'comments.gEmail', 'comments.cellnum','comments.gcomment','comments.deleted_at','services.img_path')
         ->where('services.id', $id)
         ->orderBy('comments.created_at','DESC')
         ->get();
