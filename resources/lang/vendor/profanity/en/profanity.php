@@ -113,4 +113,10 @@ return [
     'puke',
     'pekpek',
     'titi',
+    'bulbul',
+    'burat',
+    'tamod',
+    'inutil',
+    'utak talangka',
+    'puday',
 ];
