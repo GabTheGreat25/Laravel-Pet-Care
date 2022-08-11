@@ -93,7 +93,7 @@
                     {{-- <td align="center"><a href="{{ route('service.viewComment', ['id'=>$services->id]) }}"
                             class="btn btn-default pull-right" role="button"> <button
                                 style="background-color:#fae6ae;">View Comments</a></td></button> --}}
-                    <a href="{{ route('service.viewComment', ['id'=>$service->id]) }}" class="btn btn-success"
+                    <a href="{{ route('comments.viewComment', ['id'=>$service->id]) }}" class="btn btn-success"
                         role="button">View Comment</a>
                     {{-- {{route('transaction.show', ['id'=>$service->id]) }} --}}
                 </div>

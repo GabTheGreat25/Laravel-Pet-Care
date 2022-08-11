@@ -26,17 +26,20 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('view-comment/{id}',[
-        'uses' => 'ServiceController@viewComment',
-        'as' => 'service.viewComment'
-    ]);
+// Route::get('view-comment/{id}',[
+//         'uses' => 'CommentController@viewComment',
+//         'as' => 'comment.viewComment'
+//     ]);
 
-Route::resource('/comments','CommentController');
+Route::resource('comment', 'CommentController')->middleware('auth');
 
-    Route::get('/comments/create/{id}', [
-        'uses' => 'CommentController@create',
-        'as' => 'service.addComment'
-    ]);
+Route::get('/comments/viewComment/{id}',['uses' => 'CommentController@viewComment','as' => 'comments.viewComment']);
+Route::post('/comments/updateComment/{id}',['uses' => 'CommentController@updateComment','as' => 'comments.updateComment']);
+
+    // Route::get('/comments/create', [
+    //     'uses' => 'CommentController@updateComment',
+    //     'as' => 'comment.addComment'
+    // ]);
 
     Route::get('/shop', [
         "uses" => 'App\Http\Controllers\TransactionController@getData',
