@@ -160,31 +160,37 @@ class EmployeeController extends Controller
     public function update(Request $request, $id)
     {
         $employees = Employee::find($id);
-        $validator = Validator::make($request->all(), Employee::$valRules);
+        $employees->position = $request->input('position');
+        $employees->update();
 
-        if ($validator->fails()) {
-            return redirect()->back()->withInput()->withErrors($validator);
-        }
-
-        if ($validator->passes()) {
-            $path = Storage::putFileAs('/images/employees/', $request->file('img_path'), $request->file('img_path')->getClientOriginalName());
-
-            $request->merge(["img_path" => $request->file('img_path')->getClientOriginalName()]);
-
-            $input = $request->all();
-
-            if ($file = $request->hasFile('img_path')) {
-                $file = $request->file('img_path');
-                $fileName = $file->getClientOriginalName();
-                $destinationPath = public_path() . '/images/employees/';
-                $input['img_path'] = 'images/employees/' . $fileName;
-                $employees->update($input);
-                $file->move($destinationPath, $fileName);
-                return Redirect::route("getEmployee")->with(
+        return Redirect::route("getEmployee")->with(
                     "Employee Updated!"
                 );
-            }
-        }
+        // $validator = Validator::make($request->all(), Employee::$valRules);
+
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withInput()->withErrors($validator);
+        // }
+
+        // if ($validator->passes()) {
+        //     $path = Storage::putFileAs('/images/employees/', $request->file('img_path'), $request->file('img_path')->getClientOriginalName());
+
+        //     $request->merge(["img_path" => $request->file('img_path')->getClientOriginalName()]);
+
+        //     $input = $request->all();
+
+        //     if ($file = $request->hasFile('img_path')) {
+        //         $file = $request->file('img_path');
+        //         $fileName = $file->getClientOriginalName();
+        //         $destinationPath = public_path() . '/images/employees/';
+        //         $input['img_path'] = 'images/employees/' . $fileName;
+        //         $employees->update($input);
+        //         $file->move($destinationPath, $fileName);
+        //         return Redirect::route("getEmployee")->with(
+        //             "Employee Updated!"
+        //         );
+        //     }
+        // }
     }
 
     /**

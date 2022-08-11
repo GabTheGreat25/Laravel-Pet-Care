@@ -19,7 +19,7 @@ Employee Edit
                 'enctype' => 'multipart/form-data',
                 ]) }}
                 <div>
-                    <div>
+                    {{-- <div>
                         <label for="name">Employee Name</label>
                         {{ Form::text('name', null, [
                         'id' => 'name',
@@ -30,7 +30,7 @@ Employee Edit
                         @endif
                     </div>
                     <br>
-                    <div>
+                    <div> --}}
                         <label for="position">Position</label>
                         {!! Form::select('position', array('Veterinarian' => 'Veterinarian', 'Groomer' => 'Groomer',
                         'Assistant' => 'Assistant'), null, ['id' => 'position', 'class' => 'form-control',]); !!}
@@ -38,7 +38,7 @@ Employee Edit
                         <p>{{ $errors->first('position') }}</p>
                         @endif
                     </div>
-                    <br>
+                    {{-- <br>
                     <div>
                         <label for="address">Address</label>
                         {{ Form::text('address', null, ['id' => 'address', 'class' => 'form-control',]) }}
@@ -53,15 +53,17 @@ Employee Edit
                         @if ($errors->has('phonenumber'))
                         <p>{{ $errors->first('phonenumber') }}</p>
                         @endif
-                    </div>
+                    </div> --}}
+                    <br>
                 </div>
+                {{--
             </div>
-        </div>
-        <br>
-        <label data-error="wrong" data-success="right" for="img_path" style="display: inline-block;
+        </div> --}}
+
+        {{-- <label data-error="wrong" data-success="right" for="img_path" style="display: inline-block;
           width: 150px; ">Employee Image</label>
         <input type="file" id="img_path" class="form-control validate" name="img_path">
-        <br>
+        <br> --}}
         <div style="display: grid; grid-template-columns: .5fr .5fr; gap: 2rem; ">
             <button type="submit" class="btn btn-success">
                 Submit
