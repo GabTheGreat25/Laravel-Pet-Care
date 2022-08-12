@@ -150,15 +150,31 @@ class TransactionController extends Controller
     }
 
 
-    public function export() 
-    {
-        return Excel::download(new TransactionExport, 'receipt'.now().'.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
-        // return (new TransactionExport ($this->selected))->download('receipt'.now().'.xls'); 
-    }
+    // public function export() 
+    // {
+    //     return Excel::download(new TransactionExport, 'receipt'.now().'.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    //     // return (new TransactionExport ($this->selected))->download('receipt'.now().'.xls'); 
+    // }
 
     //     public function export() {
     //     return Excel::download( new TransactionExport(), 'receipt'.now().'.pdf') ;
     // }
+
+    public function getExport(){
+        $customer = Customer::where('user_id',Auth::id())->first();
+        $orders = Order::with('customer','items','pets')->where('customer_id',$customer->id)->latest()->take("1")->get();
+        // dd($customer, $orders);
+        return view('items',compact('orders'));
+    }
+//diba same yan kanina? oo tinama ko lag view baka duprecated na yung way sa pinanood naten t riy m kaya mna naten mag add sa cart> hindi naka anu na tau 
+    public function downloadPDF(){
+        $customer = Customer::where('user_id',Auth::id())->first();
+        $orders = Order::with('customer','items','pets')->where('customer_id',$customer->id)->latest()->take("1")->get();
+        // $orders = Order::all();
+        $pdf = PDF::loadView('items', compact('orders'));
+        return $pdf->download('receipt.pdf');
+    }
+
 
     public function getTransaction(TransactionDataTable $dataTable)
     {

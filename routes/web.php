@@ -280,13 +280,14 @@ Route::group(['middleware' => 'guest'], function() {
 
         Route::post('/mypetstore', [
             'uses' => 'AnimalController@petstore',
-            'as' => 'customer.petstore',
+            'as' => 'customer.petstoreort',
         ]); 
 
         Route::get("profileHistory", [
         "uses" => 'App\Http\Controllers\TransactionController@getProfile',
         "as" => "transaction.profile",
         ]);
+
 
         Route::get('/export',[
         'uses'=>'TransactionController@export',
@@ -297,6 +298,20 @@ Route::group(['middleware' => 'guest'], function() {
         "uses" => 'App\Http\Controllers\TransactionController@getReceipt',
         "as" => "transactions.receipt",
         ]);
+
+        Route::get("get-customer-transaction", [
+        "uses" => 'App\Http\Controllers\TransactionController@getExport',
+        "as" => "transactions.getExport",
+        ]);
+
+        // Route::get("/get-customer-transaction", [TransactionController::class, 'getExport']);
+
+        Route::get("download-pdf", [
+            "uses" => 'App\Http\Controllers\TransactionController@downloadPDF',
+            "as" => "transactions.downloadPDF",
+            ]);
+
+        // Route::get("/download-pdf", [TransactionController::class, 'downloadPDF']);
 
         Route::get('checkout',[
         'uses' => 'TransactionController@postCheckout',
