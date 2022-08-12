@@ -53,8 +53,8 @@ class Customer extends Model implements Searchable
        $url = route('getcustomertransac', $this->id);
        return new \Spatie\Searchable\SearchResult(
           $this,
-          $this->firstName,
-          $this->lastName,
+          $this->firstName, //di kaya dahil dito kase 2?
+        //   $this->lastName,
           $url
              );
     }

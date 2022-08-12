@@ -219,11 +219,11 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
-        $customers = customer::with('service_orderinfo')->where('id',$id)->get();
-        $service_orderinfo = Order::with('service_id','animal_id')->where('customer_id',$id)->get();
-       dd($customers);
-       dd($service_orderinfo);
+        //model to? oo kung anu  yan
+        $customers = customer::with('orders')->where('id',$id)->get();
+        $service_orderinfo = Order::with('items','pets')->where('customer_id',$id)->get();
+    //   dd($customers);
+    //   dd($service_orderinfo);
      return view('transactions.show',compact('customers','service_orderinfo'));
     }
 

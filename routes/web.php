@@ -59,7 +59,13 @@ Route::resource('comment', 'CommentController')->middleware('auth');
     //     "as" => "transaction.data",
     //     ]);
     Route::post('/petsearch',['uses' => 'petSearchController@petsearch','as' => 'petsearch'] );
-        Route::post('/transactionsearch',['uses' => 'transactionSearchController@transactionsearch','as' => 'transactionsearch'] );
+       // Route::post('/transactionsearch',['uses' => 'transactionSearchController@transactionsearch','as' => 'transactionsearch'] );
+
+        Route::post('/transactionsearch', [
+            'uses' => 'transactionSearchController@transactionsearch',
+            'as' => 'transactionsearch',
+        ]);
+
 
         Route::get('show-animal/{id}', [
             'uses' => 'ConsultationController@show',

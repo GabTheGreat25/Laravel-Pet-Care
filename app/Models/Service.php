@@ -8,7 +8,8 @@ use App\Models\Order;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
-class Service extends Model implements Searchable
+class Service extends Model 
+// implements Searchable
 {
     public static $valRules = [
         "servname" => ["required", "min:3"],
@@ -31,14 +32,14 @@ class Service extends Model implements Searchable
      return $this->belongsToMany(Order::class,'service_orderline','service_orderinfo_id','service_id')->withPivot('animal_id');
     }
 
-    public function getSearchResult(): SearchResult
-    {
-       $url = route('getcustomertransac', $this->id);
-       return new \Spatie\Searchable\SearchResult(
-          $this,
-          $this->firstName,
-          $this->lastName,
-          $url
-             );
-    }
+//     public function getSearchResult(): SearchResult
+//     {
+//        $url = route('getcustomertransac', $this->id);
+//    return new \Spatie\Searchable\SearchResult(
+//           $this,
+//           $this->firstName,
+//           $this->lastName,
+//           $url
+//              );
+//     }
 }
