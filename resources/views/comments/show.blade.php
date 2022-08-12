@@ -116,7 +116,7 @@
 
                                 <div class="col-xs-12 col-sm-6">
                                     <div class="form-group fl_icon">
-                                        <div class="icon"><i class="fa fa-envelope-o"></i></div>
+                                        <div class="icon"><i class="fa fa-envelope"></i></div>
                                         <input class="form-input" type="email" placeholder="Your email" id="gEmail"
                                             name="gEmail">
                                     </div>
@@ -126,7 +126,7 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6">
                                     <div class="form-group fl_icon">
-                                        <div class="icon"><i class="fa fa-user"></i></div>
+                                        <div class="icon"><i class="fa fa-phone"></i></div>
                                         <input class="form-input" type="text" placeholder="Cellphone Number"
                                             id="cellnum" name="cellnum">
                                     </div>
@@ -134,7 +134,7 @@
 
                                 <div class="col-xs-12 col-sm-6">
                                     <div class="form-group fl_icon">
-                                        <div class="icon"><i class="fa fa-user"></i></div>
+                                        <div class="icon"><i class="fa fa-plus-square"></i></div>
                                         <input class="form-input" type="text" placeholder="Age" id="age" name="age">
                                     </div>
                                 </div>
