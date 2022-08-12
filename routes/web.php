@@ -304,14 +304,10 @@ Route::group(['middleware' => 'guest'], function() {
         "as" => "transactions.getExport",
         ]);
 
-        // Route::get("/get-customer-transaction", [TransactionController::class, 'getExport']);
-
         Route::get("download-pdf", [
             "uses" => 'App\Http\Controllers\TransactionController@downloadPDF',
             "as" => "transactions.downloadPDF",
             ]);
-
-        // Route::get("/download-pdf", [TransactionController::class, 'downloadPDF']);
 
         Route::get('checkout',[
         'uses' => 'TransactionController@postCheckout',
