@@ -28,7 +28,7 @@ class ConsultationController extends Controller
         //
         ///-----sa search na to 
         if (empty($request->get('search'))) {
-            $consultations = consultations::with('animals')->get();
+            $consultations = consultations::with('animals')->get(); //dito ay di ko ata to ginamit e
         
         }
     
@@ -92,16 +92,44 @@ class ConsultationController extends Controller
     {
         
         // $consultations = DB::table('consultations')
-        // ->leftJoin('consultations_line','consultations.id','=','consultations_disease_injuries.consultations_id')
+        // ->leftJoin('consultations','consultations.id','=','consultations_disease_injuries.consultations_id')
         // ->leftJoin('employees','employees.id','=','consultations.employee_id')
         // ->leftJoin('animals','animals.id','=','consultations_disease_injuries.animals_id')
         // ->leftJoin('diseases_injuries','diseases_injuries.id','=','consultations_disease_injuries.disease_injuries_id')
         // ->select('consultations.id', 'animals.id', 'animals.img_path', 'consultations.employee_id', 'employees.id', 'consultations_disease_injuries.animals_id', 'diseases_injuries.id', 'consultations.dateConsult', 'consultations.fees', 'consultations_disease_injuries.disease_injuries_id', 'consultations.comment', 'consultations.created_at', 'consultations.updated_at', 'consultations.deleted_at', 'employees.name', 'animals.petName', 'diseases_injuries.title')
-        // ->where('consultations.id', $id)
+        // ->where('consultations.animal_id', $id)
         // ->get();
-        // return View::make('consultations.show', compact('consultations'));
-        
-    }
+        // return view('consultations.show',compact('consultations','animal','employee','diseases_injuries','consultations_diseases_injuries'));
+
+            // $consultations = consultations::where('animal_id',$id)->get();
+            // $animal = animal::pluck('petName','img_path','id');
+            // $employee = Employee::pluck('name','id');
+            // $diseases_injuries = diseases_injuries::pluck('title','id');
+            // $consultations_diseases_injuries = DB::table('consultations_diseases_injuries')
+            //                     ->where('consultations_id',$id)
+            //                     ->pluck('diseases_injuries_id')
+            //                     ->toArray();
+            //id nino to?        
+            $animals = animal::with('consultations')->where('id',$id)->get();
+            $consultations = consultations::with('diseases_injuries','employee')->where('animal_id',$id)->get();
+        //    dd($consultations);
+         return view('consultations.show',compact('animals','consultations'));
+            // $consultations = DB::table('consultations')
+  
+            // ->leftJoin('consultations_diseases_injuries','consultations.id','=','consultations_diseases_injuries.consultations_id')
+            // ->leftJoin('employees','employees.id','=','consultations.employee_id')
+            // ->leftJoin('animals','animals.id','=','consultations.animal_id')
+            // ->leftJoin('diseases_injuries','diseases_injuries.id','=','consultations_diseases_injuries.diseases_injuries_id')
+            
+            // ->select('consultations.id', 'animals.id', 'animals.img_path', 'consultations.employee_id', 'employees.id', 'consultations.animal_id', 'diseases_injuries.id', 'consultations.dateConsult', 'consultations.fees', 'consultations_diseases_injuries.diseases_injuries_id',  'consultations.comment', 'consultations.created_at', 'consultations.updated_at', 'consultations.deleted_at', 'employees.name', 'animals.petName', 'diseases_injuries.title',)
+    
+            // // ->select('animals.id', 'animals.img_path','animals.petName','employees.id', 'employees.name', 'diseases.id',  'diseases.title','injuries.id','injuries.titles', 'animals.img_path', 'consultations.id', 'consultations.employee_id','consultations.animal_id', 'consultations.dateConsult','consultations.fees','consultations.disease_id', 'consultations.injury_id', 'consultations.comment',)
+    
+            // ->where('animal_id',$id) 
+            // ->get();
+            // return View::make('consultations.show',compact('consultations'));
+
+        }
 
     /**
      * Show the form for editing the specified resource.

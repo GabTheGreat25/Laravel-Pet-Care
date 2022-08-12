@@ -9,7 +9,8 @@ use App\Models\Animal;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
-class Order extends Model implements Searchable
+class Order extends Model 
+//implements Searchable
 {
     protected $table = 'service_orderinfo';
     protected $primaryKey = 'service_orderinfo_id';
@@ -26,17 +27,14 @@ class Order extends Model implements Searchable
     return $this->belongsToMany(Animal::class,'service_orderline','service_orderinfo_id','animal_id')->withPivot('service_id');
     }
 
-    public function getSearchResult(): SearchResult
-    {
-      $url = url('show-transacrecord/'.$this->id);
-    
-        return new \Spatie\Searchable\SearchResult(
-           $this,
-           $this->service_orderinfo_id,
-           $this->customer_id,
-           $this->schedule,
-           $this->status,
-           $url
-           );
-    }   
+   //  public function getSearchResult(): SearchResult
+   //  {
+   //     $url = route('getcustomertransac', $this->id);
+   //     return new \Spatie\Searchable\SearchResult(
+   //        $this,
+   //        $this->firstName,
+   //        $this->lastName,
+   //        $url
+   //           );
+   //  }
 }

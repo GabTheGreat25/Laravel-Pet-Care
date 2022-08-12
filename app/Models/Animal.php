@@ -48,7 +48,7 @@ class Animal extends Model implements Searchable
 
      public function getSearchResult(): SearchResult
       {
-         $url = route('getconsultation', $this->id);
+         $url = route('getanimalconsult', $this->id);
          return new \Spatie\Searchable\SearchResult(
             $this,
             $this->petName,
