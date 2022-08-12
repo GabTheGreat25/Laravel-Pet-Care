@@ -33,10 +33,11 @@ class Service extends Model implements Searchable
 
     public function getSearchResult(): SearchResult
     {
-       $url = route('getTransaction', $this->id);
+       $url = route('getcustomertransac', $this->id);
        return new \Spatie\Searchable\SearchResult(
           $this,
-          $this->servname,
+          $this->firstName,
+          $this->lastName,
           $url
              );
     }

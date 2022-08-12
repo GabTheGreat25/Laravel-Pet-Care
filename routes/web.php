@@ -58,7 +58,19 @@ Route::resource('comment', 'CommentController')->middleware('auth');
     //     "uses" => 'App\Http\Controllers\TransactionController@getData',
     //     "as" => "transaction.data",
     //     ]);
+    Route::post('/petsearch',['uses' => 'petSearchController@petsearch','as' => 'petsearch'] );
+        Route::post('/transactionsearch',['uses' => 'transactionSearchController@transactionsearch','as' => 'transactionsearch'] );
 
+        Route::get('show-animal/{id}', [
+            'uses' => 'ConsultationController@show',
+             'as' => 'getanimalconsult'
+          ]);
+
+        Route::get('show-customer/{id}', [
+            'uses' => 'TransactionController@show',
+             'as' => 'getcustomertransac'
+          ]);
+          
 Route::group(['middleware' => 'guest'], function() {
 
         Route::resource("/service", ServiceController::class)->except(['index', 'service']);
@@ -128,8 +140,7 @@ Route::group(['middleware' => 'guest'], function() {
 
     Route::group(['middleware' => 'role:admin,employee'], function() {
 
-        Route::post('/petsearch',['uses' => 'petSearchController@petsearch','as' => 'petsearch'] );
-        Route::post('/transactionsearch',['uses' => 'transactionSearchController@transactionsearch','as' => 'transactionsearch'] );
+    
 
         Route::resource("/transaction", TransactionController::class);
         Route::resource("/consultation", ConsultationController::class);
@@ -179,6 +190,8 @@ Route::group(['middleware' => 'guest'], function() {
             'uses' => 'ConsultationController@index',
              'as' => 'Consultations.index'
           ]);
+
+     
     });
 
 //  ->middleware('auth');

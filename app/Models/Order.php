@@ -28,15 +28,12 @@ class Order extends Model implements Searchable
 
     public function getSearchResult(): SearchResult
     {
-      $url = url('show-transacrecord/'.$this->id);
-    
-        return new \Spatie\Searchable\SearchResult(
-           $this,
-           $this->service_orderinfo_id,
-           $this->customer_id,
-           $this->schedule,
-           $this->status,
-           $url
-           );
-    }   
+       $url = route('getcustomertransac', $this->id);
+       return new \Spatie\Searchable\SearchResult(
+          $this,
+          $this->firstName,
+          $this->lastName,
+          $url
+             );
+    }
 }
