@@ -52,7 +52,7 @@
                                 {{-- <label for="customer">Customer:</label> --}}
                                 {!! Form::text(
                                 'employee_id',
-                                App\Models\Employee::where('position','Veterinarian')->orWhere('user_id',
+                                App\Models\Employee::where('user_id',
                                 Auth::id())->latest()->pluck('id')->first(),
                                 ['readonly'],
                                 null,
