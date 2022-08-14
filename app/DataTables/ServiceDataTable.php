@@ -83,7 +83,7 @@ class ServiceDataTable extends DataTable
         return [
 
             Column::make('id'),
-            Column::make('servname')->title('serviceName'), // ? Title is yung header
+            Column::make('servname')->title('serviceName'),
             Column::make('description'),
             Column::make('price'),
             Column::make('images'),

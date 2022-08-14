@@ -26,16 +26,7 @@ class ServiceController extends Controller
      */
     public function index(Request $request)
     {
-        // if (empty($request->get('search'))) {
-        //     $services = Service::all();
-        // } else {
-        //     $services = Service::all()
-        //         ->where("servname", "LIKE", "%" . $request->get('search') . "%")
-        //         ->get();
-        // }
-
-        // $url = 'services';
-        // return View::make('services.index', compact('services', 'url'));
+        //
     }
 
     /**

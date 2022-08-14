@@ -51,7 +51,6 @@ class TransactionController extends Controller
         Session::put("cart", $cart);
         $request->session()->save();
         return redirect()->back();
-        // dd(Session::all());
     }
 
     public function getAnimal(Request $request, $id)
@@ -66,7 +65,6 @@ class TransactionController extends Controller
         Session::put("cart", $cart);
         $request->session()->save();
         return redirect()->back();
-        // dd(Session::all());
     }
 
     public function getRemoveItem($id)
@@ -152,13 +150,9 @@ class TransactionController extends Controller
 
     public function export() 
     {
-        return Excel::download(new TransactionExport, 'receipt.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
-        // return (new TransactionExport ($this->selected))->download('receipt'.now().'.xls'); 
+        return Excel::download(new TransactionExport, 'receipt.pdf', \Maatwebsite\Excel\Excel::DOMPDF); 
     }
 
-    //     public function export() {
-    //     return Excel::download( new TransactionExport(), 'receipt'.now().'.pdf') ;
-    // }
 
     public function getTransaction(TransactionDataTable $dataTable)
     {
@@ -219,11 +213,8 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //model to? oo kung anu  yan
         $customers = customer::with('orders')->where('id',$id)->get();
         $service_orderinfo = Order::with('items','pets')->where('customer_id',$id)->get();
-    //   dd($customers);
-    //   dd($service_orderinfo);
      return view('transactions.show',compact('customers','service_orderinfo'));
     }
 

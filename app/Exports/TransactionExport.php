@@ -17,10 +17,9 @@ class TransactionExport implements FromView
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function view(): View //be aware dapat view ren toh pag return view parang compact toh
+    public function view(): View 
     {
         return view('exports.items',[
-            //  $customer = Customer::where('user_id',Auth::id())->first(),
             'orders' =>  \App\Models\Order::with('customer','items','pets')->latest()->take("1")->get()
         ]);
     }

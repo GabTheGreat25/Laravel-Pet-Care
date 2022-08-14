@@ -39,7 +39,6 @@ class CustomerController extends Controller
         $user->role = 'customer';
         $user->email = $request->input("email");
         $user->password = bcrypt($request->input('password'));
-        // $lastinsertedid=$user->id;
         $user->save();
 
         $this->validate($request, [
@@ -56,8 +55,6 @@ class CustomerController extends Controller
         $customer = new customer();
       
             $customer->user_id = $user->id;
-            //User::latest()->pluck('id')->first();
-            // dd(User::latest()->pluck('id')->first());
             $customer->title = $request->input("title");
             $customer->firstName = $request->input("firstName");
             $customer->lastName = $request->input("lastName");
@@ -209,11 +206,6 @@ class CustomerController extends Controller
     //EDIT FOR CUSTOMER PROFILE
     public function profileedit($id)
     {
-        //
-        // $customers =  Customer::where($id,Auth::id());
-        // $customers = Customer::where('id',Auth::id())->first();
-        // // $customers = Customer::find($id);
-        // return view("customers.edit")->with("customers", $customers);
         $customers = Customer::where('user_id',Auth::id())->first();
         $user = user::with('customer')->where('id',$customers->id)->get();
         return view("customers.profileedit")->with("customers", $customers);
@@ -227,7 +219,6 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     //UPDATE FOR CRUD
     public function update(Request $request, $id)
     {
         $customers = Customer::find($id);
@@ -258,7 +249,6 @@ class CustomerController extends Controller
         }
     }
 
-    //UPDATE FOR CUSTOMER PROFILE
     public function profileupdate(Request $request, $id)
     {
         $customers = Customer::find($id);
@@ -304,8 +294,6 @@ class CustomerController extends Controller
 
         $customers = Customer::destroy($id);
         $customer->delete();
-
-        // DB::table("animals")->where("customer_id", $id)->delete();
 
         return Redirect::route("getCustomer")->with(
                     "Customer Deleted!"

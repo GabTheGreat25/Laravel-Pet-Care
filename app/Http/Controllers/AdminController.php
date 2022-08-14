@@ -31,7 +31,6 @@ class AdminController extends Controller
                 $user->role = 'admin';
                 $user->email = $request->input("email");
                 $user->password = bcrypt($request->input('password'));
-                // $lastinsertedid=$user->id;
                 $user->save();
 
         $this->validate($request, [

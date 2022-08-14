@@ -35,7 +35,6 @@ class AnimalController extends Controller
     public function getpet()
     {
         $customers = Customer::with('animals')->where('user_id', Auth::id())->get();
-        // dd($customers);c
         return View::make('animals.index', ['customers' => $customers]);
     }
 

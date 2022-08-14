@@ -105,11 +105,6 @@ class UserController extends Controller
     //     // else{
     //     //     return view('home');
     //     //     }
-
-    //     // elseif($request->Role == 'NOT-APPROVED'){
-    //     //         // your code
-    //     //     }
-
     // }
 
     public function getSignin(){

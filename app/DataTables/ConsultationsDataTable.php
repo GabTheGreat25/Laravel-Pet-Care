@@ -22,8 +22,6 @@ class ConsultationsDataTable extends DataTable
      */
     public function dataTable($query)
     {
-          //  $consultations =  Consultation::with(['animals:petName','diseases_injuries:title','employees:name',])->select('consultations.*');
-
            $consultations =  consultations::with(['animal:id,petName','diseases_injuries:title','employee:id,name',])->select('consultations.*');
            return datatables()
                ->eloquent($consultations)
@@ -45,13 +43,12 @@ class ConsultationsDataTable extends DataTable
             }) 
 
             ->addColumn('diseases_injuries', function (consultations $consultations) {
-                       return $consultations->diseases_injuries->map(function($diseases_injuries) { //map will illeterate na album
-                        //return str_limit($listener->listener_name, 30, '...');
+                       return $consultations->diseases_injuries->map(function($diseases_injuries) { 
+                      
                         return "<li>".$diseases_injuries->title. "</li>";
-                       })->implode('<br>'); //lalagyan nya ng break, implode-returns the array string
+                       })->implode('<br>');
             })
 
-            // ->escapeColumns([]); 
             ->rawColumns(['diseases_injuries','animal','action','employee']);
     }
 
@@ -97,16 +94,10 @@ class ConsultationsDataTable extends DataTable
     {
         return [
             Column::make('id'),
-
-          // Column::make('employee_id')->title('Vet Incharged'),
-         Column::make('employee')->name('employee.name')->title('Employee Incharged'),
-          
-        // Column::make('animal_id')->title('Pet Name'),
-         Column::make('animal')->name('animal.petName')->title('animals'),
-
+            Column::make('employee')->name('employee.name')->title('Employee Incharged'),
+            Column::make('animal')->name('animal.petName')->title('animals'),
             Column::make('dateConsult'),
             Column::make('fees'),
-          //  Column::make('disease_injuries_id')->title('Diseases/Injuries'),
             Column::make('diseases_injuries')->name('diseases_injuries.title')->title('diseases_injuries'),
             Column::make('comment'),
             Column::make('created_at'),

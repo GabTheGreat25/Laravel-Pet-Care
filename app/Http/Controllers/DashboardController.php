@@ -108,10 +108,9 @@ public function searchdate(Request $request){
         //->get();
       
       //  ->all();
-      //eto sql yan na ididisplay sa chart dito mo ccontrol ano laalvass sa chart nasa pluck
+
         ->toArray();
 
-      //tas etong sa baba puro tungkol na sa chart color etc.
          $transactionChart = new transactionChart;
  
          $dataset = $transactionChart->labels(array_keys($transaction));
@@ -175,7 +174,6 @@ public function dashtransac(){
       
      ->toArray();
 
-      //tas etong sa baba puro tungkol na sa chart color etc.
          $transactionChart = new transactionChart;
  
          $dataset = $transactionChart->labels(array_keys($transaction));

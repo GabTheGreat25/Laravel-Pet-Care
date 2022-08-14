@@ -42,7 +42,7 @@ class EmployeeController extends Controller
                 $user->role = 'employee';
                 $user->email = $request->input("email");
                 $user->password = bcrypt($request->input('password'));
-                // $lastinsertedid=$user->id;
+
                 $user->save();
 
         $this->validate($request, [
@@ -72,7 +72,6 @@ class EmployeeController extends Controller
 
         $employee->save();
         Auth::login($user);
-                // return redirect()->route('employee.registers');
         return redirect()->route('employee.profile');
     }
 
@@ -187,31 +186,6 @@ class EmployeeController extends Controller
         return Redirect::route("getEmployee")->with(
                     "Employee Updated!"
                 );
-        // $validator = Validator::make($request->all(), Employee::$valRules);
-
-        // if ($validator->fails()) {
-        //     return redirect()->back()->withInput()->withErrors($validator);
-        // }
-
-        // if ($validator->passes()) {
-        //     $path = Storage::putFileAs('/images/employees/', $request->file('img_path'), $request->file('img_path')->getClientOriginalName());
-
-        //     $request->merge(["img_path" => $request->file('img_path')->getClientOriginalName()]);
-
-        //     $input = $request->all();
-
-        //     if ($file = $request->hasFile('img_path')) {
-        //         $file = $request->file('img_path');
-        //         $fileName = $file->getClientOriginalName();
-        //         $destinationPath = public_path() . '/images/employees/';
-        //         $input['img_path'] = 'images/employees/' . $fileName;
-        //         $employees->update($input);
-        //         $file->move($destinationPath, $fileName);
-        //         return Redirect::route("getEmployee")->with(
-        //             "Employee Updated!"
-        //         );
-        //     }
-        // }
     }
 
     /**

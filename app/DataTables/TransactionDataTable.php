@@ -39,20 +39,19 @@ class TransactionDataTable extends DataTable
             }) 
 
             ->addColumn('items', function (Order $transaction) {
-                       return $transaction->items->map(function($items) { //map will illeterate na album
-                        //return str_limit($listener->listener_name, 30, '...');
+                       return $transaction->items->map(function($items) { 
+                       
                         return "<li>".$items->servname. "</li>";
-                       })->implode('<br>'); //lalagyan nya ng break, implode-returns the array string
+                       })->implode('<br>'); 
             })
 
             ->addColumn('pets', function (Order $transaction) {
-                       return $transaction->pets->map(function($pets) { //map will illeterate na album
-                        //return str_limit($listener->listener_name, 30, '...');
+                       return $transaction->pets->map(function($pets) { 
+                       
                         return "<li>".$pets->petName. "</li>";
-                       })->implode('<br>'); //lalagyan nya ng break, implode-returns the array string
+                       })->implode('<br>'); 
             })
 
-            // ->escapeColumns([]); 
             ->rawColumns(['customer','items','action','pets']);
     }
 
@@ -97,17 +96,11 @@ class TransactionDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('service_orderinfo_id'),
-
-          // Column::make('employee_id')->title('Vet Incharged'),
-         Column::make('customer')->name('customer.firstName')->title('Customer'),
-          
-        // Column::make('animal_id')->title('Pet Name'),
-         Column::make('pets')->name('pets.petName')->title('Customer Pet'),
-
+            Column::make('service_orderinfo_id'),  
+            Column::make('customer')->name('customer.firstName')->title('Customer'),
+            Column::make('pets')->name('pets.petName')->title('Customer Pet'),
             Column::make('schedule'),
             Column::make('status'),
-          //  Column::make('disease_injuries_id')->title('Diseases/Injuries'),
             Column::make('items')->name('items.servname')->title('Services'),
             Column::make('created_at'),
             Column::make('updated_at'),
