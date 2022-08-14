@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
         "uses" => 'App\Http\Controllers\TransactionController@getData',
         "as" => "transaction.data",
         ]);
-        
+
 Auth::routes();
 
 Route::get('/', function () {
@@ -191,6 +191,33 @@ Route::group(['middleware' => 'guest'], function() {
             'uses' => 'DashboardController@index',
              'as' => 'dashboard.index'
           ]);
+
+          Route::get('/dashboardtransac', [
+            'uses' => 'DashboardController@dashtransac',
+             'as' => 'dashboard.groomed'
+          ]);
+        
+          Route::post('/dashboardSearchDate', [
+            'uses' => 'DashboardController@searchdate',
+             'as' => 'dashboard.searchdate'
+          ]);
+          
+     //  Route::get('/charttransac', 'DashboardController@search')->name('search');
+
+    
+
+        // Route::get('/charttransac', [
+        //     'uses' => 'DashboardController@search',
+        //      'as' => 'dashboard.transaction'
+        //   ]);
+
+        //   Route::post('/charttransac', [
+        //     'uses' => 'DashboardController@transaction',
+        //      'as' => 'dashboard.transaction'
+        //   ]);
+
+      //   Route::post('/charttransacs', 'DashboardController@transaction')->name('search_schedule');
+
 
         Route::get('/animal/{search?}', [
             'uses' => 'ConsultationController@index',

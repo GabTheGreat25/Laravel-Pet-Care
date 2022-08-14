@@ -9,7 +9,7 @@
 <style>
     .dot {
         border: 1px dashed #000;
-        width: 139%;
+        width: 171%;
         margin: auto;
         margin-left: -6rem;
         margin-top: 1.5rem;
@@ -47,7 +47,7 @@
             class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
             @forelse ($customers as $customer)
             <div
-                style="display:grid; justify-items:center; align-items:center; font-size: 2.5rem; font-weight: 700; padding: 3rem 1rem; margin: 0 5rem; border-radius: .75rem; text-align:center;">
+                style="display:grid; justify-items:center; align-items:center; font-size: 1.25rem; font-weight: 700; padding: 3rem 1rem; margin: 0 5rem; border-radius: .75rem; text-align:center;">
                 @foreach ($customer->animals as $animal)
 
                 <p> Pet ID: <i style="color:red">{{ $animal->id }} </i></p>
@@ -69,7 +69,7 @@
                 <div class="dot"></div>
                 @endforeach
                 @empty
-                <h1 style="text-align:center; font-size: 2rem; font-weight: 700; padding: 2rem 1.4rem; color: red;">
+                <h1 style="text-align:center; font-size: 1.25rem; font-weight: 700; padding: 2rem 1.4rem; color: red;">
                     This Customer Doesn't Have Any Pets Or This Customer isn't Log In To Our Website
                 </h1>
                 @endforelse

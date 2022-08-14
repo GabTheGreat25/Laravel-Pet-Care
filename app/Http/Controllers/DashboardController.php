@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 Use App\Charts\dateConsultationChart;
 Use App\Charts\diseasesinjuriesChart;
 use App\Charts\transactionChart;
-
+use Illuminate\Support\Carbon;
 class DashboardController extends Controller
 {
     //
@@ -61,19 +61,57 @@ class DashboardController extends Controller
                 ]],
         ],
     ]);
+    return view('dashboard.index',compact('diseasesinjuriesChart'));
 
+}
+
+// public function search(Request $request){
+//     $fromDate = $request->input('fromDate');
+//     $toDate = $request -> input('toDate');
+
+//     $query= DB::table('service_orderinfo')->select()
+//     ->where('schedule', '>=', $fromDate)
+//     ->where('schedule', '<=', $toDate)
+//     ->get();
+
+//     return view('dashboard.transac',compact('query','transaction'));
+// }
+
+public function searchdate(Request $request){
+    // $fromDate = $request->input('fromDate');
+  //  $toDate = $request -> input('toDate');
+
+    // $fromDate = '2020-01-10';
+    // $toDate = '2020-07-10';
+
+    // $query= DB::table('service_orderinfo')->select()
+    // ->whereDate('schedule', '=', date($fromDate))
+    // ->get();
+
+
+   $fromDate = $request->fromDate;
+   $toDate = $request -> toDate;
 
    $transaction = DB::table('service_orderinfo')
+   
          ->join('service_orderline','service_orderinfo.service_orderinfo_id','=','service_orderline.service_orderinfo_id')
          ->join('animals','service_orderline.animal_id','=','animals.id')
-        //  ->join('services','service_orderline.service_id','=','services.id')
-        // ->where('')
-        ->whereYear('schedule', date('2022'))
-         ->groupBy('schedule')
-         ->pluck  (DB::raw('count(service_orderline.service_orderinfo_id) AS total'),DB::raw('monthname(schedule) AS month'))
+         ->join('services','service_orderline.service_id','=','services.id')
 
-         ->all();
+   //   ->groupBy('servname')
+        ->whereBetween('service_orderinfo.schedule',[$fromDate, $toDate])
+        // ->pluck(DB::raw('count(service_orderline.service_orderinfo_id) as total'),'servname')
 
+        ->groupBy('service_orderinfo.schedule')
+        ->pluck(DB::raw('count(service_orderline.service_orderinfo_id) as total'),'service_orderinfo.schedule')
+
+        //->get();
+      
+      //  ->all();
+      //eto sql yan na ididisplay sa chart dito mo ccontrol ano laalvass sa chart nasa pluck
+        ->toArray();
+
+      //tas etong sa baba puro tungkol na sa chart color etc.
          $transactionChart = new transactionChart;
  
          $dataset = $transactionChart->labels(array_keys($transaction));
@@ -117,7 +155,70 @@ class DashboardController extends Controller
                 ]
             ]);
         
-   return view('dashboard.index',compact('diseasesinjuriesChart','transactionChart'));
+   return view('dashboard.transac',compact('transactionChart'));
 }
 
+
+public function dashtransac(){
+
+   $transaction = DB::table('service_orderinfo')
+   
+         ->join('service_orderline','service_orderinfo.service_orderinfo_id','=','service_orderline.service_orderinfo_id')
+         ->join('animals','service_orderline.animal_id','=','animals.id')
+         ->join('services','service_orderline.service_id','=','services.id')
+
+      ->groupBy('service_orderinfo.schedule')
+      ->pluck(DB::raw('count(service_orderline.service_orderinfo_id) as total'),'service_orderinfo.schedule')
+
+      //   ->groupBy('servname')
+      // ->pluck(DB::raw('count(service_orderline.service_orderinfo_id) as total'),'servname')
+      
+     ->toArray();
+
+      //tas etong sa baba puro tungkol na sa chart color etc.
+         $transactionChart = new transactionChart;
+ 
+         $dataset = $transactionChart->labels(array_keys($transaction));
+  
+            $dataset= $transactionChart->dataset('Groomed', 'bar', array_values($transaction));
+   
+            $dataset= $dataset->backgroundColor($this->bgcolor);
+            $dataset = $dataset->fill(false);
+          
+            $transactionChart->options([
+                'responsive' => true,
+                'legend' => ['display' => true],
+                'tooltips' => ['enabled'=>true],
+                'aspectRatio' => 1,
+                'scaleBeginAtZero' =>true,
+                'scales' => [
+                    'yAxes'=> [[
+                        'display'=>true,
+                        'type'=>'linear',
+                        'ticks'=> [
+                            'beginAtZero'=> true,
+                             'autoSkip' => true,
+                             'maxTicksLimit' =>20000,
+                             'min'=>0,
+                            // 'max'=>20000,
+                            'stepSize' => 500
+                        ]],
+                       'gridLines'=> ['display'=> false],
+                    ],
+                    'xAxes'=> [
+                        'categoryPercentage'=> 0.8,
+                        'barPercentage' => 1,
+                        'gridLines' => ['display' => false],
+                        'display' => true,
+                        'ticks' => [
+                         'beginAtZero' => true,
+                         'min'=> 0,
+                         'stepSize'=> 10,
+                        ]
+                    ]
+                ]
+            ]);
+        
+   return view('dashboard.transac',compact('transactionChart'));
+}
 }
