@@ -152,7 +152,7 @@ class TransactionController extends Controller
 
     public function export() 
     {
-        return Excel::download(new TransactionExport, 'receipt'.now().'.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        return Excel::download(new TransactionExport, 'receipt.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
         // return (new TransactionExport ($this->selected))->download('receipt'.now().'.xls'); 
     }
 
@@ -219,7 +219,12 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
+        //model to? oo kung anu  yan
+        $customers = customer::with('orders')->where('id',$id)->get();
+        $service_orderinfo = Order::with('items','pets')->where('customer_id',$id)->get();
+    //   dd($customers);
+    //   dd($service_orderinfo);
+     return view('transactions.show',compact('customers','service_orderinfo'));
     }
 
     /**
@@ -263,5 +268,18 @@ class TransactionController extends Controller
         $transactions->items()->detach();
         $transactions->delete();
         return Redirect::to('transactions')->with('success','New listener deleted!');
+    }
+
+    public function getExport(){
+        $customer = Customer::where('user_id',Auth::id())->first();
+        $orders = Order::with('customer','items','pets')->where('customer_id',$customer->id)->latest()->take("1")->get();
+        return view('items',compact('orders'));
+    }
+
+    public function downloadPDF(){
+        $customer = Customer::where('user_id',Auth::id())->first();
+        $orders = Order::with('customer','items','pets')->where('customer_id',$customer->id)->latest()->take("1")->get();
+        $pdf = PDF::loadView('items', compact('orders'));
+        return $pdf->download('receipt.pdf');
     }
 }

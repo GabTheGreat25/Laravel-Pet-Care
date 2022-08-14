@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\service;
+use App\Models\Service;
 use App\Models\comments;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
@@ -16,12 +16,13 @@ class commentController extends Controller
     public function index()
     {
         //
-        $comments = DB::table('comments')
-        ->leftjoin('services','comments.service_id','=','services.id')
-        ->select('comments.id', 'services.servname','comments.guestName','comments.gEmail', 'comments.cellnum', 'comments.gcomment', 'comments.created_at', 'comments.updated_at', 'comments.deleted_at')
-        ->get();
+        // $comments = DB::table('services') 
+        // ->leftJoin('comments','services.id','=','comments.service_id')
+        // ->select('comments.id', 'services.servname', 'services.servname', 'services.description', 'services.price', 'services.img_path','comments.guestName','comments.gEmail', 'comments.cellnum', 'comments.gcomment', 'comments.created_at', 'comments.updated_at', 'comments.deleted_at','services.deleted_at')
+        // ->get();
         // $comments = comments::withTrashed()->orderBy('comment_id','ASC')->paginate(5); 
-        return View::make('comments.index', ['comments' => $comments]);
+        $services = Service::all()->whereNull('deleted_at');
+        return View::make('comments.index',compact('services'));
     }
 
     /**
@@ -51,26 +52,25 @@ class commentController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'service_id' =>'required|numeric', 
-            'guestName'=>'required|regex:/^[a-zA-Z\s]*$/',
-            'gEmail'=>'email| required',
-            'cellnum'=>'required|numeric',
-            'gcomment'=>'required|regex:/^[a-zA-Z\s]*$/'
-        ]);
-        
-        $comment = new comments();
-        $comment->service_id = $request->input("service_id");
-        $comment->guestName = $request->input("guestName");
-        $comment->gEmail = $request->input("gEmail");
-        $comment->cellnum = $request->input("cellnum");
-        $comment->gcomment = $request->input("gcomment");
+        // $request->validate([
+        //     'service_id' =>'required|numeric', 
+        //     'guestName'=>'required|regex:/^[a-zA-Z\s]*$/',
+        //     'gEmail'=>'email| required',
+        //     'cellnum'=>'required|numeric',
+        //     'gcomment'=>'required|regex:/^[a-zA-Z\s]*$/'
+        // ]);
+        // $comment = new comments();
+        // $comment->service_id = $request->input("service_id");
+        // $comment->guestName = $request->input("guestName");
+        // $comment->gEmail = $request->input("gEmail");
+        // $comment->cellnum = $request->input("cellnum");
+        // $comment->gcomment = $request->input("gcomment");
 
-        // $comment = service::find($id);
-        // $validator = Validator::make($request->all(), comments::$valRules);
+        // // $comment = service::find($id);
+        // // $validator = Validator::make($request->all(), comments::$valRules);
 
-        $comment->save();
-        return Redirect::to('/transaction')->with('SUCCESS!','New comment added!');
+        // $comment->save();
+        // return Redirect::to('/transaction')->with('SUCCESS!','New comment added!');
 
     }
 
@@ -80,6 +80,20 @@ class commentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+        public function viewComment($id)
+    {
+        //
+        $services = Service::find($id);
+        $servicess = DB::table('services')
+        ->rightJoin('comments','comments.service_id','services.id')
+        ->select('comments.id', 'comments.created_at','comments.service_id','services.servname', 'comments.guestName', 'comments.gEmail', 'comments.cellnum','comments.gcomment','comments.deleted_at','services.img_path')
+        ->where('services.id', $id)
+        ->orderBy('comments.created_at','DESC')
+        ->get();
+   
+        return View::make('comments.show',compact('services','servicess'));
+    }
 
     // public function show($id)
     // {
@@ -100,7 +114,7 @@ class commentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(comments $comments)
     {
         //
     }
@@ -109,12 +123,27 @@ class commentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\comments  $comments
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateComment(Request $request,$id)
     {
-        //
+
+            $request->validate([
+            'guestName'=>'required',
+            'gEmail'=>'email| required',
+            'cellnum'=>'required|numeric',
+            'gcomment'=>'required|profanity'
+        ]);
+
+            $comments = new comments;
+            $comments->service_id = $id;
+            $comments->guestName = $request->guestName;
+            $comments->gEmail = $request->gEmail;
+            $comments->cellnum = $request->cellnum;
+            $comments->gcomment = $request->gcomment;
+            $comments->save();
+            return redirect()->back();  
     }
 
     /**

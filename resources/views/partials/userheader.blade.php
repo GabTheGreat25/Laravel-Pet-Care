@@ -30,16 +30,36 @@
                     </a>
                 </li>
 
-                <li style="padding: 0 1rem;">
+                {{-- <li style="padding: 0 1rem;">
                     <a href="{{ url('/dashboard') }}">
                         <i class="fa fa-area-chart" style="padding: 0 .5rem 0 0;" aria-hidden="true"></i>
                         <span style="font-size: 3.25rem;">&#128480;</span>
                         <span style="">Dashboard</span>
                     </a>
-                </li>
+                </li> --}}
+           
+                <li class="dropdown" >
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                        aria-haspopup="true" aria-expanded="false"><span style="font-size: 3.4rem;">&#128480;</span> Dashboard <span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu" style="font-size: 1.75rem;">
+                        <div>
+                            <ul class="nav navbar-nav">
+                                <li style="padding: 0 1rem;">
+                                    <a href="{{ url('/dashboard') }}">
+                                        Pet Diseases/Injuries Chart
+                                    </a>
+                                </li>
 
-                {{-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav navbar-right"> --}}
+                                <li style="padding: 0 1rem;">
+                                    <a href="{{ url('/dashboardtransac') }}">
+                                        Pets Groomed chart
+                                    </a>
+                                </li>
+                            </div> <!-- /.container-fluid -->
+                        </ul>
+                
+              
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                 aria-haspopup="true" aria-expanded="false"> <i class="fa fa-archive"
@@ -123,8 +143,10 @@
                     <li role="separator" class="divider"></li>
                     <li><a href="{{ route('user.logout') }}">Logout</a></li>
                     @else
-                    <li><a href="{{ route('user.signup') }}">Signup</a></li>
-                    <li><a href="{{ route('user.signin') }}">Signin</a></li>
+                    <li><a href="{{ route('customer.registers') }}">Customer Signup</a></li>
+                        <li><a href="{{ route('employee.registers') }}">Employee Signup</a></li>
+                        <li><a href="{{ route('admin.registers') }}">Admin Signup</a></li>
+                        <li><a href="{{ route('user.signin') }}">Signin</a></li>
                     @endif
                 </ul>
             </li>

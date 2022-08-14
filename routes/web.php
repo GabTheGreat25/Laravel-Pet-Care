@@ -17,32 +17,66 @@ use Illuminate\Support\Facades\Route;
         "uses" => 'App\Http\Controllers\TransactionController@getData',
         "as" => "transaction.data",
         ]);
-        
+
 Auth::routes();
 
 Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/comments/viewComment/{id}',[
+    'uses' => 'CommentController@viewComment',
+    'as' => 'comments.viewComment'
+]);
+
+Route::post('/comments/updateComment/{id}', [
+'uses' => 'CommentController@updateComment',
+'as' => 'comments.updateComment',
+]);
+
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('view-comment/{id}',[
-        'uses' => 'ServiceController@viewComment',
-        'as' => 'service.viewComment'
-    ]);
+// Route::get('view-comment/{id}',[
+//         'uses' => 'CommentController@viewComment',
+//         'as' => 'comment.viewComment'
+//     ]);
 
-Route::resource('/comments','CommentController');
+Route::resource('comment', 'CommentController')->middleware('auth');
 
-    Route::get('/comments/create/{id}', [
-        'uses' => 'CommentController@create',
-        'as' => 'service.addComment'
-    ]);
 
-    Route::get('/shop', [
-        "uses" => 'App\Http\Controllers\TransactionController@getData',
-        "as" => "transaction.data",
+
+// Route::get('/comments/viewComment/{id}',['uses' => 'CommentController@viewComment','as' => 'comments.viewComment']);
+// Route::post('/comments/updateComment/{id}',['uses' => 'CommentController@updateComment','as' => 'comments.updateComment']);
+
+    // Route::get('/comments/create', [
+    //     'uses' => 'CommentController@updateComment',
+    //     'as' => 'comment.addComment'
+    // ]);
+
+    // Route::get('/shop', [
+    //     "uses" => 'App\Http\Controllers\TransactionController@getData',
+    //     "as" => "transaction.data",
+    //     ]);
+    Route::post('/petsearch',['uses' => 'petSearchController@petsearch','as' => 'petsearch'] );
+       // Route::post('/transactionsearch',['uses' => 'transactionSearchController@transactionsearch','as' => 'transactionsearch'] );
+
+        Route::post('/transactionsearch', [
+            'uses' => 'transactionSearchController@transactionsearch',
+            'as' => 'transactionsearch',
         ]);
 
+
+        Route::get('show-animal/{id}', [
+            'uses' => 'ConsultationController@show',
+             'as' => 'getanimalconsult'
+          ]);
+
+        Route::get('show-customer/{id}', [
+            'uses' => 'TransactionController@show',
+             'as' => 'getcustomertransac'
+          ]);
+          
 Route::group(['middleware' => 'guest'], function() {
 
         Route::resource("/service", ServiceController::class)->except(['index', 'service']);
@@ -51,6 +85,17 @@ Route::group(['middleware' => 'guest'], function() {
           'uses' => 'userController@getSignup',
           'as' => 'user.signups',
               ]);
+
+              Route::get('signup', [
+                'uses' => 'userController@getSignup',
+                'as' => 'user.signups',
+                    ]);
+
+                    Route::get('signup', [
+                        'uses' => 'userController@getSignup',
+                        'as' => 'user.signups',
+                            ]);
+
 
           Route::post('signup', [
                   'uses' => 'userController@postSignup',
@@ -66,12 +111,42 @@ Route::group(['middleware' => 'guest'], function() {
                   'uses' => 'LoginController@postSignin',
                   'as' => 'user.signin',
               ]);
+
+        Route::get('customerregister', [
+                'uses' => 'CustomerController@getregister',
+                'as' => 'customer.registers',
+                    ]);
+    
+        Route::post('customerregister', [
+                        'uses' => 'CustomerController@postregistered',
+                        'as' => 'customer.register',
+                    ]);
+
+        Route::get('employeeregister', [
+                        'uses' => 'EmployeeController@getregister',
+                        'as' => 'employee.registers',
+                            ]);
+            
+         Route::post('employeeregister', [
+                         'uses' => 'EmployeeController@postregistered',
+                         'as' => 'employee.register',
+                            ]);
+
+        Route::get('adminregister', [
+                  'uses' => 'AdminController@getregister',
+                  'as' => 'admin.registers',
+                                    ]);
+                    
+         Route::post('adminregister', [
+                 'uses' => 'AdminController@postregistered',
+                    'as' => 'admin.register',
+                                    ]);
+
       });
 
     Route::group(['middleware' => 'role:admin,employee'], function() {
 
-        Route::post('/petsearch',['uses' => 'petSearchController@petsearch','as' => 'petsearch'] );
-        Route::post('/transactionsearch',['uses' => 'transactionSearchController@transactionsearch','as' => 'transactionsearch'] );
+    
 
         Route::resource("/transaction", TransactionController::class);
         Route::resource("/consultation", ConsultationController::class);
@@ -117,29 +192,50 @@ Route::group(['middleware' => 'guest'], function() {
              'as' => 'dashboard.index'
           ]);
 
+          Route::get('/dashboardtransac', [
+            'uses' => 'DashboardController@dashtransac',
+             'as' => 'dashboard.groomed'
+          ]);
+        
+          Route::post('/dashboardSearchDate', [
+            'uses' => 'DashboardController@searchdate',
+             'as' => 'dashboard.searchdate'
+          ]);
+          
+     //  Route::get('/charttransac', 'DashboardController@search')->name('search');
+
+    
+
+        // Route::get('/charttransac', [
+        //     'uses' => 'DashboardController@search',
+        //      'as' => 'dashboard.transaction'
+        //   ]);
+
+        //   Route::post('/charttransac', [
+        //     'uses' => 'DashboardController@transaction',
+        //      'as' => 'dashboard.transaction'
+        //   ]);
+
+      //   Route::post('/charttransacs', 'DashboardController@transaction')->name('search_schedule');
+
+
         Route::get('/animal/{search?}', [
             'uses' => 'ConsultationController@index',
              'as' => 'Consultations.index'
           ]);
+
+     
     });
 
 //  ->middleware('auth');
 
       Route::group(['middleware' => 'role:admin'], function() {
         Route::get('adminProfile', [
-            'uses' => 'UserController@getadminProfile',
+            'uses' => 'AdminController@getadminProfile',
             'as' => 'admin.profile',
            ]);
 
-        Route::get('adminregister', [
-            'uses' => 'AdminController@getregister',
-            'as' => 'admin.registers',
-                ]);
-
-        Route::post('adminregister', [
-                    'uses' => 'AdminController@postregistered',
-                    'as' => 'admin.register',
-                ]);
+     
 
         Route::resource("/employee", EmployeeController::class);
 
@@ -160,19 +256,11 @@ Route::group(['middleware' => 'guest'], function() {
     Route::group(['middleware' => 'role:employee'], function() {
 
         Route::get('employeeProfile', [
-            'uses' => 'UserController@getemployeeProfile',
+            'uses' => 'EmployeeController@getemployeeProfile',
             'as' => 'employee.profile',
            ]);
 
-        Route::get('employeeregister', [
-            'uses' => 'EmployeeController@getregister',
-            'as' => 'employee.registers',
-                ]);
-
-        Route::post('employeeregister', [
-                    'uses' => 'EmployeeController@postregistered',
-                    'as' => 'employee.register',
-                ]);
+  
 
         // Route::resource("/customer", CustomerController::class, ['except'=>['destroy']]);
 
@@ -192,19 +280,10 @@ Route::group(['middleware' => 'guest'], function() {
 
     Route::group(['middleware' => 'role:customer'], function() {
         Route::get('customerProfile', [
-            'uses' => 'UserController@getcustomerProfile',
+            'uses' => 'CustomerController@getcustomerProfile',
             'as' => 'customer.profile',
            ]);
    
-        Route::get('customerregister', [
-            'uses' => 'CustomerController@getregister',
-            'as' => 'customer.registers',
-                ]);
-
-        Route::post('customerregister', [
-                    'uses' => 'CustomerController@postregistered',
-                    'as' => 'customer.register',
-                ]);
     
     Route::get('/customer/profile/edit/{id}', [
             'uses' => 'CustomerController@profileedit',
@@ -228,13 +307,14 @@ Route::group(['middleware' => 'guest'], function() {
 
         Route::post('/mypetstore', [
             'uses' => 'AnimalController@petstore',
-            'as' => 'customer.petstore',
+            'as' => 'customer.petstoreort',
         ]); 
 
         Route::get("profileHistory", [
         "uses" => 'App\Http\Controllers\TransactionController@getProfile',
         "as" => "transaction.profile",
         ]);
+
 
         Route::get('/export',[
         'uses'=>'TransactionController@export',
@@ -245,6 +325,16 @@ Route::group(['middleware' => 'guest'], function() {
         "uses" => 'App\Http\Controllers\TransactionController@getReceipt',
         "as" => "transactions.receipt",
         ]);
+
+        Route::get("get-customer-transaction", [
+        "uses" => 'App\Http\Controllers\TransactionController@getExport',
+        "as" => "transactions.getExport",
+        ]);
+
+        Route::get("download-pdf", [
+            "uses" => 'App\Http\Controllers\TransactionController@downloadPDF',
+            "as" => "transactions.downloadPDF",
+            ]);
 
         Route::get('checkout',[
         'uses' => 'TransactionController@postCheckout',

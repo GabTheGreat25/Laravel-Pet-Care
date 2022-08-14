@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
-class diseases_injuries extends Model implements Searchable
+class diseases_injuries extends Model 
+//implements Searchable
 {
 
    use HasFactory;
@@ -24,13 +25,13 @@ class diseases_injuries extends Model implements Searchable
       return $this->belongsToMany('App\Models\consultations');
    }
 
-    public function getSearchResult(): SearchResult
-    {
-       $url = route('getconsultation', $this->id);
-       return new \Spatie\Searchable\SearchResult(
-          $this,
-          $this->title,
-          $url
-             );
-    }
+   //  public function getSearchResult(): SearchResult
+   //  {
+   //     $url = route('getconsultation', $this->id);
+   //     return new \Spatie\Searchable\SearchResult(
+   //        $this,
+   //        $this->title,
+   //        $url
+   //           );
+   //  }
 }

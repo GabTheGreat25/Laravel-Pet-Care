@@ -22,16 +22,16 @@
     </div>
     @if(Session::has('cart'))
     <div class="grid justify-center gap-3 w-full"
-        style="background-color:rgba(195, 195, 195, 0.700); margin: 0 30rem; padding: 3rem 0">
+        style="background-color:rgba(255, 255, 255, 0.500); margin: 0 30rem; padding: 3rem 0">
         <div class="row">
             <div>
                 <ul>
                     @foreach($animals as $animals)
                     @foreach($services as $service)
                     <li>
-                        <span style="font-size: 1.5rem; padding: 0 .5rem; color:white; font-weight: 700;">{{
+                        <span style="font-size: 1.5rem; padding: 0 .5rem; color:black; font-weight: 700;">{{
                             $animals['name'] }}</span>
-                        <span style="font-size: 1.5rem; padding: 0 .5rem; color:white; font-weight: 700;">{{
+                        <span style="font-size: 1.5rem; padding: 0 .5rem; color:black; font-weight: 700;">{{
                             $service['price'] }}</span>
                         <div class="btn-group">
                             <a class="btn btn-danger my-2 py-2"
@@ -51,7 +51,7 @@
         <hr>
         <div class="row">
             <div class="grid justify-center">
-                <a href="{{ route('checkout') }}" type="button" class="btn btn-success">Checkout</a>
+                <a href="{{ route('checkout') }}" type="button" class="btn btn-success" style="color:rgba(0, 0, 0, 0.600);">Checkout</a>
             </div>
         </div>
     </div>

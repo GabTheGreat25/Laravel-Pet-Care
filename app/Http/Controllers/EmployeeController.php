@@ -17,6 +17,7 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Imports\EmployeeImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Rules\ExcelRule;
+use Illuminate\Support\Facades\Auth; 
 
 class EmployeeController extends Controller
 {
@@ -31,6 +32,19 @@ class EmployeeController extends Controller
 
     public function postregistered(Request $request)
     {
+          $this->validate($request, [
+            'email' => 'email| required| unique:users',
+            'password' => 'required| min:4'
+        ]);
+
+        $user = new User();
+                $user->userName = $request->input("name");
+                $user->role = 'employee';
+                $user->email = $request->input("email");
+                $user->password = bcrypt($request->input('password'));
+                // $lastinsertedid=$user->id;
+                $user->save();
+
         $this->validate($request, [
             'name' =>'required|regex:/^[a-zA-Z\s]*$/', 
             'position'=>'required|regex:/^[a-zA-Z\s]*$/',
@@ -41,7 +55,7 @@ class EmployeeController extends Controller
 
         $employee = new employee();
       
-            $employee->user_id = User::latest()->pluck('id')->first();
+            $employee->user_id = $user->id;
             // dd(User::latest()->pluck('id')->first());
             $employee->name = $request->input("name");
             $employee->position = $request->input("position");
@@ -57,9 +71,16 @@ class EmployeeController extends Controller
             }
 
         $employee->save();
+        Auth::login($user);
+                // return redirect()->route('employee.registers');
         return redirect()->route('employee.profile');
     }
 
+    public function getemployeeProfile(){
+        $employee = employee::where('user_id',Auth::id())->first();
+        return view('employees.profile',compact('employee'));
+    }
+    
     /**
      * Display a listing of the resource.
      *
