@@ -35,7 +35,7 @@ class CustomerController extends Controller
     public function postregistered(Request $request)
     {
         $user = new User();
-        $user->userName = $request->input("username");
+        $user->userName = $request->input("firstName");
         $user->role = 'customer';
         $user->email = $request->input("email");
         $user->password = bcrypt($request->input('password'));

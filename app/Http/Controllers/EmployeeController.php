@@ -38,7 +38,7 @@ class EmployeeController extends Controller
         ]);
 
         $user = new User();
-                $user->userName = $request->input("username");
+                $user->userName = $request->input("name");
                 $user->role = 'employee';
                 $user->email = $request->input("email");
                 $user->password = bcrypt($request->input('password'));
