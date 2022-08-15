@@ -51,6 +51,19 @@
             font-size: 2rem;
             text-align: justify;
         }
+
+        .mid {
+            display: grid;
+            justify-items: center;
+        }
+
+        .github {
+            margin: 0 2rem;
+            padding: .5rem;
+            color: white;
+            font-style: italic;
+            border: 1px solid white;
+        }
     </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
@@ -61,6 +74,11 @@
     <div class="test">
         <div>
             @include('partials.header')
+            <div class="mid">
+                <p class="github">Made by: <a href="https://github.com/GabTheGreat25">Gabriel A. Mendoza</a> & <a
+                        href="https://github.com/meantonette">Meantonette C. Meddalla</a>
+                </p>
+            </div>
             <div class="text-container">
                 <h1 class="text-title">Our Vision and Goals</h1>
                 <p class="text-content">Our mission is to provide, with care and compassion, veterinary services of the
