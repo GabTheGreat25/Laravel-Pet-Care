@@ -11,7 +11,7 @@
 -   `Run php artisan optimize to clear cache and routes in Laravel`
 -   `Run php artisan optimize:clear to reset everything in Laravel`
 -   `To execute the project accurately, always use php artisan optimize or php artisan optimize:clear and run php artisan serve after`
--   `To ensure that your routes are functioning properly, run php artisan route:list.`
+-   `To ensure that your routes are functioning properly, run php artisan route:list`
 -   `The default Password for every user is 1234`
 -   `To setup auto reload, execute npm install and npm run watch after`
 
