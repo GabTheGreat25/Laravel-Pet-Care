@@ -3,7 +3,7 @@
 
 # HOW TO SETUP THIS PROJECT 
 
--   `Use composer install or composer install --ignore-platform-req=ext-gd if you have problems installing composer`
+-   `Run composer install or run composer install --ignore-platform-req=ext-gd if you have problems installing composer`
 -   `Change the env example from env`
 -   `Create the environment and fill it with the needed data, such as the database and mailtrap, for example`
 -   `Run php artisan key:generate`
