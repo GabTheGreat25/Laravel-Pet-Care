@@ -1,7 +1,7 @@
 ### Laravel-Pet-Clinic 3rd Sem
 ## Export The Database To [PhpMyAdmin](http://localhost/phpmyadmin/) By Downloading From This [Link](https://drive.google.com/drive/folders/1ApErDFturcb1tgqGDqO-LwDG51ApV2FW?usp=sharing)
 
-# SETUP
+# HOW TO SETUP THIS PROJECT 
 
 -   `Use composer install or composer install --ignore-platform-req=ext-gd if you have problems installing composer`
 -   `Change the env example from env`
