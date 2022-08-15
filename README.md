@@ -13,7 +13,7 @@
 -   `To execute the project accurately, always use php artisan optimize or php artisan optimize:clear and run php artisan serve after`
 -   `To ensure that your routes are functioning properly, run php artisan route:list.`
 -   `The default Password for every user is 1234`
--   `npm install and run npm run watch to use auto reload`
+-   `To setup auto reload, execute npm install and npm run watch after`
 
 ---
 
