@@ -3,14 +3,16 @@
 
 # SETUP
 
--   `composer install --ignore-platform-req=ext-gd`
--   `setup env from env example and remove the example from the env example`
--   `php artisan key:generate`
--   `php artisan serve`
--   `php artisan optimize to clear cache and routes in Laravel`
--   `php artisan optimize:clear to reset everything in Laravel`
--   `always use php artisan optimize or php artisan optimize:clear and run php artisan serve after to run the project properly`
--   `Default Password for every user is 1234`
+-   `Use composer install or composer install --ignore-platform-req=ext-gd if you have problems installing composer`
+-   `Change the env example from env`
+-   `Create the environment and fill it with the needed data, such as the database and mailtrap, for example`
+-   `Run php artisan key:generate`
+-   `Run php artisan serve`
+-   `Run php artisan optimize to clear cache and routes in Laravel`
+-   `Run php artisan optimize:clear to reset everything in Laravel`
+-   `To execute the project accurately, always use php artisan optimize or php artisan optimize:clear and run php artisan serve after`
+-   `To ensure that your routes are functioning properly, run php artisan route:list.`
+-   `The default Password for every user is 1234`
 -   `npm install and run npm run watch to use auto reload`
 
 ---
@@ -19,4 +21,4 @@
 
 ## Submitted to: Rommel Dalisay
 
-#### 2022-2023
+#### Copyright © Mendoza-Medalla-Repository 2022
