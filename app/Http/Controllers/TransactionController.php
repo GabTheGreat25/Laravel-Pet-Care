@@ -120,22 +120,12 @@ class TransactionController extends Controller
             }
         }
         catch (\Exception $e) {
-            dd($e);
          DB::rollback();
             return redirect()->route('transaction.shoppingCart')->with('error', $e->getMessage());
         }
         DB::commit();
         Session::forget('cart');
         return redirect()->route('transactions.receipt')->with('success','Successfully Purchased Your Products!!!');
-    }
-
-    public function getReceipt()
-    {
-        $customer = Customer::where('user_id',Auth::id())->first();
-        $orders = Order::with('customer','items','pets')->where('customer_id',$customer->id)->latest()->take("1")->get();
-        // dd($customer, $orders);
-        return view('transactions.receipt',compact('orders'));
-
     }
 
     public function getProfile()
@@ -245,6 +235,16 @@ class TransactionController extends Controller
         $transactions->update();
 
         return Redirect::route('getTransaction')->with('success', 'transaction updated!');
+    }
+
+    public function getReceipt(Request $request)
+    {
+
+        $customer = Customer::where('user_id',Auth::id())->first();
+        $orders = Order::with('customer','items','pets')->where('customer_id',$customer->id)->latest()->take("1")->get(); 
+        // dd($customer, $orders);
+        return view('transactions.receipt',compact('orders'));
+
     }
 
     /**
