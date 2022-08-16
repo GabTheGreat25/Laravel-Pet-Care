@@ -76,7 +76,7 @@
             @include('partials.header')
             <div class="mid">
                 <p class="github">Made by: <a href="https://github.com/GabTheGreat25">Gabriel A. Mendoza</a> & <a
-                        href="https://github.com/meantonette">Meantonette C. Meddalla</a>
+                        href="https://github.com/meantonette">Meantonette C. Medalla</a>
                 </p>
             </div>
             <div class="text-container">
