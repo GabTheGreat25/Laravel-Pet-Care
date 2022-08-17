@@ -37,11 +37,11 @@ class Customer extends Model implements Searchable
 
 
     public function animals() {
-        return $this->hasMany('App\Models\Animal');
+        return $this->hasMany('App\Models\Animal')->withTrashed();
     }
 
     public function user() {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\User')->withTrashed();
     }
 
     public function orders(){

@@ -197,7 +197,7 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         $employees= Employee::find($id);
-        $employees->user()->delete();
+        $employees->user()->forceDelete();
         $employees->delete();
         $employees = Employee::with('user')->get();
         return Redirect::route("getEmployee")->with(

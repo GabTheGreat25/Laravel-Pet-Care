@@ -20,12 +20,13 @@ class CustomerDataTable extends DataTable
     public function dataTable($query)
     {
 
-        $customer =  Customer::with(['user:id,email'])->select('customers.*');
+        $customer =  Customer::with(['user:id,email'])->select('customers.*')->withTrashed();
 
         return datatables()
             ->eloquent($customer)
              ->addColumn('action', function($row) {
                     return "<a href=". route('customer.edit', $row->id). " class=\"btn btn-warning\">Edit</a> 
+                    <a href=". route('customer.restore', $row->id). " class=\"btn btn-success\">Restore</a> 
                     <form action=". route('customer.destroy', $row->id). " method= \"POST\" >". csrf_field().
                     '<input name="_method" type="hidden" value="DELETE">
                     <button class="btn btn-danger" type="submit">Delete</button>
