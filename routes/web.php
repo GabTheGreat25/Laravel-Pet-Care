@@ -58,7 +58,6 @@ Route::resource('comment', 'CommentController')->middleware('auth');
     //     "uses" => 'App\Http\Controllers\TransactionController@getData',
     //     "as" => "transaction.data",
     //     ]);
-    Route::post('/petsearch',['uses' => 'petSearchController@petsearch','as' => 'petsearch'] );
        // Route::post('/transactionsearch',['uses' => 'transactionSearchController@transactionsearch','as' => 'transactionsearch'] );
 
         Route::post('/transactionsearch', [
@@ -67,10 +66,7 @@ Route::resource('comment', 'CommentController')->middleware('auth');
         ]);
 
 
-        Route::get('show-animal/{id}', [
-            'uses' => 'ConsultationController@show',
-             'as' => 'getanimalconsult'
-          ]);
+     
 
         Route::get('show-customer/{id}', [
             'uses' => 'TransactionController@show',
@@ -149,7 +145,6 @@ Route::group(['middleware' => 'guest'], function() {
     
 
         Route::resource("/transaction", TransactionController::class);
-        Route::resource("/consultation", ConsultationController::class);
 
         Route::get('/services', [
             'uses' => 'ServiceController@getService',
@@ -218,13 +213,6 @@ Route::group(['middleware' => 'guest'], function() {
 
       //   Route::post('/charttransacs', 'DashboardController@transaction')->name('search_schedule');
 
-
-        Route::get('/animal/{search?}', [
-            'uses' => 'ConsultationController@index',
-             'as' => 'Consultations.index'
-          ]);
-
-     
     });
 
 //  ->middleware('auth');
@@ -260,7 +248,9 @@ Route::group(['middleware' => 'guest'], function() {
             'as' => 'employee.profile',
            ]);
 
-  
+           Route::resource("/consultation", ConsultationController::class);
+           Route::post('/petsearch',['uses' => 'petSearchController@petsearch','as' => 'petsearch'] );
+
 
         // Route::resource("/customer", CustomerController::class, ['except'=>['destroy']]);
 
@@ -269,6 +259,16 @@ Route::group(['middleware' => 'guest'], function() {
             'as' => 'getconsultation',
         ]);
 
+        Route::get('/animal/{search?}', [
+            'uses' => 'ConsultationController@index',
+             'as' => 'Consultations.index'
+          ]);
+
+          Route::get('show-animal/{id}', [
+            'uses' => 'ConsultationController@show',
+             'as' => 'getanimalconsult'
+          ]);
+          
         Route::get('/transactions', [
             'uses' => 'TransactionController@getTransaction',
             'as' => 'getTransaction',
