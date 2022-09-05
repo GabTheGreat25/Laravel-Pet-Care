@@ -17,7 +17,7 @@
 
 ---
 
-## Made by: Gabriel A. Mendoza & Meantonette C. Medalla
+## Made by: [Gabriel A. Mendoza](https://github.com/GabTheGreat25) & [Meantonette C. Medalla](https://github.com/meantonette)
 
 ## Submitted to: Rommel Dalisay
 
