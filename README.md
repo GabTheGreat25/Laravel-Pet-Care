@@ -1,4 +1,4 @@
-### Laravel-Pet-Clinic 3rd Sem
+### Laravel-Pet-Clinic-2nd-Year-3rd Sem
 ## Import The Database To [PhpMyAdmin](http://localhost/phpmyadmin/) By Downloading From This [Link](https://drive.google.com/drive/folders/1ApErDFturcb1tgqGDqO-LwDG51ApV2FW?usp=sharing)
 
 # HOW TO SETUP THIS PROJECT 
